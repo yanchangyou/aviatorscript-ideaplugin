@@ -1,0 +1,49 @@
+## examples/file_io.av
+
+let io = require('io');
+
+## Create a file instance from path
+let file = io.file("/tmp/aviator_test");
+
+## Write a string into file by spit
+io.spit(file, "Hello world\r\nAviator is great!");
+
+## Read fully from file by slurp
+let content = io.slurp(file);
+println("Content in file: "+ content);
+
+## Make text lines in file as a sequence
+let lines = io.line_seq(file);
+
+## Print lines by for-loop
+for line in lines {
+  println(line);
+}
+
+## Manipulate lines like a collection
+let lines = io.line_seq(file);
+
+lines = map(lines, lambda(line) ->
+   n = count(line);
+   line = line + ": " + n;
+   return line;
+end);
+
+for line in lines {
+  println(line);
+}
+
+## finally, delete the file.
+io.delete(file);
+println("exists: "+ io.exists(file));
+
+## list files
+println("Files in /tmp:");
+
+for file in io.list_files(io.file("/tmp")) {
+  println(file);
+}
+
+
+
+

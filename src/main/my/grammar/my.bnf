@@ -1,0 +1,41 @@
+{
+  parserClass="my.lang.parser.MyLanguageParser"
+  parserUtilClass="my.lang.parser.MyLanguageParserUtil"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="MyLanguage"
+  psiImplClassSuffix="Impl"
+  psiPackage="av.lang.psi"
+  psiImplPackage="av.lang.psi.impl"
+
+  elementTypeHolderClass="lang.psi.MyLanguageTypes"
+  elementTypePrefix="MY_"
+  elementTypeClass="my.lang.psi.MyLanguageElementType"
+  tokenTypeClass="my.lang.psi.MyLanguageTokenType"
+
+  psiImplUtilClass="my.lang.psi.MyLanguagePsiImplUtil"
+
+  tokens = [
+
+    action="regexp:(listen|speak|read|write)"
+
+    string="regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\\"|\\\'|\\)*\")"
+    number="regexp:(\d+(\.\d+)?([Ee]\d+)?)"
+    boolean="regexp:(true|false)"
+
+    line_comment="regexp://.*"
+    block_comment="regexp:/\*(.|\r\n|\r|\n)*\*/"
+
+  ]
+}
+
+myFile ::= statement*
+
+statement ::= line_comment | block_comment | (action content) {
+   mixin="my.lang.psi.impl.MyLanguageCodeElementImpl"
+   implements="my.lang.psi.MyLanguageActionElement"
+   methods=[getName setName getNameIdentifier getPresentation]
+}
+
+content ::= string|number|boolean

@@ -1,2 +1,2 @@
-# aviatorscript-ideaplugin
-aviator script idea plugin
+## my-lang-idea-plugin
+for aviator script
