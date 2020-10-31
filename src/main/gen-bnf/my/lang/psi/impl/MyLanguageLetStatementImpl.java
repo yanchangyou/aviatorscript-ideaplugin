@@ -1,4 +1,4 @@
-// license.txt
+// license description
 package my.lang.psi.impl;
 
 import java.util.List;
@@ -40,8 +40,8 @@ public class MyLanguageLetStatementImpl extends ASTWrapperPsiElement implements 
 
   @Override
   @NotNull
-  public PsiElement getId() {
-    return findNotNullChildByType(MY_ID);
+  public PsiElement getIdentifier() {
+    return findNotNullChildByType(MY_IDENTIFIER);
   }
 
   @Override

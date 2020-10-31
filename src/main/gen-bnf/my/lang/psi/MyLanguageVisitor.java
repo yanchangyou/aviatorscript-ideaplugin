@@ -1,4 +1,4 @@
-// license.txt
+// license description
 package my.lang.psi;
 
 import org.jetbrains.annotations.*;
@@ -68,7 +68,7 @@ public class MyLanguageVisitor<R> extends PsiElementVisitor {
   }
 
   public R visitStatement(@NotNull MyLanguageStatement o) {
-    return visitActionElement(o);
+    return visitStatementElement(o);
   }
 
   public R visitThreeExpress(@NotNull MyLanguageThreeExpress o) {
@@ -95,7 +95,7 @@ public class MyLanguageVisitor<R> extends PsiElementVisitor {
     return visitPsiElement(o);
   }
 
-  public R visitActionElement(@NotNull MyLanguageActionElement o) {
+  public R visitStatementElement(@NotNull MyLanguageStatementElement o) {
     return visitPsiElement(o);
   }
 

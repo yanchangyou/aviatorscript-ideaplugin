@@ -1,4 +1,4 @@
-// license.txt
+// license description
 package my.lang.psi.impl;
 
 import java.util.List;

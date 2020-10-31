@@ -1,4 +1,4 @@
-// license.txt
+// license description
 package my.lang.psi;
 
 import java.util.List;
@@ -14,7 +14,7 @@ public interface MyLanguageLetStatement extends PsiElement {
   MyLanguageFnInvokeExpress getFnInvokeExpress();
 
   @NotNull
-  PsiElement getId();
+  PsiElement getIdentifier();
 
   @Nullable
   PsiElement getNumber();

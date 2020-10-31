@@ -1,3 +1,4 @@
+// BFN grammar https://blog.csdn.net/wzbclock/article/details/3943498
 
 // idea demo https://jetbrains.org/intellij/sdk/docs/tutorials/custom_language_support/lexer_and_parser_definition.html
 
@@ -80,8 +81,12 @@
     TRIPLE_DOT           =  '...'
     DOT                  =  '.'
 
+    SEMICOLON_SYNTHETIC  = '<NL>'
+    TYPE_                = 'type'
+    raw_string           = 'raw_string'
+
     // language common
-    id = 'regexp:\w+'
+    identifier = 'regexp:\w+'
     line_comment = 'regexp:##.*'
 //    block_comment = 'regexp:/*..*/'
 
@@ -114,15 +119,32 @@ myFile ::= codes
 
 codes ::= statement*
 
-statement ::= line_comment | letStatement | forStatement |whileStatement |breakStatement|continueStatement | ifStatement|threeStatement | fnDefineStatement | fnInvokeStatement | newStatement |tryStatement|throwStatement |returnStatement {
+statement ::=
+      line_comment
+    | letStatement
+    | forStatement
+    | whileStatement
+    | breakStatement
+    | continueStatement
+    | ifStatement
+    | threeStatement
+    | fnDefineStatement
+    | fnInvokeStatement
+    | newStatement
+    | tryStatement
+    | throwStatement
+    | returnStatement {
    mixin = "my.lang.psi.impl.MyLanguageCodeElementImpl"
-   implements = "my.lang.psi.MyLanguageActionElement"
+   implements = "my.lang.psi.MyLanguageStatementElement"
    methods = [getName setName getNameIdentifier getPresentation]
+//   recoverWhile = statementRecover
 }
 
-letStatement ::= [let] id [BRACK_LEFT number BRACK_RIGHT] ASSIGN (express | fnInvokeExpress) [SEMICOLON]
+//private statementRecover ::= !('!' | '&' | '(' | '*' | '+' | '-' | ';' | '<-' | '^' | 'type' | '{' | '|' | '|=' | '||' | '}' | break | case | char | const | continue | decimali | default | defer | else | fallthrough | float | floati | for | fn | go | goto | hex | identifier | if | int | interface | map | oct | return | select | string | raw_string | struct | switch | let)
 
-forStatement ::= for id in id [PAREN_LEFT express {COMMA express}*] BRACE_LEFT codes BRACE_RIGHT
+letStatement ::= [let] identifier [BRACK_LEFT number BRACK_RIGHT] ASSIGN (express | fnInvokeExpress) [SEMICOLON]
+
+forStatement ::= for identifier in identifier [PAREN_LEFT express {COMMA express}*] BRACE_LEFT codes BRACE_RIGHT
 
 whileStatement ::= while express  BRACE_LEFT codes BRACE_RIGHT
 
@@ -132,7 +154,7 @@ continueStatement ::= continue [SEMICOLON]
 
 ifStatement ::= if express BRACE_LEFT codes BRACE_RIGHT {elseif express BRACE_LEFT codes BRACE_RIGHT }* {else express BRACE_LEFT codes BRACE_RIGHT}*
 
-fnDefineStatement ::= fn id PAREN_LEFT id {COMMA id}* PAREN_RIGHT BRACE_LEFT codes BRACE_RIGHT
+fnDefineStatement ::= fn identifier PAREN_LEFT identifier {COMMA identifier}* PAREN_RIGHT BRACE_LEFT codes BRACE_RIGHT
 
 fnInvokeStatement ::= fnInvokeExpress [SEMICOLON]
 
@@ -156,7 +178,7 @@ relationExpress ::= (refExpress|value)   {(DASH | PLUS | MUL | PERCENT | FSLASH 
 
 //regExpress ::= FSLASH express FSLASH
 
-refExpress ::= id {DOT id}* | DOLLAR number
+refExpress ::= identifier {DOT identifier}* | DOLLAR number
 
 //calOperate ::= DASH | PLUS | MUL | PERCENT | FSLASH |bar |ANGLE_LEFT |ANGLE_LEFT EQ|ANGLE_RIGHT |ANGLE_RIGHT EQ|EQ EQ|AMP AMP|AMP TILDE
 

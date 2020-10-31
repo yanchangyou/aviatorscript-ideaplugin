@@ -1,4 +1,4 @@
-// license.txt
+// license description
 package my.lang.psi;
 
 import java.util.List;
@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 import com.intellij.navigation.ItemPresentation;
 
-public interface MyLanguageStatement extends MyLanguageActionElement {
+public interface MyLanguageStatement extends MyLanguageStatementElement {
 
   @Nullable
   MyLanguageBreakStatement getBreakStatement();

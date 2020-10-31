@@ -5,6 +5,6 @@ import com.intellij.psi.PsiNameIdentifierOwner;
 /**
  * @author yanchangyou
  */
-public interface MyLanguageActionElement extends PsiNameIdentifierOwner {
+public interface MyLanguageStatementElement extends PsiNameIdentifierOwner {
 
 }
