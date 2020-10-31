@@ -53,50 +53,103 @@ public class MyLanguageParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // fnInvokeExpress {op allExpress}* | express | threeExpress | lambdaExpress
+  // threeExpress | fnInvokeExpress {op allExpress}* | express | lambdaExpress
   public static boolean allExpress(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "allExpress")) return false;
     boolean result;
     Marker marker = enter_section_(builder, level, _NONE_, MY_ALL_EXPRESS, "<all express>");
-    result = allExpress_0(builder, level + 1);
+    result = threeExpress(builder, level + 1);
+    if (!result) result = allExpress_1(builder, level + 1);
     if (!result) result = express(builder, level + 1);
-    if (!result) result = threeExpress(builder, level + 1);
     if (!result) result = lambdaExpress(builder, level + 1);
     exit_section_(builder, level, marker, result, false, null);
     return result;
   }
 
   // fnInvokeExpress {op allExpress}*
-  private static boolean allExpress_0(PsiBuilder builder, int level) {
-    if (!recursion_guard_(builder, level, "allExpress_0")) return false;
+  private static boolean allExpress_1(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "allExpress_1")) return false;
     boolean result;
     Marker marker = enter_section_(builder);
     result = fnInvokeExpress(builder, level + 1);
-    result = result && allExpress_0_1(builder, level + 1);
+    result = result && allExpress_1_1(builder, level + 1);
     exit_section_(builder, marker, null, result);
     return result;
   }
 
   // {op allExpress}*
-  private static boolean allExpress_0_1(PsiBuilder builder, int level) {
-    if (!recursion_guard_(builder, level, "allExpress_0_1")) return false;
+  private static boolean allExpress_1_1(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "allExpress_1_1")) return false;
     while (true) {
       int pos = current_position_(builder);
-      if (!allExpress_0_1_0(builder, level + 1)) break;
-      if (!empty_element_parsed_guard_(builder, "allExpress_0_1", pos)) break;
+      if (!allExpress_1_1_0(builder, level + 1)) break;
+      if (!empty_element_parsed_guard_(builder, "allExpress_1_1", pos)) break;
     }
     return true;
   }
 
   // op allExpress
-  private static boolean allExpress_0_1_0(PsiBuilder builder, int level) {
-    if (!recursion_guard_(builder, level, "allExpress_0_1_0")) return false;
+  private static boolean allExpress_1_1_0(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "allExpress_1_1_0")) return false;
     boolean result;
     Marker marker = enter_section_(builder);
     result = op(builder, level + 1);
     result = result && allExpress(builder, level + 1);
     exit_section_(builder, marker, null, result);
     return result;
+  }
+
+  /* ********************************************************** */
+  // allExpress [SEMICOLON]
+  public static boolean allExpressStatement(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "allExpressStatement")) return false;
+    boolean result;
+    Marker marker = enter_section_(builder, level, _NONE_, MY_ALL_EXPRESS_STATEMENT, "<all express statement>");
+    result = allExpress(builder, level + 1);
+    result = result && allExpressStatement_1(builder, level + 1);
+    exit_section_(builder, level, marker, result, false, null);
+    return result;
+  }
+
+  // [SEMICOLON]
+  private static boolean allExpressStatement_1(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "allExpressStatement_1")) return false;
+    consumeToken(builder, MY_SEMICOLON);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // refExpress ASSIGN allExpress
+  public static boolean assignExpress(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "assignExpress")) return false;
+    if (!nextTokenIs(builder, "<assign express>", MY_DOLLAR, MY_IDENTIFIER)) return false;
+    boolean result;
+    Marker marker = enter_section_(builder, level, _NONE_, MY_ASSIGN_EXPRESS, "<assign express>");
+    result = refExpress(builder, level + 1);
+    result = result && consumeToken(builder, MY_ASSIGN);
+    result = result && allExpress(builder, level + 1);
+    exit_section_(builder, level, marker, result, false, null);
+    return result;
+  }
+
+  /* ********************************************************** */
+  // assignExpress [SEMICOLON]
+  public static boolean assignStatement(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "assignStatement")) return false;
+    if (!nextTokenIs(builder, "<assign statement>", MY_DOLLAR, MY_IDENTIFIER)) return false;
+    boolean result;
+    Marker marker = enter_section_(builder, level, _NONE_, MY_ASSIGN_STATEMENT, "<assign statement>");
+    result = assignExpress(builder, level + 1);
+    result = result && assignStatement_1(builder, level + 1);
+    exit_section_(builder, level, marker, result, false, null);
+    return result;
+  }
+
+  // [SEMICOLON]
+  private static boolean assignStatement_1(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "assignStatement_1")) return false;
+    consumeToken(builder, MY_SEMICOLON);
+    return true;
   }
 
   /* ********************************************************** */
@@ -191,14 +244,14 @@ public class MyLanguageParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // fn identifier PAREN_LEFT identifier {COMMA identifier}* PAREN_RIGHT BRACE_LEFT codes BRACE_RIGHT
+  // fn identifier PAREN_LEFT [identifier {COMMA identifier}*] PAREN_RIGHT BRACE_LEFT codes BRACE_RIGHT
   public static boolean fnDefineStatement(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "fnDefineStatement")) return false;
     if (!nextTokenIs(builder, MY_FN)) return false;
     boolean result;
     Marker marker = enter_section_(builder);
-    result = consumeTokens(builder, 0, MY_FN, MY_IDENTIFIER, MY_PAREN_LEFT, MY_IDENTIFIER);
-    result = result && fnDefineStatement_4(builder, level + 1);
+    result = consumeTokens(builder, 0, MY_FN, MY_IDENTIFIER, MY_PAREN_LEFT);
+    result = result && fnDefineStatement_3(builder, level + 1);
     result = result && consumeTokens(builder, 0, MY_PAREN_RIGHT, MY_BRACE_LEFT);
     result = result && codes(builder, level + 1);
     result = result && consumeToken(builder, MY_BRACE_RIGHT);
@@ -206,20 +259,38 @@ public class MyLanguageParser implements PsiParser, LightPsiParser {
     return result;
   }
 
+  // [identifier {COMMA identifier}*]
+  private static boolean fnDefineStatement_3(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "fnDefineStatement_3")) return false;
+    fnDefineStatement_3_0(builder, level + 1);
+    return true;
+  }
+
+  // identifier {COMMA identifier}*
+  private static boolean fnDefineStatement_3_0(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "fnDefineStatement_3_0")) return false;
+    boolean result;
+    Marker marker = enter_section_(builder);
+    result = consumeToken(builder, MY_IDENTIFIER);
+    result = result && fnDefineStatement_3_0_1(builder, level + 1);
+    exit_section_(builder, marker, null, result);
+    return result;
+  }
+
   // {COMMA identifier}*
-  private static boolean fnDefineStatement_4(PsiBuilder builder, int level) {
-    if (!recursion_guard_(builder, level, "fnDefineStatement_4")) return false;
+  private static boolean fnDefineStatement_3_0_1(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "fnDefineStatement_3_0_1")) return false;
     while (true) {
       int pos = current_position_(builder);
-      if (!fnDefineStatement_4_0(builder, level + 1)) break;
-      if (!empty_element_parsed_guard_(builder, "fnDefineStatement_4", pos)) break;
+      if (!fnDefineStatement_3_0_1_0(builder, level + 1)) break;
+      if (!empty_element_parsed_guard_(builder, "fnDefineStatement_3_0_1", pos)) break;
     }
     return true;
   }
 
   // COMMA identifier
-  private static boolean fnDefineStatement_4_0(PsiBuilder builder, int level) {
-    if (!recursion_guard_(builder, level, "fnDefineStatement_4_0")) return false;
+  private static boolean fnDefineStatement_3_0_1_0(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "fnDefineStatement_3_0_1_0")) return false;
     boolean result;
     Marker marker = enter_section_(builder);
     result = consumeTokens(builder, 0, MY_COMMA, MY_IDENTIFIER);
@@ -228,7 +299,7 @@ public class MyLanguageParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // refExpress {PAREN_LEFT [int COMMA] [allExpress {COMMA allExpress}*] PAREN_RIGHT}+
+  // refExpress {PAREN_LEFT [int COMMA] [allExpress {COMMA (allExpress|op)}*] PAREN_RIGHT}+
   public static boolean fnInvokeExpress(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "fnInvokeExpress")) return false;
     if (!nextTokenIs(builder, "<fn invoke express>", MY_DOLLAR, MY_IDENTIFIER)) return false;
@@ -240,7 +311,7 @@ public class MyLanguageParser implements PsiParser, LightPsiParser {
     return result;
   }
 
-  // {PAREN_LEFT [int COMMA] [allExpress {COMMA allExpress}*] PAREN_RIGHT}+
+  // {PAREN_LEFT [int COMMA] [allExpress {COMMA (allExpress|op)}*] PAREN_RIGHT}+
   private static boolean fnInvokeExpress_1(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "fnInvokeExpress_1")) return false;
     boolean result;
@@ -255,7 +326,7 @@ public class MyLanguageParser implements PsiParser, LightPsiParser {
     return result;
   }
 
-  // PAREN_LEFT [int COMMA] [allExpress {COMMA allExpress}*] PAREN_RIGHT
+  // PAREN_LEFT [int COMMA] [allExpress {COMMA (allExpress|op)}*] PAREN_RIGHT
   private static boolean fnInvokeExpress_1_0(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "fnInvokeExpress_1_0")) return false;
     boolean result;
@@ -275,14 +346,14 @@ public class MyLanguageParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // [allExpress {COMMA allExpress}*]
+  // [allExpress {COMMA (allExpress|op)}*]
   private static boolean fnInvokeExpress_1_0_2(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "fnInvokeExpress_1_0_2")) return false;
     fnInvokeExpress_1_0_2_0(builder, level + 1);
     return true;
   }
 
-  // allExpress {COMMA allExpress}*
+  // allExpress {COMMA (allExpress|op)}*
   private static boolean fnInvokeExpress_1_0_2_0(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "fnInvokeExpress_1_0_2_0")) return false;
     boolean result;
@@ -293,7 +364,7 @@ public class MyLanguageParser implements PsiParser, LightPsiParser {
     return result;
   }
 
-  // {COMMA allExpress}*
+  // {COMMA (allExpress|op)}*
   private static boolean fnInvokeExpress_1_0_2_0_1(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "fnInvokeExpress_1_0_2_0_1")) return false;
     while (true) {
@@ -304,14 +375,23 @@ public class MyLanguageParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // COMMA allExpress
+  // COMMA (allExpress|op)
   private static boolean fnInvokeExpress_1_0_2_0_1_0(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "fnInvokeExpress_1_0_2_0_1_0")) return false;
     boolean result;
     Marker marker = enter_section_(builder);
     result = consumeToken(builder, MY_COMMA);
-    result = result && allExpress(builder, level + 1);
+    result = result && fnInvokeExpress_1_0_2_0_1_0_1(builder, level + 1);
     exit_section_(builder, marker, null, result);
+    return result;
+  }
+
+  // allExpress|op
+  private static boolean fnInvokeExpress_1_0_2_0_1_0_1(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "fnInvokeExpress_1_0_2_0_1_0_1")) return false;
+    boolean result;
+    result = allExpress(builder, level + 1);
+    if (!result) result = op(builder, level + 1);
     return result;
   }
 
@@ -336,7 +416,7 @@ public class MyLanguageParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // for identifier in allExpress [PAREN_LEFT allExpress {COMMA allExpress}*] BRACE_LEFT codes BRACE_RIGHT
+  // for identifier in allExpress [PAREN_LEFT allExpress {COMMA allExpress}*] BRACE_LEFT codes BRACE_RIGHT [SEMICOLON]
   public static boolean forStatement(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "forStatement")) return false;
     if (!nextTokenIs(builder, MY_FOR)) return false;
@@ -348,6 +428,7 @@ public class MyLanguageParser implements PsiParser, LightPsiParser {
     result = result && consumeToken(builder, MY_BRACE_LEFT);
     result = result && codes(builder, level + 1);
     result = result && consumeToken(builder, MY_BRACE_RIGHT);
+    result = result && forStatement_8(builder, level + 1);
     exit_section_(builder, marker, MY_FOR_STATEMENT, result);
     return result;
   }
@@ -393,8 +474,15 @@ public class MyLanguageParser implements PsiParser, LightPsiParser {
     return result;
   }
 
+  // [SEMICOLON]
+  private static boolean forStatement_8(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "forStatement_8")) return false;
+    consumeToken(builder, MY_SEMICOLON);
+    return true;
+  }
+
   /* ********************************************************** */
-  // if allExpress BRACE_LEFT codes BRACE_RIGHT {elseif allExpress BRACE_LEFT codes BRACE_RIGHT }* {else allExpress BRACE_LEFT codes BRACE_RIGHT}*
+  // if allExpress BRACE_LEFT codes BRACE_RIGHT {elsif allExpress BRACE_LEFT codes BRACE_RIGHT }* {else BRACE_LEFT codes BRACE_RIGHT}? [SEMICOLON]
   public static boolean ifStatement(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "ifStatement")) return false;
     if (!nextTokenIs(builder, MY_IF)) return false;
@@ -407,11 +495,12 @@ public class MyLanguageParser implements PsiParser, LightPsiParser {
     result = result && consumeToken(builder, MY_BRACE_RIGHT);
     result = result && ifStatement_5(builder, level + 1);
     result = result && ifStatement_6(builder, level + 1);
+    result = result && ifStatement_7(builder, level + 1);
     exit_section_(builder, marker, MY_IF_STATEMENT, result);
     return result;
   }
 
-  // {elseif allExpress BRACE_LEFT codes BRACE_RIGHT }*
+  // {elsif allExpress BRACE_LEFT codes BRACE_RIGHT }*
   private static boolean ifStatement_5(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "ifStatement_5")) return false;
     while (true) {
@@ -422,12 +511,12 @@ public class MyLanguageParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // elseif allExpress BRACE_LEFT codes BRACE_RIGHT
+  // elsif allExpress BRACE_LEFT codes BRACE_RIGHT
   private static boolean ifStatement_5_0(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "ifStatement_5_0")) return false;
     boolean result;
     Marker marker = enter_section_(builder);
-    result = consumeToken(builder, MY_ELSEIF);
+    result = consumeToken(builder, MY_ELSIF);
     result = result && allExpress(builder, level + 1);
     result = result && consumeToken(builder, MY_BRACE_LEFT);
     result = result && codes(builder, level + 1);
@@ -436,83 +525,95 @@ public class MyLanguageParser implements PsiParser, LightPsiParser {
     return result;
   }
 
-  // {else allExpress BRACE_LEFT codes BRACE_RIGHT}*
+  // {else BRACE_LEFT codes BRACE_RIGHT}?
   private static boolean ifStatement_6(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "ifStatement_6")) return false;
-    while (true) {
-      int pos = current_position_(builder);
-      if (!ifStatement_6_0(builder, level + 1)) break;
-      if (!empty_element_parsed_guard_(builder, "ifStatement_6", pos)) break;
-    }
+    ifStatement_6_0(builder, level + 1);
     return true;
   }
 
-  // else allExpress BRACE_LEFT codes BRACE_RIGHT
+  // else BRACE_LEFT codes BRACE_RIGHT
   private static boolean ifStatement_6_0(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "ifStatement_6_0")) return false;
     boolean result;
     Marker marker = enter_section_(builder);
-    result = consumeToken(builder, MY_ELSE);
-    result = result && allExpress(builder, level + 1);
-    result = result && consumeToken(builder, MY_BRACE_LEFT);
+    result = consumeTokens(builder, 0, MY_ELSE, MY_BRACE_LEFT);
     result = result && codes(builder, level + 1);
     result = result && consumeToken(builder, MY_BRACE_RIGHT);
     exit_section_(builder, marker, null, result);
     return result;
   }
 
+  // [SEMICOLON]
+  private static boolean ifStatement_7(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "ifStatement_7")) return false;
+    consumeToken(builder, MY_SEMICOLON);
+    return true;
+  }
+
   /* ********************************************************** */
-  // lambda PAREN_LEFT {identifier {COMMA identifier}*}* PAREN_RIGHT LAMBDA_TARGET codes end
+  // lambda PAREN_LEFT {identifier {COMMA identifier}*}* PAREN_RIGHT LAMBDA_TARGET codes end | PAREN_LEFT lambdaExpress PAREN_RIGHT
   public static boolean lambdaExpress(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "lambdaExpress")) return false;
-    if (!nextTokenIs(builder, MY_LAMBDA)) return false;
+    if (!nextTokenIs(builder, "<lambda express>", MY_LAMBDA, MY_PAREN_LEFT)) return false;
+    boolean result;
+    Marker marker = enter_section_(builder, level, _NONE_, MY_LAMBDA_EXPRESS, "<lambda express>");
+    result = lambdaExpress_0(builder, level + 1);
+    if (!result) result = lambdaExpress_1(builder, level + 1);
+    exit_section_(builder, level, marker, result, false, null);
+    return result;
+  }
+
+  // lambda PAREN_LEFT {identifier {COMMA identifier}*}* PAREN_RIGHT LAMBDA_TARGET codes end
+  private static boolean lambdaExpress_0(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "lambdaExpress_0")) return false;
     boolean result;
     Marker marker = enter_section_(builder);
     result = consumeTokens(builder, 0, MY_LAMBDA, MY_PAREN_LEFT);
-    result = result && lambdaExpress_2(builder, level + 1);
+    result = result && lambdaExpress_0_2(builder, level + 1);
     result = result && consumeTokens(builder, 0, MY_PAREN_RIGHT, MY_LAMBDA_TARGET);
     result = result && codes(builder, level + 1);
     result = result && consumeToken(builder, MY_END);
-    exit_section_(builder, marker, MY_LAMBDA_EXPRESS, result);
+    exit_section_(builder, marker, null, result);
     return result;
   }
 
   // {identifier {COMMA identifier}*}*
-  private static boolean lambdaExpress_2(PsiBuilder builder, int level) {
-    if (!recursion_guard_(builder, level, "lambdaExpress_2")) return false;
+  private static boolean lambdaExpress_0_2(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "lambdaExpress_0_2")) return false;
     while (true) {
       int pos = current_position_(builder);
-      if (!lambdaExpress_2_0(builder, level + 1)) break;
-      if (!empty_element_parsed_guard_(builder, "lambdaExpress_2", pos)) break;
+      if (!lambdaExpress_0_2_0(builder, level + 1)) break;
+      if (!empty_element_parsed_guard_(builder, "lambdaExpress_0_2", pos)) break;
     }
     return true;
   }
 
   // identifier {COMMA identifier}*
-  private static boolean lambdaExpress_2_0(PsiBuilder builder, int level) {
-    if (!recursion_guard_(builder, level, "lambdaExpress_2_0")) return false;
+  private static boolean lambdaExpress_0_2_0(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "lambdaExpress_0_2_0")) return false;
     boolean result;
     Marker marker = enter_section_(builder);
     result = consumeToken(builder, MY_IDENTIFIER);
-    result = result && lambdaExpress_2_0_1(builder, level + 1);
+    result = result && lambdaExpress_0_2_0_1(builder, level + 1);
     exit_section_(builder, marker, null, result);
     return result;
   }
 
   // {COMMA identifier}*
-  private static boolean lambdaExpress_2_0_1(PsiBuilder builder, int level) {
-    if (!recursion_guard_(builder, level, "lambdaExpress_2_0_1")) return false;
+  private static boolean lambdaExpress_0_2_0_1(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "lambdaExpress_0_2_0_1")) return false;
     while (true) {
       int pos = current_position_(builder);
-      if (!lambdaExpress_2_0_1_0(builder, level + 1)) break;
-      if (!empty_element_parsed_guard_(builder, "lambdaExpress_2_0_1", pos)) break;
+      if (!lambdaExpress_0_2_0_1_0(builder, level + 1)) break;
+      if (!empty_element_parsed_guard_(builder, "lambdaExpress_0_2_0_1", pos)) break;
     }
     return true;
   }
 
   // COMMA identifier
-  private static boolean lambdaExpress_2_0_1_0(PsiBuilder builder, int level) {
-    if (!recursion_guard_(builder, level, "lambdaExpress_2_0_1_0")) return false;
+  private static boolean lambdaExpress_0_2_0_1_0(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "lambdaExpress_0_2_0_1_0")) return false;
     boolean result;
     Marker marker = enter_section_(builder);
     result = consumeTokens(builder, 0, MY_COMMA, MY_IDENTIFIER);
@@ -520,39 +621,86 @@ public class MyLanguageParser implements PsiParser, LightPsiParser {
     return result;
   }
 
-  /* ********************************************************** */
-  // [let] refExpress [BRACK_LEFT number BRACK_RIGHT] ASSIGN allExpress [SEMICOLON]
-  public static boolean letStatement(PsiBuilder builder, int level) {
-    if (!recursion_guard_(builder, level, "letStatement")) return false;
+  // PAREN_LEFT lambdaExpress PAREN_RIGHT
+  private static boolean lambdaExpress_1(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "lambdaExpress_1")) return false;
     boolean result;
-    Marker marker = enter_section_(builder, level, _NONE_, MY_LET_STATEMENT, "<let statement>");
-    result = letStatement_0(builder, level + 1);
-    result = result && refExpress(builder, level + 1);
-    result = result && letStatement_2(builder, level + 1);
-    result = result && consumeToken(builder, MY_ASSIGN);
-    result = result && allExpress(builder, level + 1);
-    result = result && letStatement_5(builder, level + 1);
+    Marker marker = enter_section_(builder);
+    result = consumeToken(builder, MY_PAREN_LEFT);
+    result = result && lambdaExpress(builder, level + 1);
+    result = result && consumeToken(builder, MY_PAREN_RIGHT);
+    exit_section_(builder, marker, null, result);
+    return result;
+  }
+
+  /* ********************************************************** */
+  // lambdaExpress [SEMICOLON]
+  public static boolean lambdaStatement(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "lambdaStatement")) return false;
+    if (!nextTokenIs(builder, "<lambda statement>", MY_LAMBDA, MY_PAREN_LEFT)) return false;
+    boolean result;
+    Marker marker = enter_section_(builder, level, _NONE_, MY_LAMBDA_STATEMENT, "<lambda statement>");
+    result = lambdaExpress(builder, level + 1);
+    result = result && lambdaStatement_1(builder, level + 1);
     exit_section_(builder, level, marker, result, false, null);
     return result;
   }
 
-  // [let]
-  private static boolean letStatement_0(PsiBuilder builder, int level) {
-    if (!recursion_guard_(builder, level, "letStatement_0")) return false;
-    consumeToken(builder, MY_LET);
+  // [SEMICOLON]
+  private static boolean lambdaStatement_1(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "lambdaStatement_1")) return false;
+    consumeToken(builder, MY_SEMICOLON);
     return true;
   }
 
-  // [BRACK_LEFT number BRACK_RIGHT]
-  private static boolean letStatement_2(PsiBuilder builder, int level) {
-    if (!recursion_guard_(builder, level, "letStatement_2")) return false;
-    parseTokens(builder, 0, MY_BRACK_LEFT, MY_NUMBER, MY_BRACK_RIGHT);
+  /* ********************************************************** */
+  // let refExpress ASSIGN ([new] allExpress [SEMICOLON]| statement)
+  public static boolean letStatement(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "letStatement")) return false;
+    if (!nextTokenIs(builder, MY_LET)) return false;
+    boolean result;
+    Marker marker = enter_section_(builder);
+    result = consumeToken(builder, MY_LET);
+    result = result && refExpress(builder, level + 1);
+    result = result && consumeToken(builder, MY_ASSIGN);
+    result = result && letStatement_3(builder, level + 1);
+    exit_section_(builder, marker, MY_LET_STATEMENT, result);
+    return result;
+  }
+
+  // [new] allExpress [SEMICOLON]| statement
+  private static boolean letStatement_3(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "letStatement_3")) return false;
+    boolean result;
+    Marker marker = enter_section_(builder);
+    result = letStatement_3_0(builder, level + 1);
+    if (!result) result = statement(builder, level + 1);
+    exit_section_(builder, marker, null, result);
+    return result;
+  }
+
+  // [new] allExpress [SEMICOLON]
+  private static boolean letStatement_3_0(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "letStatement_3_0")) return false;
+    boolean result;
+    Marker marker = enter_section_(builder);
+    result = letStatement_3_0_0(builder, level + 1);
+    result = result && allExpress(builder, level + 1);
+    result = result && letStatement_3_0_2(builder, level + 1);
+    exit_section_(builder, marker, null, result);
+    return result;
+  }
+
+  // [new]
+  private static boolean letStatement_3_0_0(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "letStatement_3_0_0")) return false;
+    consumeToken(builder, MY_NEW);
     return true;
   }
 
   // [SEMICOLON]
-  private static boolean letStatement_5(PsiBuilder builder, int level) {
-    if (!recursion_guard_(builder, level, "letStatement_5")) return false;
+  private static boolean letStatement_3_0_2(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "letStatement_3_0_2")) return false;
     consumeToken(builder, MY_SEMICOLON);
     return true;
   }
@@ -682,46 +830,104 @@ public class MyLanguageParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // identifier {DOT identifier}* | DOLLAR number
+  // (identifier {DOT identifier}* {BRACK_LEFT value BRACK_RIGHT}* | DOLLAR number) {BRACK_LEFT refExpress BRACK_RIGHT}*
   public static boolean refExpress(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "refExpress")) return false;
     if (!nextTokenIs(builder, "<ref express>", MY_DOLLAR, MY_IDENTIFIER)) return false;
     boolean result;
-    Marker marker = enter_section_(builder, level, _NONE_, MY_REF_EXPRESS, "<ref express>");
+    Marker marker = enter_section_(builder, level, _COLLAPSE_, MY_REF_EXPRESS, "<ref express>");
     result = refExpress_0(builder, level + 1);
-    if (!result) result = parseTokens(builder, 0, MY_DOLLAR, MY_NUMBER);
+    result = result && refExpress_1(builder, level + 1);
     exit_section_(builder, level, marker, result, false, null);
     return result;
   }
 
-  // identifier {DOT identifier}*
+  // identifier {DOT identifier}* {BRACK_LEFT value BRACK_RIGHT}* | DOLLAR number
   private static boolean refExpress_0(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "refExpress_0")) return false;
     boolean result;
     Marker marker = enter_section_(builder);
+    result = refExpress_0_0(builder, level + 1);
+    if (!result) result = parseTokens(builder, 0, MY_DOLLAR, MY_NUMBER);
+    exit_section_(builder, marker, null, result);
+    return result;
+  }
+
+  // identifier {DOT identifier}* {BRACK_LEFT value BRACK_RIGHT}*
+  private static boolean refExpress_0_0(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "refExpress_0_0")) return false;
+    boolean result;
+    Marker marker = enter_section_(builder);
     result = consumeToken(builder, MY_IDENTIFIER);
-    result = result && refExpress_0_1(builder, level + 1);
+    result = result && refExpress_0_0_1(builder, level + 1);
+    result = result && refExpress_0_0_2(builder, level + 1);
     exit_section_(builder, marker, null, result);
     return result;
   }
 
   // {DOT identifier}*
-  private static boolean refExpress_0_1(PsiBuilder builder, int level) {
-    if (!recursion_guard_(builder, level, "refExpress_0_1")) return false;
+  private static boolean refExpress_0_0_1(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "refExpress_0_0_1")) return false;
     while (true) {
       int pos = current_position_(builder);
-      if (!refExpress_0_1_0(builder, level + 1)) break;
-      if (!empty_element_parsed_guard_(builder, "refExpress_0_1", pos)) break;
+      if (!refExpress_0_0_1_0(builder, level + 1)) break;
+      if (!empty_element_parsed_guard_(builder, "refExpress_0_0_1", pos)) break;
     }
     return true;
   }
 
   // DOT identifier
-  private static boolean refExpress_0_1_0(PsiBuilder builder, int level) {
-    if (!recursion_guard_(builder, level, "refExpress_0_1_0")) return false;
+  private static boolean refExpress_0_0_1_0(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "refExpress_0_0_1_0")) return false;
     boolean result;
     Marker marker = enter_section_(builder);
     result = consumeTokens(builder, 0, MY_DOT, MY_IDENTIFIER);
+    exit_section_(builder, marker, null, result);
+    return result;
+  }
+
+  // {BRACK_LEFT value BRACK_RIGHT}*
+  private static boolean refExpress_0_0_2(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "refExpress_0_0_2")) return false;
+    while (true) {
+      int pos = current_position_(builder);
+      if (!refExpress_0_0_2_0(builder, level + 1)) break;
+      if (!empty_element_parsed_guard_(builder, "refExpress_0_0_2", pos)) break;
+    }
+    return true;
+  }
+
+  // BRACK_LEFT value BRACK_RIGHT
+  private static boolean refExpress_0_0_2_0(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "refExpress_0_0_2_0")) return false;
+    boolean result;
+    Marker marker = enter_section_(builder);
+    result = consumeToken(builder, MY_BRACK_LEFT);
+    result = result && value(builder, level + 1);
+    result = result && consumeToken(builder, MY_BRACK_RIGHT);
+    exit_section_(builder, marker, null, result);
+    return result;
+  }
+
+  // {BRACK_LEFT refExpress BRACK_RIGHT}*
+  private static boolean refExpress_1(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "refExpress_1")) return false;
+    while (true) {
+      int pos = current_position_(builder);
+      if (!refExpress_1_0(builder, level + 1)) break;
+      if (!empty_element_parsed_guard_(builder, "refExpress_1", pos)) break;
+    }
+    return true;
+  }
+
+  // BRACK_LEFT refExpress BRACK_RIGHT
+  private static boolean refExpress_1_0(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "refExpress_1_0")) return false;
+    boolean result;
+    Marker marker = enter_section_(builder);
+    result = consumeToken(builder, MY_BRACK_LEFT);
+    result = result && refExpress(builder, level + 1);
+    result = result && consumeToken(builder, MY_BRACK_RIGHT);
     exit_section_(builder, marker, null, result);
     return result;
   }
@@ -772,7 +978,10 @@ public class MyLanguageParser implements PsiParser, LightPsiParser {
   //     | newStatement
   //     | tryStatement
   //     | throwStatement
+  //     | lambdaStatement
+  //     | assignStatement
   //     | returnStatement
+  //     | allExpressStatement
   //     | BRACE_LEFT statement* BRACE_RIGHT
   public static boolean statement(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "statement")) return false;
@@ -791,31 +1000,34 @@ public class MyLanguageParser implements PsiParser, LightPsiParser {
     if (!result) result = newStatement(builder, level + 1);
     if (!result) result = tryStatement(builder, level + 1);
     if (!result) result = throwStatement(builder, level + 1);
+    if (!result) result = lambdaStatement(builder, level + 1);
+    if (!result) result = assignStatement(builder, level + 1);
     if (!result) result = returnStatement(builder, level + 1);
-    if (!result) result = statement_14(builder, level + 1);
+    if (!result) result = allExpressStatement(builder, level + 1);
+    if (!result) result = statement_17(builder, level + 1);
     exit_section_(builder, level, marker, result, false, null);
     return result;
   }
 
   // BRACE_LEFT statement* BRACE_RIGHT
-  private static boolean statement_14(PsiBuilder builder, int level) {
-    if (!recursion_guard_(builder, level, "statement_14")) return false;
+  private static boolean statement_17(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "statement_17")) return false;
     boolean result;
     Marker marker = enter_section_(builder);
     result = consumeToken(builder, MY_BRACE_LEFT);
-    result = result && statement_14_1(builder, level + 1);
+    result = result && statement_17_1(builder, level + 1);
     result = result && consumeToken(builder, MY_BRACE_RIGHT);
     exit_section_(builder, marker, null, result);
     return result;
   }
 
   // statement*
-  private static boolean statement_14_1(PsiBuilder builder, int level) {
-    if (!recursion_guard_(builder, level, "statement_14_1")) return false;
+  private static boolean statement_17_1(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "statement_17_1")) return false;
     while (true) {
       int pos = current_position_(builder);
       if (!statement(builder, level + 1)) break;
-      if (!empty_element_parsed_guard_(builder, "statement_14_1", pos)) break;
+      if (!empty_element_parsed_guard_(builder, "statement_17_1", pos)) break;
     }
     return true;
   }
@@ -907,7 +1119,7 @@ public class MyLanguageParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // try BRACE_LEFT codes BRACE_RIGHT catch PAREN_LEFT identifier identifier? PAREN_RIGHT BRACE_LEFT codes BRACE_RIGHT finally BRACE_LEFT codes BRACE_RIGHT
+  // try BRACE_LEFT codes BRACE_RIGHT {catch PAREN_LEFT (identifier [identifier] {BIT_OR identifier [identifier]}*) PAREN_RIGHT BRACE_LEFT codes BRACE_RIGHT}* finally BRACE_LEFT codes BRACE_RIGHT
   public static boolean tryStatement(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "tryStatement")) return false;
     if (!nextTokenIs(builder, MY_TRY)) return false;
@@ -915,31 +1127,96 @@ public class MyLanguageParser implements PsiParser, LightPsiParser {
     Marker marker = enter_section_(builder);
     result = consumeTokens(builder, 0, MY_TRY, MY_BRACE_LEFT);
     result = result && codes(builder, level + 1);
-    result = result && consumeTokens(builder, 0, MY_BRACE_RIGHT, MY_CATCH, MY_PAREN_LEFT, MY_IDENTIFIER);
-    result = result && tryStatement_7(builder, level + 1);
-    result = result && consumeTokens(builder, 0, MY_PAREN_RIGHT, MY_BRACE_LEFT);
-    result = result && codes(builder, level + 1);
-    result = result && consumeTokens(builder, 0, MY_BRACE_RIGHT, MY_FINALLY, MY_BRACE_LEFT);
+    result = result && consumeToken(builder, MY_BRACE_RIGHT);
+    result = result && tryStatement_4(builder, level + 1);
+    result = result && consumeTokens(builder, 0, MY_FINALLY, MY_BRACE_LEFT);
     result = result && codes(builder, level + 1);
     result = result && consumeToken(builder, MY_BRACE_RIGHT);
     exit_section_(builder, marker, MY_TRY_STATEMENT, result);
     return result;
   }
 
-  // identifier?
-  private static boolean tryStatement_7(PsiBuilder builder, int level) {
-    if (!recursion_guard_(builder, level, "tryStatement_7")) return false;
+  // {catch PAREN_LEFT (identifier [identifier] {BIT_OR identifier [identifier]}*) PAREN_RIGHT BRACE_LEFT codes BRACE_RIGHT}*
+  private static boolean tryStatement_4(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "tryStatement_4")) return false;
+    while (true) {
+      int pos = current_position_(builder);
+      if (!tryStatement_4_0(builder, level + 1)) break;
+      if (!empty_element_parsed_guard_(builder, "tryStatement_4", pos)) break;
+    }
+    return true;
+  }
+
+  // catch PAREN_LEFT (identifier [identifier] {BIT_OR identifier [identifier]}*) PAREN_RIGHT BRACE_LEFT codes BRACE_RIGHT
+  private static boolean tryStatement_4_0(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "tryStatement_4_0")) return false;
+    boolean result;
+    Marker marker = enter_section_(builder);
+    result = consumeTokens(builder, 0, MY_CATCH, MY_PAREN_LEFT);
+    result = result && tryStatement_4_0_2(builder, level + 1);
+    result = result && consumeTokens(builder, 0, MY_PAREN_RIGHT, MY_BRACE_LEFT);
+    result = result && codes(builder, level + 1);
+    result = result && consumeToken(builder, MY_BRACE_RIGHT);
+    exit_section_(builder, marker, null, result);
+    return result;
+  }
+
+  // identifier [identifier] {BIT_OR identifier [identifier]}*
+  private static boolean tryStatement_4_0_2(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "tryStatement_4_0_2")) return false;
+    boolean result;
+    Marker marker = enter_section_(builder);
+    result = consumeToken(builder, MY_IDENTIFIER);
+    result = result && tryStatement_4_0_2_1(builder, level + 1);
+    result = result && tryStatement_4_0_2_2(builder, level + 1);
+    exit_section_(builder, marker, null, result);
+    return result;
+  }
+
+  // [identifier]
+  private static boolean tryStatement_4_0_2_1(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "tryStatement_4_0_2_1")) return false;
+    consumeToken(builder, MY_IDENTIFIER);
+    return true;
+  }
+
+  // {BIT_OR identifier [identifier]}*
+  private static boolean tryStatement_4_0_2_2(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "tryStatement_4_0_2_2")) return false;
+    while (true) {
+      int pos = current_position_(builder);
+      if (!tryStatement_4_0_2_2_0(builder, level + 1)) break;
+      if (!empty_element_parsed_guard_(builder, "tryStatement_4_0_2_2", pos)) break;
+    }
+    return true;
+  }
+
+  // BIT_OR identifier [identifier]
+  private static boolean tryStatement_4_0_2_2_0(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "tryStatement_4_0_2_2_0")) return false;
+    boolean result;
+    Marker marker = enter_section_(builder);
+    result = consumeTokens(builder, 0, MY_BIT_OR, MY_IDENTIFIER);
+    result = result && tryStatement_4_0_2_2_0_2(builder, level + 1);
+    exit_section_(builder, marker, null, result);
+    return result;
+  }
+
+  // [identifier]
+  private static boolean tryStatement_4_0_2_2_0_2(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "tryStatement_4_0_2_2_0_2")) return false;
     consumeToken(builder, MY_IDENTIFIER);
     return true;
   }
 
   /* ********************************************************** */
-  // string|number|boolean|null
+  // number_int|string|number|boolean|null
   public static boolean value(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "value")) return false;
     boolean result;
     Marker marker = enter_section_(builder, level, _NONE_, MY_VALUE, "<value>");
-    result = consumeToken(builder, MY_STRING);
+    result = consumeToken(builder, MY_NUMBER_INT);
+    if (!result) result = consumeToken(builder, MY_STRING);
     if (!result) result = consumeToken(builder, MY_NUMBER);
     if (!result) result = boolean_$(builder, level + 1);
     if (!result) result = consumeToken(builder, MY_NULL);

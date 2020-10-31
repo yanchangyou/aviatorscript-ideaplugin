@@ -3,7 +3,7 @@
 ## Desc: a script to define a quick-sort function qsort.
 
 fn swap(xs, l, r) {
-  let temp = xs[l];
+  let temp = xs[0];
   xs[l] = xs[r];
   xs[r] = temp; 
 }

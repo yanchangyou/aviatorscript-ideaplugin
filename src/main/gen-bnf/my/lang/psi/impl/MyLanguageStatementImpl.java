@@ -45,6 +45,18 @@ public class MyLanguageStatementImpl extends MyLanguageCodeElementImpl implement
 
   @Override
   @Nullable
+  public MyLanguageAllExpressStatement getAllExpressStatement() {
+    return findChildByClass(MyLanguageAllExpressStatement.class);
+  }
+
+  @Override
+  @Nullable
+  public MyLanguageAssignStatement getAssignStatement() {
+    return findChildByClass(MyLanguageAssignStatement.class);
+  }
+
+  @Override
+  @Nullable
   public MyLanguageBreakStatement getBreakStatement() {
     return findChildByClass(MyLanguageBreakStatement.class);
   }
@@ -77,6 +89,12 @@ public class MyLanguageStatementImpl extends MyLanguageCodeElementImpl implement
   @Nullable
   public MyLanguageIfStatement getIfStatement() {
     return findChildByClass(MyLanguageIfStatement.class);
+  }
+
+  @Override
+  @Nullable
+  public MyLanguageLambdaStatement getLambdaStatement() {
+    return findChildByClass(MyLanguageLambdaStatement.class);
   }
 
   @Override

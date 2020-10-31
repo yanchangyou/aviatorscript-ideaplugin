@@ -44,9 +44,15 @@ public class MyLanguageLambdaExpressImpl extends ASTWrapperPsiElement implements
   }
 
   @Override
-  @NotNull
+  @Nullable
   public MyLanguageCodes getCodes() {
-    return findNotNullChildByClass(MyLanguageCodes.class);
+    return findChildByClass(MyLanguageCodes.class);
+  }
+
+  @Override
+  @Nullable
+  public MyLanguageLambdaExpress getLambdaExpress() {
+    return findChildByClass(MyLanguageLambdaExpress.class);
   }
 
 }

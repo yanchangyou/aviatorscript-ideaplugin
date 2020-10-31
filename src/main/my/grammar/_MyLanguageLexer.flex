@@ -28,7 +28,8 @@ WHITE_SPACE=\s+
 IDENTIFIER=[a-zA-Z_0-9]+
 LINE_COMMENT=##.*
 STRING=('([^'\\]|\\.)*'|\"([^\"\\]|\\\"|\\'|\\)*\")
-NUMBER=[+-]?(0[xX][0-9a-fA-F]+|[1-9][0-9]*N?M?|[0-9]+(\.[0-9]+)?([Ee][+-]?[0-9]+)?M?)
+NUMBER=[+-]?(0[xX][0-9a-fA-F]+|[0-9]|[1-9][0-9]*N?M?|[0-9]+(\.[0-9]+)?([Ee][+-]?[0-9]+)?M?)
+NUMBER_INT=[0-9]+
 
 %%
 <YYINITIAL> {
@@ -105,7 +106,7 @@ NUMBER=[+-]?(0[xX][0-9a-fA-F]+|[1-9][0-9]*N?M?|[0-9]+(\.[0-9]+)?([Ee][+-]?[0-9]+
   "continue"          { return MY_CONTINUE; }
   "lambda"            { return MY_LAMBDA; }
   "end"               { return MY_END; }
-  "elseif"            { return MY_ELSEIF; }
+  "elsif"             { return MY_ELSIF; }
   "else"              { return MY_ELSE; }
   "catch"             { return MY_CATCH; }
   "DOLLAR"            { return MY_DOLLAR; }
@@ -114,6 +115,7 @@ NUMBER=[+-]?(0[xX][0-9a-fA-F]+|[1-9][0-9]*N?M?|[0-9]+(\.[0-9]+)?([Ee][+-]?[0-9]+
   {LINE_COMMENT}      { return MY_LINE_COMMENT; }
   {STRING}            { return MY_STRING; }
   {NUMBER}            { return MY_NUMBER; }
+  {NUMBER_INT}        { return MY_NUMBER_INT; }
 
 }
 

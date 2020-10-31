@@ -24,13 +24,13 @@ import com.intellij.psi.PsiElement;
 
 public interface MyLanguageLetStatement extends PsiElement {
 
-  @NotNull
+  @Nullable
   MyLanguageAllExpress getAllExpress();
 
   @NotNull
   MyLanguageRefExpress getRefExpress();
 
   @Nullable
-  PsiElement getNumber();
+  MyLanguageStatement getStatement();
 
 }

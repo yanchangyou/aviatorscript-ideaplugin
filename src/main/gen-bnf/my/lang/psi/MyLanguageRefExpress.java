@@ -24,6 +24,12 @@ import com.intellij.psi.PsiElement;
 
 public interface MyLanguageRefExpress extends PsiElement {
 
+  @NotNull
+  List<MyLanguageRefExpress> getRefExpressList();
+
+  @NotNull
+  List<MyLanguageValue> getValueList();
+
   @Nullable
   PsiElement getNumber();
 

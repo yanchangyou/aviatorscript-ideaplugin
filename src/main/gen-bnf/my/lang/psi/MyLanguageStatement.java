@@ -26,6 +26,12 @@ import com.intellij.navigation.ItemPresentation;
 public interface MyLanguageStatement extends MyLanguageStatementElement {
 
   @Nullable
+  MyLanguageAllExpressStatement getAllExpressStatement();
+
+  @Nullable
+  MyLanguageAssignStatement getAssignStatement();
+
+  @Nullable
   MyLanguageBreakStatement getBreakStatement();
 
   @Nullable
@@ -42,6 +48,9 @@ public interface MyLanguageStatement extends MyLanguageStatementElement {
 
   @Nullable
   MyLanguageIfStatement getIfStatement();
+
+  @Nullable
+  MyLanguageLambdaStatement getLambdaStatement();
 
   @Nullable
   MyLanguageLetStatement getLetStatement();

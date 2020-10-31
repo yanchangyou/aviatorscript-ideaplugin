@@ -51,6 +51,12 @@ public class MyLanguageFnInvokeExpressImpl extends ASTWrapperPsiElement implemen
 
   @Override
   @NotNull
+  public List<MyLanguageOp> getOpList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, MyLanguageOp.class);
+  }
+
+  @Override
+  @NotNull
   public MyLanguageRefExpress getRefExpress() {
     return findNotNullChildByClass(MyLanguageRefExpress.class);
   }

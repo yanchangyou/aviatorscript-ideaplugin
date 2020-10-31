@@ -28,6 +28,9 @@ import my.lang.psi.impl.*;
 public interface MyLanguageTypes {
 
   IElementType MY_ALL_EXPRESS = new MyLanguageElementType("MY_ALL_EXPRESS");
+  IElementType MY_ALL_EXPRESS_STATEMENT = new MyLanguageElementType("MY_ALL_EXPRESS_STATEMENT");
+  IElementType MY_ASSIGN_EXPRESS = new MyLanguageElementType("MY_ASSIGN_EXPRESS");
+  IElementType MY_ASSIGN_STATEMENT = new MyLanguageElementType("MY_ASSIGN_STATEMENT");
   IElementType MY_BOOLEAN = new MyLanguageElementType("MY_BOOLEAN");
   IElementType MY_BREAK_STATEMENT = new MyLanguageElementType("MY_BREAK_STATEMENT");
   IElementType MY_CODES = new MyLanguageElementType("MY_CODES");
@@ -39,6 +42,7 @@ public interface MyLanguageTypes {
   IElementType MY_FOR_STATEMENT = new MyLanguageElementType("MY_FOR_STATEMENT");
   IElementType MY_IF_STATEMENT = new MyLanguageElementType("MY_IF_STATEMENT");
   IElementType MY_LAMBDA_EXPRESS = new MyLanguageElementType("MY_LAMBDA_EXPRESS");
+  IElementType MY_LAMBDA_STATEMENT = new MyLanguageElementType("MY_LAMBDA_STATEMENT");
   IElementType MY_LET_STATEMENT = new MyLanguageElementType("MY_LET_STATEMENT");
   IElementType MY_NEW_STATEMENT = new MyLanguageElementType("MY_NEW_STATEMENT");
   IElementType MY_OP = new MyLanguageElementType("MY_OP");
@@ -77,7 +81,7 @@ public interface MyLanguageTypes {
   IElementType MY_DOLLAR = new MyLanguageTokenType("DOLLAR");
   IElementType MY_DOT = new MyLanguageTokenType(".");
   IElementType MY_ELSE = new MyLanguageTokenType("else");
-  IElementType MY_ELSEIF = new MyLanguageTokenType("elseif");
+  IElementType MY_ELSIF = new MyLanguageTokenType("elsif");
   IElementType MY_END = new MyLanguageTokenType("end");
   IElementType MY_EQ = new MyLanguageTokenType("==");
   IElementType MY_FALSE = new MyLanguageTokenType("FALSE");
@@ -106,6 +110,7 @@ public interface MyLanguageTypes {
   IElementType MY_NOT_EQ = new MyLanguageTokenType("!=");
   IElementType MY_NULL = new MyLanguageTokenType("nil");
   IElementType MY_NUMBER = new MyLanguageTokenType("number");
+  IElementType MY_NUMBER_INT = new MyLanguageTokenType("number_int");
   IElementType MY_PAREN_LEFT = new MyLanguageTokenType("(");
   IElementType MY_PAREN_RIGHT = new MyLanguageTokenType(")");
   IElementType MY_PLUS = new MyLanguageTokenType("+");
@@ -139,6 +144,15 @@ public interface MyLanguageTypes {
       if (type == MY_ALL_EXPRESS) {
         return new MyLanguageAllExpressImpl(node);
       }
+      else if (type == MY_ALL_EXPRESS_STATEMENT) {
+        return new MyLanguageAllExpressStatementImpl(node);
+      }
+      else if (type == MY_ASSIGN_EXPRESS) {
+        return new MyLanguageAssignExpressImpl(node);
+      }
+      else if (type == MY_ASSIGN_STATEMENT) {
+        return new MyLanguageAssignStatementImpl(node);
+      }
       else if (type == MY_BOOLEAN) {
         return new MyLanguageBooleanImpl(node);
       }
@@ -171,6 +185,9 @@ public interface MyLanguageTypes {
       }
       else if (type == MY_LAMBDA_EXPRESS) {
         return new MyLanguageLambdaExpressImpl(node);
+      }
+      else if (type == MY_LAMBDA_STATEMENT) {
+        return new MyLanguageLambdaStatementImpl(node);
       }
       else if (type == MY_LET_STATEMENT) {
         return new MyLanguageLetStatementImpl(node);

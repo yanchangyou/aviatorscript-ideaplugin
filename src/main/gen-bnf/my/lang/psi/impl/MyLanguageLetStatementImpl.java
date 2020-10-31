@@ -44,9 +44,9 @@ public class MyLanguageLetStatementImpl extends ASTWrapperPsiElement implements 
   }
 
   @Override
-  @NotNull
+  @Nullable
   public MyLanguageAllExpress getAllExpress() {
-    return findNotNullChildByClass(MyLanguageAllExpress.class);
+    return findChildByClass(MyLanguageAllExpress.class);
   }
 
   @Override
@@ -57,8 +57,8 @@ public class MyLanguageLetStatementImpl extends ASTWrapperPsiElement implements 
 
   @Override
   @Nullable
-  public PsiElement getNumber() {
-    return findChildByType(MY_NUMBER);
+  public MyLanguageStatement getStatement() {
+    return findChildByClass(MyLanguageStatement.class);
   }
 
 }

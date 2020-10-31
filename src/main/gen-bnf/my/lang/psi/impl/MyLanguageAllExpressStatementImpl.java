@@ -28,14 +28,14 @@ import static lang.psi.MyLanguageTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import my.lang.psi.*;
 
-public class MyLanguageValueImpl extends ASTWrapperPsiElement implements MyLanguageValue {
+public class MyLanguageAllExpressStatementImpl extends ASTWrapperPsiElement implements MyLanguageAllExpressStatement {
 
-  public MyLanguageValueImpl(@NotNull ASTNode node) {
+  public MyLanguageAllExpressStatementImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public <R> R accept(@NotNull MyLanguageVisitor<R> visitor) {
-    return visitor.visitValue(this);
+    return visitor.visitAllExpressStatement(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -44,27 +44,9 @@ public class MyLanguageValueImpl extends ASTWrapperPsiElement implements MyLangu
   }
 
   @Override
-  @Nullable
-  public MyLanguageBoolean getBoolean() {
-    return findChildByClass(MyLanguageBoolean.class);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getNumber() {
-    return findChildByType(MY_NUMBER);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getNumberInt() {
-    return findChildByType(MY_NUMBER_INT);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getString() {
-    return findChildByType(MY_STRING);
+  @NotNull
+  public MyLanguageAllExpress getAllExpress() {
+    return findNotNullChildByClass(MyLanguageAllExpress.class);
   }
 
 }

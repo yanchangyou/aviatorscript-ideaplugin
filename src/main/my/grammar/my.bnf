@@ -95,7 +95,8 @@
 
     //literal
     string = "regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\\"|\\\'|\\)*\")"
-    number = "regexp:[+-]?(0[xX][0-9a-fA-F]+|[1-9]\d*N?M?|\d+(\.\d+)?([Ee][+-]?\d+)?M?)"
+    number = "regexp:[+-]?(0[xX][0-9a-fA-F]+|[0-9]|[1-9]\d*N?M?|\d+(\.\d+)?([Ee][+-]?\d+)?M?)"
+    number_int = "regexp:\d+"
     null = "nil"
     true = "TRUE"
     false = "FALSE"
@@ -139,8 +140,11 @@ statement ::=
     | newStatement
     | tryStatement
     | throwStatement
+    | lambdaStatement
+    | assignStatement
     | returnStatement
-    | BRACE_LEFT statement* BRACE_RIGHT {
+    | allExpressStatement
+    | BRACE_LEFT statement* BRACE_RIGHT [SEMICOLON] {
    mixin = "my.lang.psi.impl.MyLanguageCodeElementImpl"
    implements = "my.lang.psi.MyLanguageStatementElement"
    methods = [getName setName getNameIdentifier getPresentation]
@@ -149,9 +153,9 @@ statement ::=
 
 //private statementRecover ::= !('!' | '&' | '(' | '*' | '+' | '-' | ';' | '<-' | '^' | 'type' | '{' | '|' | '|=' | '||' | '}' | break | case | char | const | continue | decimali | default | defer | else | fallthrough | float | floati | for | fn | go | goto | hex | identifier | if | int | interface | map | oct | return | select | string | raw_string | struct | switch | let)
 
-letStatement ::= [let] refExpress [BRACK_LEFT number BRACK_RIGHT] ASSIGN allExpress [SEMICOLON]
+letStatement ::= let refExpress ASSIGN ([new] allExpress [SEMICOLON]| statement)
 
-forStatement ::= for identifier in allExpress [PAREN_LEFT allExpress {COMMA allExpress}*] BRACE_LEFT codes BRACE_RIGHT
+forStatement ::= for identifier in allExpress [PAREN_LEFT allExpress {COMMA allExpress}*] BRACE_LEFT codes BRACE_RIGHT [SEMICOLON]
 
 whileStatement ::= while allExpress BRACE_LEFT codes BRACE_RIGHT
 
@@ -159,15 +163,15 @@ breakStatement ::= break [SEMICOLON]
 
 continueStatement ::= continue [SEMICOLON]
 
-ifStatement ::= if allExpress BRACE_LEFT codes BRACE_RIGHT {elseif allExpress BRACE_LEFT codes BRACE_RIGHT }* {else allExpress BRACE_LEFT codes BRACE_RIGHT}*
+ifStatement ::= if allExpress BRACE_LEFT codes BRACE_RIGHT {elsif allExpress BRACE_LEFT codes BRACE_RIGHT }* {else BRACE_LEFT codes BRACE_RIGHT}? [SEMICOLON]
 
-fnDefineStatement ::= fn identifier PAREN_LEFT identifier {COMMA identifier}* PAREN_RIGHT BRACE_LEFT codes BRACE_RIGHT
+fnDefineStatement ::= fn identifier PAREN_LEFT [identifier {COMMA identifier}*] PAREN_RIGHT BRACE_LEFT codes BRACE_RIGHT
 
 fnInvokeStatement ::= fnInvokeExpress [SEMICOLON]
 
 returnStatement ::= return allExpress* [SEMICOLON]
 
-tryStatement ::= try BRACE_LEFT codes BRACE_RIGHT catch PAREN_LEFT identifier identifier? PAREN_RIGHT BRACE_LEFT codes BRACE_RIGHT finally BRACE_LEFT codes BRACE_RIGHT
+tryStatement ::= try BRACE_LEFT codes BRACE_RIGHT {catch PAREN_LEFT (identifier [identifier] {BIT_OR identifier [identifier]}*) PAREN_RIGHT BRACE_LEFT codes BRACE_RIGHT}* finally BRACE_LEFT codes BRACE_RIGHT
 
 throwStatement ::= throw (new fnInvokeExpress|allExpress) [SEMICOLON]
 
@@ -175,13 +179,21 @@ newStatement::= new fnInvokeExpress [SEMICOLON]
 
 threeStatement ::= threeExpress [SEMICOLON]
 
-allExpress ::= fnInvokeExpress {op allExpress}* | express | threeExpress | lambdaExpress
+lambdaStatement ::= lambdaExpress [SEMICOLON]
 
-lambdaExpress ::= lambda PAREN_LEFT {identifier {COMMA identifier}*}* PAREN_RIGHT LAMBDA_TARGET codes end
+assignStatement ::= assignExpress [SEMICOLON]
+
+allExpressStatement ::= allExpress [SEMICOLON]
+
+assignExpress ::= refExpress ASSIGN allExpress
+
+allExpress ::=  threeExpress | fnInvokeExpress {op allExpress}* | express | lambdaExpress
+
+lambdaExpress ::= lambda PAREN_LEFT {identifier {COMMA identifier}*}* PAREN_RIGHT LAMBDA_TARGET codes end | PAREN_LEFT lambdaExpress PAREN_RIGHT
 
 threeExpress ::= (fnInvokeExpress | express) QUESTION allExpress COLON allExpress
 
-fnInvokeExpress ::= refExpress {PAREN_LEFT [int COMMA] [allExpress {COMMA allExpress}*] PAREN_RIGHT}+
+fnInvokeExpress ::= refExpress {PAREN_LEFT [int COMMA] [allExpress {COMMA (allExpress|op)}*] PAREN_RIGHT}+
 
 express ::=  opExpress | PAREN_LEFT opExpress PAREN_RIGHT
 
@@ -207,12 +219,9 @@ op ::=
     | COND_AND             // &&
     | BIT_TILDE            // &~
 
-//regExpress ::= FSLASH express FSLASH
 
-refExpress ::= identifier {DOT identifier}* | DOLLAR number
+refExpress ::= (identifier {DOT identifier}* {BRACK_LEFT value BRACK_RIGHT}* | DOLLAR number) {BRACK_LEFT refExpress BRACK_RIGHT}*
 
-//calOperate ::= DASH | PLUS | MUL | PERCENT | FSLASH |bar |LESS |LESS EQ|GREATER |GREATER EQ|EQ EQ|AMP AMP|AMP TILDE
-
-value ::= string|number|boolean|null
+value ::= number_int|string|number|boolean|null
 
 boolean ::= true|false

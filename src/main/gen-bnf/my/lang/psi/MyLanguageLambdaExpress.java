@@ -24,7 +24,10 @@ import com.intellij.psi.PsiElement;
 
 public interface MyLanguageLambdaExpress extends PsiElement {
 
-  @NotNull
+  @Nullable
   MyLanguageCodes getCodes();
+
+  @Nullable
+  MyLanguageLambdaExpress getLambdaExpress();
 
 }

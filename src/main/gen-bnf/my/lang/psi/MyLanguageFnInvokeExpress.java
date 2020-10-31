@@ -28,6 +28,9 @@ public interface MyLanguageFnInvokeExpress extends PsiElement {
   List<MyLanguageAllExpress> getAllExpressList();
 
   @NotNull
+  List<MyLanguageOp> getOpList();
+
+  @NotNull
   MyLanguageRefExpress getRefExpress();
 
 }

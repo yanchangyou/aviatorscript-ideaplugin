@@ -28,6 +28,18 @@ public class MyLanguageVisitor<R> extends PsiElementVisitor {
     return visitPsiElement(o);
   }
 
+  public R visitAllExpressStatement(@NotNull MyLanguageAllExpressStatement o) {
+    return visitPsiElement(o);
+  }
+
+  public R visitAssignExpress(@NotNull MyLanguageAssignExpress o) {
+    return visitPsiElement(o);
+  }
+
+  public R visitAssignStatement(@NotNull MyLanguageAssignStatement o) {
+    return visitPsiElement(o);
+  }
+
   public R visitBoolean(@NotNull MyLanguageBoolean o) {
     return visitPsiElement(o);
   }
@@ -69,6 +81,10 @@ public class MyLanguageVisitor<R> extends PsiElementVisitor {
   }
 
   public R visitLambdaExpress(@NotNull MyLanguageLambdaExpress o) {
+    return visitPsiElement(o);
+  }
+
+  public R visitLambdaStatement(@NotNull MyLanguageLambdaStatement o) {
     return visitPsiElement(o);
   }
 

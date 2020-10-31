@@ -22,18 +22,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface MyLanguageValue extends PsiElement {
+public interface MyLanguageAssignExpress extends PsiElement {
 
-  @Nullable
-  MyLanguageBoolean getBoolean();
+  @NotNull
+  MyLanguageAllExpress getAllExpress();
 
-  @Nullable
-  PsiElement getNumber();
-
-  @Nullable
-  PsiElement getNumberInt();
-
-  @Nullable
-  PsiElement getString();
+  @NotNull
+  MyLanguageRefExpress getRefExpress();
 
 }
