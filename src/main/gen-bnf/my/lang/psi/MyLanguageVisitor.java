@@ -11,7 +11,15 @@ public class MyLanguageVisitor<R> extends PsiElementVisitor {
     return visitPsiElement(o);
   }
 
+  public R visitBreakStatement(@NotNull MyLanguageBreakStatement o) {
+    return visitPsiElement(o);
+  }
+
   public R visitCodes(@NotNull MyLanguageCodes o) {
+    return visitPsiElement(o);
+  }
+
+  public R visitContinueStatement(@NotNull MyLanguageContinueStatement o) {
     return visitPsiElement(o);
   }
 

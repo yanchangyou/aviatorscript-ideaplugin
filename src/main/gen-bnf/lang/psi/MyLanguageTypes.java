@@ -11,7 +11,9 @@ import my.lang.psi.impl.*;
 public interface MyLanguageTypes {
 
   IElementType MY_BOOLEAN = new MyLanguageElementType("MY_BOOLEAN");
+  IElementType MY_BREAK_STATEMENT = new MyLanguageElementType("MY_BREAK_STATEMENT");
   IElementType MY_CODES = new MyLanguageElementType("MY_CODES");
+  IElementType MY_CONTINUE_STATEMENT = new MyLanguageElementType("MY_CONTINUE_STATEMENT");
   IElementType MY_EXPRESS = new MyLanguageElementType("MY_EXPRESS");
   IElementType MY_FN_DEFINE_STATEMENT = new MyLanguageElementType("MY_FN_DEFINE_STATEMENT");
   IElementType MY_FN_INVOKE_EXPRESS = new MyLanguageElementType("MY_FN_INVOKE_EXPRESS");
@@ -44,12 +46,13 @@ public interface MyLanguageTypes {
   IElementType MY_CATCH = new MyLanguageTokenType("catch");
   IElementType MY_COLON = new MyLanguageTokenType(":");
   IElementType MY_COMMA = new MyLanguageTokenType(",");
+  IElementType MY_CONTINUE = new MyLanguageTokenType("continue");
   IElementType MY_DASH = new MyLanguageTokenType("-");
   IElementType MY_DOLLAR = new MyLanguageTokenType("$");
   IElementType MY_DOT = new MyLanguageTokenType(".");
   IElementType MY_ELSE = new MyLanguageTokenType("else");
   IElementType MY_ELSEIF = new MyLanguageTokenType("elseif");
-  IElementType MY_EQ = new MyLanguageTokenType(" = ");
+  IElementType MY_EQ = new MyLanguageTokenType("=");
   IElementType MY_FALSE = new MyLanguageTokenType("FALSE");
   IElementType MY_FN = new MyLanguageTokenType("fn");
   IElementType MY_FOR = new MyLanguageTokenType("for");
@@ -84,8 +87,14 @@ public interface MyLanguageTypes {
       if (type == MY_BOOLEAN) {
         return new MyLanguageBooleanImpl(node);
       }
+      else if (type == MY_BREAK_STATEMENT) {
+        return new MyLanguageBreakStatementImpl(node);
+      }
       else if (type == MY_CODES) {
         return new MyLanguageCodesImpl(node);
+      }
+      else if (type == MY_CONTINUE_STATEMENT) {
+        return new MyLanguageContinueStatementImpl(node);
       }
       else if (type == MY_EXPRESS) {
         return new MyLanguageExpressImpl(node);

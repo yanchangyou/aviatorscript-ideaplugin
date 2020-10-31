@@ -9,6 +9,12 @@ import com.intellij.navigation.ItemPresentation;
 public interface MyLanguageStatement extends MyLanguageActionElement {
 
   @Nullable
+  MyLanguageBreakStatement getBreakStatement();
+
+  @Nullable
+  MyLanguageContinueStatement getContinueStatement();
+
+  @Nullable
   MyLanguageFnDefineStatement getFnDefineStatement();
 
   @Nullable

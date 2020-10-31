@@ -28,6 +28,18 @@ public class MyLanguageStatementImpl extends MyLanguageCodeElementImpl implement
 
   @Override
   @Nullable
+  public MyLanguageBreakStatement getBreakStatement() {
+    return findChildByClass(MyLanguageBreakStatement.class);
+  }
+
+  @Override
+  @Nullable
+  public MyLanguageContinueStatement getContinueStatement() {
+    return findChildByClass(MyLanguageContinueStatement.class);
+  }
+
+  @Override
+  @Nullable
   public MyLanguageFnDefineStatement getFnDefineStatement() {
     return findChildByClass(MyLanguageFnDefineStatement.class);
   }

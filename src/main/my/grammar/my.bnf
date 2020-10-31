@@ -1,5 +1,14 @@
+
+// idea demo https://jetbrains.org/intellij/sdk/docs/tutorials/custom_language_support/lexer_and_parser_definition.html
+
+// BNF for AviatorScript https://www.yuque.com/boyan-avfmj/aviatorscript/rcx4q0
+
+// define from https://github.com/JetBrains/Grammar-Kit/blob/master/grammars/Grammar.bnf
+
+// BNF for EcmaScript.jj https://tomcopeland.blogs.com/EcmaScript.html
+
 {
-  classHeader = "license.txt"
+  classHeader = "license description"
   generate = [java="8" names="long" visitor-value="R"]
 
   parserClass = "my.lang.parser.MyLanguageParser"
@@ -20,37 +29,57 @@
 
   tokens = [
 
-    //symbol
-    PAREN_LEFT = '('
-    PAREN_RIGHT = ')'
-    BRACK_LEFT = '['
-    BRACK_RIGHT = ']'
-    BRACE_LEFT = '{'
-    BRACE_RIGHT = '}'
-    ANGLE_LEFT = '<'
-    ANGLE_RIGHT = '>'
+    //symbol define from https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/grammars/go.bnf
+    LBRACE               =  '{'
+    RBRACE               =  '}'
+    LBRACK               =  '['
+    RBRACK               =  ']'
+    LPAREN               =  '('
+    RPAREN               =  ')'
 
-    EQ = '='
-    DASH = '-'
-    PLUS = '+'
-    MUL = '*'
-    FSLASH = '/'
-    PERCENT = '%'
-//    HAT = '^'
+    COLON                =  ':'
+    SEMICOLON            =  ';'
+    COMMA                =  ','
 
-    AMP = '&'
-    BAR = '|'
-    BANG = '!'
+    EQ                   =  '=='
+    ASSIGN               =  '='
+    NOT_EQ               =  '!='
+    NOT                  =  '!'
+    PLUS_PLUS            =  '++'
+    PLUS_ASSIGN          =  '+='
+    PLUS                 =  '+'
+    MINUS_MINUS          =  '--'
+    MINUS_ASSIGN         =  '-='
+    MINUS                =  '-'
+    COND_OR              =  '||'
+    BIT_OR_ASSIGN        =  '|='
+    BIT_CLEAR_ASSIGN     =  '&^='
+    BIT_CLEAR            =  '&^'
+    COND_AND             =  '&&'
+    BIT_AND_ASSIGN       =  '&='
+    BIT_AND              =  '&'
+    BIT_OR               =  '|'
+    SHIFT_LEFT_ASSIGN    =  '<<='
+    SHIFT_LEFT           =  '<<'
+    SEND_CHANNEL         =  '<-'
+    LESS_OR_EQUAL        =  '<='
+    LESS                 =  '<'
+    BIT_XOR_ASSIGN       =  '^='
+    BIT_XOR              =  '^'
+    MUL_ASSIGN           =  '*='
+    MUL                  =  '*'
+    QUOTIENT_ASSIGN      =  '/='
+    QUOTIENT             =  '/'
+    REMAINDER_ASSIGN     =  '%='
+    REMAINDER            =  '%'
+    SHIFT_RIGHT_ASSIGN   =  '>>='
+    SHIFT_RIGHT          =  '>>'
+    GREATER_OR_EQUAL     =  '>='
+    GREATER              =  '>'
+    VAR_ASSIGN           =  ':='
+    TRIPLE_DOT           =  '...'
+    DOT                  =  '.'
 
-//    STAR = '*'
-    COMMA = ','
-    DOT = '.'
-    SEMICOLON = ';'
-    QUESTION = '?'
-    DOLLAR = '$'
-    COLON = ':'
-    TILDE = '~'
-    
     // language common
     id = 'regexp:\w+'
     line_comment = 'regexp:##.*'
@@ -81,26 +110,6 @@
   ]
 }
 
-// BUG statement format
-// BUG express
-// BUG function invoke   println("3 > 1 is " + (3 > 1));
-// BUG (flag  & OPEN)
-// BUG lambda()
-// BUG println("a/double(b) is " + a/double(b));
-// BUG for i in range(0, 10)
-// BUG   return x * 2;
-// BUG if type(x)
-// BUG throw "an exception";
-// BUG } else {
-// BUG let d = new java.util.Date();
-// BUG let p = /^(.*)\.av$/;
-// BUG {\n}
-// BUG let a = if (true) {
-// BUG c = a + b
-// BUG let c = a > b ? println("a > b") : println("a <= b");
-// break;
-
-
 myFile ::= codes
 
 codes ::= statement*
@@ -111,7 +120,7 @@ statement ::= line_comment | letStatement | forStatement |whileStatement |breakS
    methods = [getName setName getNameIdentifier getPresentation]
 }
 
-letStatement ::= [let] id [BRACK_LEFT number BRACK_RIGHT] EQ (express | fnInvokeExpress) [SEMICOLON]
+letStatement ::= [let] id [BRACK_LEFT number BRACK_RIGHT] ASSIGN (express | fnInvokeExpress) [SEMICOLON]
 
 forStatement ::= for id in id [PAREN_LEFT express {COMMA express}*] BRACE_LEFT codes BRACE_RIGHT
 
@@ -143,7 +152,7 @@ fnInvokeExpress ::= refExpress [PAREN_LEFT relationExpress PAREN_RIGHT]
 
 express ::=  relationExpress | PAREN_LEFT express PAREN_RIGHT
 
-relationExpress ::= (refExpress|value)   {(DASH | PLUS | MUL | PERCENT | FSLASH |bar |ANGLE_LEFT |ANGLE_LEFT EQ|ANGLE_RIGHT |ANGLE_RIGHT EQ|EQ EQ|AMP AMP|AMP TILDE) (refExpress|value)}* |(refExpress|value)  PAREN_LEFT express PAREN_RIGHT
+relationExpress ::= (refExpress|value)   {(DASH | PLUS | MUL | PERCENT | FSLASH |bar |ANGLE_LEFT |ANGLE_LEFT ASSIGN|ANGLE_RIGHT |ANGLE_RIGHT ASSIGN|ASSIGN ASSIGN|AMP AMP|AMP TILDE) (refExpress|value)}* |(refExpress|value)  PAREN_LEFT express PAREN_RIGHT
 
 //regExpress ::= FSLASH express FSLASH
 

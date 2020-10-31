@@ -25,7 +25,7 @@ import static lang.psi.MyLanguageTypes.*;
 EOL=\R
 WHITE_SPACE=\s+
 
-ID=(_|[:letter:])[a-zA-Z_0-9]*
+ID=[a-zA-Z_0-9]+
 LINE_COMMENT=##.*
 STRING=('([^'\\]|\\.)*'|\"([^\"\\]|\\\"|\\'|\\)*\")
 NUMBER=[+-]?(0[xX][0-9a-fA-F]+|[1-9][0-9]*N?M?|[0-9]+(\.[0-9]+)?([Ee][+-]?[0-9]+)?M?)
@@ -34,31 +34,30 @@ NUMBER=[+-]?(0[xX][0-9a-fA-F]+|[1-9][0-9]*N?M?|[0-9]+(\.[0-9]+)?([Ee][+-]?[0-9]+
 <YYINITIAL> {
   {WHITE_SPACE}       { return WHITE_SPACE; }
 
-  "("                 { return MY_PAREN1; }
-  ")"                 { return MY_PAREN2; }
-  "["                 { return MY_BRACK1; }
-  "]"                 { return MY_BRACK2; }
-  "{"                 { return MY_BRACE1; }
-  "}"                 { return MY_BRACE2; }
-  "?"                 { return MY_QUESTION; }
+  "("                 { return MY_PAREN_LEFT; }
+  ")"                 { return MY_PAREN_RIGHT; }
+  "["                 { return MY_BRACK_LEFT; }
+  "]"                 { return MY_BRACK_RIGHT; }
+  "{"                 { return MY_BRACE_LEFT; }
+  "}"                 { return MY_BRACE_RIGHT; }
+  "<"                 { return MY_ANGLE_LEFT; }
+  ">"                 { return MY_ANGLE_RIGHT; }
+  "="                 { return MY_EQ; }
   "-"                 { return MY_DASH; }
   "+"                 { return MY_PLUS; }
   "*"                 { return MY_MUL; }
-  "%"                 { return MY_PERCENT; }
   "/"                 { return MY_FSLASH; }
-  ";"                 { return MY_SEMICOLON; }
+  "%"                 { return MY_PERCENT; }
   "&"                 { return MY_AMP; }
-  "||"                { return MY_BARBAR; }
-  "~"                 { return MY_TILDE; }
-  "."                 { return MY_DOT; }
-  ","                 { return MY_COMMA; }
-  "<"                 { return MY_ANGLE1; }
-  ">"                 { return MY_ANGLE2; }
   "|"                 { return MY_BAR; }
-  "$"                 { return MY_DOLLAR; }
-  "="                 { return MY_EQ; }
   "!"                 { return MY_BANG; }
+  ","                 { return MY_COMMA; }
+  "."                 { return MY_DOT; }
+  ";"                 { return MY_SEMICOLON; }
+  "?"                 { return MY_QUESTION; }
+  "$"                 { return MY_DOLLAR; }
   ":"                 { return MY_COLON; }
+  "~"                 { return MY_TILDE; }
   "nil"               { return MY_NULL; }
   "TRUE"              { return MY_TRUE; }
   "FALSE"             { return MY_FALSE; }
@@ -74,6 +73,7 @@ NUMBER=[+-]?(0[xX][0-9a-fA-F]+|[1-9][0-9]*N?M?|[0-9]+(\.[0-9]+)?([Ee][+-]?[0-9]+
   "for"               { return MY_FOR; }
   "fn"                { return MY_FN; }
   "break"             { return MY_BREAK; }
+  "continue"          { return MY_CONTINUE; }
   "elseif"            { return MY_ELSEIF; }
   "else"              { return MY_ELSE; }
   "catch"             { return MY_CATCH; }

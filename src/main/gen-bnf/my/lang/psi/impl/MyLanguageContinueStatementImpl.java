@@ -11,31 +11,19 @@ import static lang.psi.MyLanguageTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import my.lang.psi.*;
 
-public class MyLanguageFnInvokeExpressImpl extends ASTWrapperPsiElement implements MyLanguageFnInvokeExpress {
+public class MyLanguageContinueStatementImpl extends ASTWrapperPsiElement implements MyLanguageContinueStatement {
 
-  public MyLanguageFnInvokeExpressImpl(@NotNull ASTNode node) {
+  public MyLanguageContinueStatementImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public <R> R accept(@NotNull MyLanguageVisitor<R> visitor) {
-    return visitor.visitFnInvokeExpress(this);
+    return visitor.visitContinueStatement(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof MyLanguageVisitor) accept((MyLanguageVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public MyLanguageRefExpress getRefExpress() {
-    return findNotNullChildByClass(MyLanguageRefExpress.class);
-  }
-
-  @Override
-  @Nullable
-  public MyLanguageRelationExpress getRelationExpress() {
-    return findChildByClass(MyLanguageRelationExpress.class);
   }
 
 }

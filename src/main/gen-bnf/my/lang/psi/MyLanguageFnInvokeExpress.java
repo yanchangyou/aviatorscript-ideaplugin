@@ -10,7 +10,7 @@ public interface MyLanguageFnInvokeExpress extends PsiElement {
   @NotNull
   MyLanguageRefExpress getRefExpress();
 
-  @NotNull
+  @Nullable
   MyLanguageRelationExpress getRelationExpress();
 
 }
