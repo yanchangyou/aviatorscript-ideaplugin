@@ -60,6 +60,7 @@
     COND_AND             =  '&&'
     BIT_AND_ASSIGN       =  '&='
     BIT_AND              =  '&'
+    EQ_TILDE             =  '=~'
     BIT_OR               =  '|'
     SHIFT_LEFT_ASSIGN    =  '<<='
     SHIFT_LEFT           =  '<<'
@@ -95,11 +96,13 @@
 
     //literal
     string = "regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\\"|\\\'|\\)*\")"
-    number = "regexp:[+-]?(0[xX][0-9a-fA-F]+|[0-9]|[1-9]\d*N?M?|\d+(\.\d+)?([Ee][+-]?\d+)?M?)"
-    number_int = "regexp:\d+"
+    number = "regexp:[-]??(0[xX][0-9a-fA-F]+|[0-9]|[1-9]\d*N?M?|\d+(\.\d+)?([Ee][+-]?\d+)?M?)"
+    paramRef = "regexp:\$\d+"
     null = "nil"
     true = "TRUE"
     false = "FALSE"
+
+    regStatement = "regexp:[ \t]*let[ \t]*\w+[ \t]*=[ \t]*/[^/]+/[ \t]*;[ \t]*"
 
     // keywords
     while = "while"
@@ -127,8 +130,12 @@ myFile ::= codes
 codes ::= statement*
 
 statement ::=
-      line_comment
+    ( line_comment
+    | regStatement
     | letStatement
+    | assignStatement
+    | lambdaStatement
+    | allExpressStatement
     | forStatement
     | whileStatement
     | breakStatement
@@ -140,11 +147,9 @@ statement ::=
     | newStatement
     | tryStatement
     | throwStatement
-    | lambdaStatement
-    | assignStatement
     | returnStatement
-    | allExpressStatement
-    | BRACE_LEFT statement* BRACE_RIGHT [SEMICOLON] {
+    | BRACE_LEFT statement* BRACE_RIGHT
+    ) [SEMICOLON] {
    mixin = "my.lang.psi.impl.MyLanguageCodeElementImpl"
    implements = "my.lang.psi.MyLanguageStatementElement"
    methods = [getName setName getNameIdentifier getPresentation]
@@ -155,49 +160,55 @@ statement ::=
 
 letStatement ::= let refExpress ASSIGN ([new] allExpress [SEMICOLON]| statement)
 
-forStatement ::= for identifier in allExpress [PAREN_LEFT allExpress {COMMA allExpress}*] BRACE_LEFT codes BRACE_RIGHT [SEMICOLON]
+forStatement ::= for identifier in allExpress [PAREN_LEFT allExpress {COMMA allExpress}*] BRACE_LEFT codes BRACE_RIGHT
 
 whileStatement ::= while allExpress BRACE_LEFT codes BRACE_RIGHT
 
-breakStatement ::= break [SEMICOLON]
+breakStatement ::= break
 
-continueStatement ::= continue [SEMICOLON]
+continueStatement ::= continue
 
-ifStatement ::= if allExpress BRACE_LEFT codes BRACE_RIGHT {elsif allExpress BRACE_LEFT codes BRACE_RIGHT }* {else BRACE_LEFT codes BRACE_RIGHT}? [SEMICOLON]
+ifStatement ::= if allExpress BRACE_LEFT codes BRACE_RIGHT {elsif allExpress BRACE_LEFT codes BRACE_RIGHT }* {else BRACE_LEFT codes BRACE_RIGHT}?
 
-fnDefineStatement ::= fn identifier PAREN_LEFT [identifier {COMMA identifier}*] PAREN_RIGHT BRACE_LEFT codes BRACE_RIGHT
+fnDefineStatement ::= fn identifier PAREN_LEFT [identifier {COMMA identifier}*] [COMMA fn] PAREN_RIGHT BRACE_LEFT codes BRACE_RIGHT
 
-fnInvokeStatement ::= fnInvokeExpress [SEMICOLON]
+fnInvokeStatement ::= fnInvokeExpress
 
-returnStatement ::= return allExpress* [SEMICOLON]
+returnStatement ::= return allExpress*
 
-tryStatement ::= try BRACE_LEFT codes BRACE_RIGHT {catch PAREN_LEFT (identifier [identifier] {BIT_OR identifier [identifier]}*) PAREN_RIGHT BRACE_LEFT codes BRACE_RIGHT}* finally BRACE_LEFT codes BRACE_RIGHT
+tryStatement ::= try BRACE_LEFT codes BRACE_RIGHT {catch PAREN_LEFT (typeRef [typeRef] {BIT_OR typeRef [typeRef]}*) PAREN_RIGHT BRACE_LEFT codes BRACE_RIGHT}* [finally BRACE_LEFT codes BRACE_RIGHT]
 
-throwStatement ::= throw (new fnInvokeExpress|allExpress) [SEMICOLON]
+throwStatement ::= throw (new fnInvokeExpress|allExpress)
 
-newStatement::= new fnInvokeExpress [SEMICOLON]
+newStatement::= new fnInvokeExpress
 
-threeStatement ::= threeExpress [SEMICOLON]
+threeStatement ::= threeExpress
 
-lambdaStatement ::= lambdaExpress [SEMICOLON]
+lambdaStatement ::= lambdaExpress
 
-assignStatement ::= assignExpress [SEMICOLON]
+assignStatement ::= assignExpress
 
-allExpressStatement ::= allExpress [SEMICOLON]
+allExpressStatement ::= allExpress
 
 assignExpress ::= refExpress ASSIGN allExpress
 
-allExpress ::=  threeExpress | fnInvokeExpress {op allExpress}* | express | lambdaExpress
+allExpress ::=
+     (subAllExpress | PAREN_LEFT subAllExpress PAREN_RIGHT) {op (subAllExpress|PAREN_LEFT subAllExpress PAREN_RIGHT)}*
+   | {(subAllExpress | PAREN_LEFT subAllExpress PAREN_RIGHT) op}* (subAllExpress|PAREN_LEFT subAllExpress PAREN_RIGHT)
 
-lambdaExpress ::= lambda PAREN_LEFT {identifier {COMMA identifier}*}* PAREN_RIGHT LAMBDA_TARGET codes end | PAREN_LEFT lambdaExpress PAREN_RIGHT
+subAllExpress ::=  threeExpress | fnInvokeExpress {op allExpress}* | express | lambdaExpress |PAREN_LEFT assignExpress PAREN_RIGHT
+
+lambdaExpress ::= (lambda PAREN_LEFT {identifier {COMMA identifier}*}* PAREN_RIGHT LAMBDA_TARGET codes end | PAREN_LEFT lambdaExpress PAREN_RIGHT ) [fnParam]
 
 threeExpress ::= (fnInvokeExpress | express) QUESTION allExpress COLON allExpress
 
-fnInvokeExpress ::= refExpress {PAREN_LEFT [int COMMA] [allExpress {COMMA (allExpress|op)}*] PAREN_RIGHT}+
+fnInvokeExpress ::= refExpress fnParam
 
-express ::=  opExpress | PAREN_LEFT opExpress PAREN_RIGHT
+fnParam ::= {PAREN_LEFT [int COMMA] [allExpress {COMMA (allExpress|op)}*][COMMA fn [PAREN_LEFT identifier PAREN_RIGHT]] PAREN_RIGHT}+
 
-opExpress ::= not? (fnInvokeExpress|refExpress|value) {op allExpress}*
+express ::=  opExpress | PAREN_LEFT opExpress PAREN_RIGHT  |  opExpress  {op (allExpress|PAREN_LEFT allExpress PAREN_RIGHT)}*
+
+opExpress ::= [not] ( (fnInvokeExpress|refExpress|value)| PAREN_LEFT (fnInvokeExpress|refExpress|value) PAREN_RIGHT) {op (allExpress|PAREN_LEFT allExpress PAREN_RIGHT)}*
 
 op ::=
       PLUS                 // +
@@ -218,10 +229,14 @@ op ::=
     | COND_OR              // ||
     | COND_AND             // &&
     | BIT_TILDE            // &~
+    | EQ_TILDE             // =~
 
+refExpress ::=
+      typeRef {BRACK_LEFT allExpress BRACK_RIGHT}*
+    | paramRef
 
-refExpress ::= (identifier {DOT identifier}* {BRACK_LEFT value BRACK_RIGHT}* | DOLLAR number) {BRACK_LEFT refExpress BRACK_RIGHT}*
+typeRef ::= identifier {DOT identifier}*
 
-value ::= number_int|string|number|boolean|null
+value ::= string|number|boolean|null
 
 boolean ::= true|false

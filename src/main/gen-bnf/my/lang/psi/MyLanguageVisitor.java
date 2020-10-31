@@ -72,6 +72,10 @@ public class MyLanguageVisitor<R> extends PsiElementVisitor {
     return visitPsiElement(o);
   }
 
+  public R visitFnParam(@NotNull MyLanguageFnParam o) {
+    return visitPsiElement(o);
+  }
+
   public R visitForStatement(@NotNull MyLanguageForStatement o) {
     return visitPsiElement(o);
   }
@@ -116,6 +120,10 @@ public class MyLanguageVisitor<R> extends PsiElementVisitor {
     return visitStatementElement(o);
   }
 
+  public R visitSubAllExpress(@NotNull MyLanguageSubAllExpress o) {
+    return visitPsiElement(o);
+  }
+
   public R visitThreeExpress(@NotNull MyLanguageThreeExpress o) {
     return visitPsiElement(o);
   }
@@ -129,6 +137,10 @@ public class MyLanguageVisitor<R> extends PsiElementVisitor {
   }
 
   public R visitTryStatement(@NotNull MyLanguageTryStatement o) {
+    return visitPsiElement(o);
+  }
+
+  public R visitTypeRef(@NotNull MyLanguageTypeRef o) {
     return visitPsiElement(o);
   }
 

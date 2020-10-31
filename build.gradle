@@ -48,8 +48,13 @@ intellij {
 }
 patchPluginXml {
     changeNotes """
-      first version for AviatorScript
+      update list of AviatorScript idea plugin
+      
         v0.1
         1, ADD: add a highlight function for AviatorScript
+        
+        v0.2
+        1, FIX: let, try, if, for lambda statement
+        
     """
 }

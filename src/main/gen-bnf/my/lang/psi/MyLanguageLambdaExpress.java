@@ -28,6 +28,9 @@ public interface MyLanguageLambdaExpress extends PsiElement {
   MyLanguageCodes getCodes();
 
   @Nullable
+  MyLanguageFnParam getFnParam();
+
+  @Nullable
   MyLanguageLambdaExpress getLambdaExpress();
 
 }

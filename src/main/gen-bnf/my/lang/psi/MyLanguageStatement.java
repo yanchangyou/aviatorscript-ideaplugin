@@ -79,6 +79,9 @@ public interface MyLanguageStatement extends MyLanguageStatementElement {
   @Nullable
   PsiElement getLineComment();
 
+  @Nullable
+  PsiElement getRegStatemente();
+
   String getName();
 
   PsiElement setName(String newName);

@@ -39,6 +39,7 @@ public interface MyLanguageTypes {
   IElementType MY_FN_DEFINE_STATEMENT = new MyLanguageElementType("MY_FN_DEFINE_STATEMENT");
   IElementType MY_FN_INVOKE_EXPRESS = new MyLanguageElementType("MY_FN_INVOKE_EXPRESS");
   IElementType MY_FN_INVOKE_STATEMENT = new MyLanguageElementType("MY_FN_INVOKE_STATEMENT");
+  IElementType MY_FN_PARAM = new MyLanguageElementType("MY_FN_PARAM");
   IElementType MY_FOR_STATEMENT = new MyLanguageElementType("MY_FOR_STATEMENT");
   IElementType MY_IF_STATEMENT = new MyLanguageElementType("MY_IF_STATEMENT");
   IElementType MY_LAMBDA_EXPRESS = new MyLanguageElementType("MY_LAMBDA_EXPRESS");
@@ -50,10 +51,12 @@ public interface MyLanguageTypes {
   IElementType MY_REF_EXPRESS = new MyLanguageElementType("MY_REF_EXPRESS");
   IElementType MY_RETURN_STATEMENT = new MyLanguageElementType("MY_RETURN_STATEMENT");
   IElementType MY_STATEMENT = new MyLanguageElementType("MY_STATEMENT");
+  IElementType MY_SUB_ALL_EXPRESS = new MyLanguageElementType("MY_SUB_ALL_EXPRESS");
   IElementType MY_THREE_EXPRESS = new MyLanguageElementType("MY_THREE_EXPRESS");
   IElementType MY_THREE_STATEMENT = new MyLanguageElementType("MY_THREE_STATEMENT");
   IElementType MY_THROW_STATEMENT = new MyLanguageElementType("MY_THROW_STATEMENT");
   IElementType MY_TRY_STATEMENT = new MyLanguageElementType("MY_TRY_STATEMENT");
+  IElementType MY_TYPE_REF = new MyLanguageElementType("MY_TYPE_REF");
   IElementType MY_VALUE = new MyLanguageElementType("MY_VALUE");
   IElementType MY_WHILE_STATEMENT = new MyLanguageElementType("MY_WHILE_STATEMENT");
 
@@ -78,12 +81,12 @@ public interface MyLanguageTypes {
   IElementType MY_COND_AND = new MyLanguageTokenType("&&");
   IElementType MY_COND_OR = new MyLanguageTokenType("||");
   IElementType MY_CONTINUE = new MyLanguageTokenType("continue");
-  IElementType MY_DOLLAR = new MyLanguageTokenType("DOLLAR");
   IElementType MY_DOT = new MyLanguageTokenType(".");
   IElementType MY_ELSE = new MyLanguageTokenType("else");
   IElementType MY_ELSIF = new MyLanguageTokenType("elsif");
   IElementType MY_END = new MyLanguageTokenType("end");
   IElementType MY_EQ = new MyLanguageTokenType("==");
+  IElementType MY_EQ_TILDE = new MyLanguageTokenType("=~");
   IElementType MY_FALSE = new MyLanguageTokenType("FALSE");
   IElementType MY_FINALLY = new MyLanguageTokenType("finally");
   IElementType MY_FN = new MyLanguageTokenType("fn");
@@ -110,7 +113,7 @@ public interface MyLanguageTypes {
   IElementType MY_NOT_EQ = new MyLanguageTokenType("!=");
   IElementType MY_NULL = new MyLanguageTokenType("nil");
   IElementType MY_NUMBER = new MyLanguageTokenType("number");
-  IElementType MY_NUMBER_INT = new MyLanguageTokenType("number_int");
+  IElementType MY_PARAMREF = new MyLanguageTokenType("paramRef");
   IElementType MY_PAREN_LEFT = new MyLanguageTokenType("(");
   IElementType MY_PAREN_RIGHT = new MyLanguageTokenType(")");
   IElementType MY_PLUS = new MyLanguageTokenType("+");
@@ -120,6 +123,7 @@ public interface MyLanguageTypes {
   IElementType MY_QUOTIENT = new MyLanguageTokenType("/");
   IElementType MY_QUOTIENT_ASSIGN = new MyLanguageTokenType("/=");
   IElementType MY_RAW_STRING = new MyLanguageTokenType("raw_string");
+  IElementType MY_REGSTATEMENTE = new MyLanguageTokenType("regStatemente");
   IElementType MY_REMAINDER = new MyLanguageTokenType("%");
   IElementType MY_REMAINDER_ASSIGN = new MyLanguageTokenType("%=");
   IElementType MY_RETURN = new MyLanguageTokenType("return");
@@ -177,6 +181,9 @@ public interface MyLanguageTypes {
       else if (type == MY_FN_INVOKE_STATEMENT) {
         return new MyLanguageFnInvokeStatementImpl(node);
       }
+      else if (type == MY_FN_PARAM) {
+        return new MyLanguageFnParamImpl(node);
+      }
       else if (type == MY_FOR_STATEMENT) {
         return new MyLanguageForStatementImpl(node);
       }
@@ -210,6 +217,9 @@ public interface MyLanguageTypes {
       else if (type == MY_STATEMENT) {
         return new MyLanguageStatementImpl(node);
       }
+      else if (type == MY_SUB_ALL_EXPRESS) {
+        return new MyLanguageSubAllExpressImpl(node);
+      }
       else if (type == MY_THREE_EXPRESS) {
         return new MyLanguageThreeExpressImpl(node);
       }
@@ -221,6 +231,9 @@ public interface MyLanguageTypes {
       }
       else if (type == MY_TRY_STATEMENT) {
         return new MyLanguageTryStatementImpl(node);
+      }
+      else if (type == MY_TYPE_REF) {
+        return new MyLanguageTypeRefImpl(node);
       }
       else if (type == MY_VALUE) {
         return new MyLanguageValueImpl(node);

@@ -28,14 +28,14 @@ import static lang.psi.MyLanguageTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import my.lang.psi.*;
 
-public class MyLanguageFnInvokeExpressImpl extends ASTWrapperPsiElement implements MyLanguageFnInvokeExpress {
+public class MyLanguageSubAllExpressImpl extends ASTWrapperPsiElement implements MyLanguageSubAllExpress {
 
-  public MyLanguageFnInvokeExpressImpl(@NotNull ASTNode node) {
+  public MyLanguageSubAllExpressImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public <R> R accept(@NotNull MyLanguageVisitor<R> visitor) {
-    return visitor.visitFnInvokeExpress(this);
+    return visitor.visitSubAllExpress(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -45,14 +45,44 @@ public class MyLanguageFnInvokeExpressImpl extends ASTWrapperPsiElement implemen
 
   @Override
   @NotNull
-  public MyLanguageFnParam getFnParam() {
-    return findNotNullChildByClass(MyLanguageFnParam.class);
+  public List<MyLanguageAllExpress> getAllExpressList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, MyLanguageAllExpress.class);
+  }
+
+  @Override
+  @Nullable
+  public MyLanguageAssignExpress getAssignExpress() {
+    return findChildByClass(MyLanguageAssignExpress.class);
+  }
+
+  @Override
+  @Nullable
+  public MyLanguageExpress getExpress() {
+    return findChildByClass(MyLanguageExpress.class);
+  }
+
+  @Override
+  @Nullable
+  public MyLanguageFnInvokeExpress getFnInvokeExpress() {
+    return findChildByClass(MyLanguageFnInvokeExpress.class);
+  }
+
+  @Override
+  @Nullable
+  public MyLanguageLambdaExpress getLambdaExpress() {
+    return findChildByClass(MyLanguageLambdaExpress.class);
   }
 
   @Override
   @NotNull
-  public MyLanguageRefExpress getRefExpress() {
-    return findNotNullChildByClass(MyLanguageRefExpress.class);
+  public List<MyLanguageOp> getOpList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, MyLanguageOp.class);
+  }
+
+  @Override
+  @Nullable
+  public MyLanguageThreeExpress getThreeExpress() {
+    return findChildByClass(MyLanguageThreeExpress.class);
   }
 
 }

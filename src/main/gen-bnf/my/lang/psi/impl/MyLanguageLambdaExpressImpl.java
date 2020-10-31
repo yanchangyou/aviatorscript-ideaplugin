@@ -51,6 +51,12 @@ public class MyLanguageLambdaExpressImpl extends ASTWrapperPsiElement implements
 
   @Override
   @Nullable
+  public MyLanguageFnParam getFnParam() {
+    return findChildByClass(MyLanguageFnParam.class);
+  }
+
+  @Override
+  @Nullable
   public MyLanguageLambdaExpress getLambdaExpress() {
     return findChildByClass(MyLanguageLambdaExpress.class);
   }

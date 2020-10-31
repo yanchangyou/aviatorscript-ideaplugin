@@ -31,9 +31,6 @@ public interface MyLanguageValue extends PsiElement {
   PsiElement getNumber();
 
   @Nullable
-  PsiElement getNumberInt();
-
-  @Nullable
   PsiElement getString();
 
 }

@@ -45,6 +45,18 @@ public class MyLanguageExpressImpl extends ASTWrapperPsiElement implements MyLan
 
   @Override
   @NotNull
+  public List<MyLanguageAllExpress> getAllExpressList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, MyLanguageAllExpress.class);
+  }
+
+  @Override
+  @NotNull
+  public List<MyLanguageOp> getOpList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, MyLanguageOp.class);
+  }
+
+  @Override
+  @NotNull
   public MyLanguageOpExpress getOpExpress() {
     return findNotNullChildByClass(MyLanguageOpExpress.class);
   }

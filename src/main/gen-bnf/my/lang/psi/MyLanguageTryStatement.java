@@ -27,4 +27,7 @@ public interface MyLanguageTryStatement extends PsiElement {
   @NotNull
   List<MyLanguageCodes> getCodesList();
 
+  @NotNull
+  List<MyLanguageTypeRef> getTypeRefList();
+
 }

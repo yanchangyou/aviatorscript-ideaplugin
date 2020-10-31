@@ -152,6 +152,12 @@ public class MyLanguageStatementImpl extends MyLanguageCodeElementImpl implement
   }
 
   @Override
+  @Nullable
+  public PsiElement getRegStatemente() {
+    return findChildByType(MY_REGSTATEMENTE);
+  }
+
+  @Override
   public String getName() {
     return MyLanguagePsiImplUtil.getName(this);
   }

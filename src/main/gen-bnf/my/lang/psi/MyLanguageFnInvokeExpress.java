@@ -25,10 +25,7 @@ import com.intellij.psi.PsiElement;
 public interface MyLanguageFnInvokeExpress extends PsiElement {
 
   @NotNull
-  List<MyLanguageAllExpress> getAllExpressList();
-
-  @NotNull
-  List<MyLanguageOp> getOpList();
+  MyLanguageFnParam getFnParam();
 
   @NotNull
   MyLanguageRefExpress getRefExpress();

@@ -22,15 +22,27 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface MyLanguageExpress extends PsiElement {
+public interface MyLanguageSubAllExpress extends PsiElement {
 
   @NotNull
   List<MyLanguageAllExpress> getAllExpressList();
 
+  @Nullable
+  MyLanguageAssignExpress getAssignExpress();
+
+  @Nullable
+  MyLanguageExpress getExpress();
+
+  @Nullable
+  MyLanguageFnInvokeExpress getFnInvokeExpress();
+
+  @Nullable
+  MyLanguageLambdaExpress getLambdaExpress();
+
   @NotNull
   List<MyLanguageOp> getOpList();
 
-  @NotNull
-  MyLanguageOpExpress getOpExpress();
+  @Nullable
+  MyLanguageThreeExpress getThreeExpress();
 
 }

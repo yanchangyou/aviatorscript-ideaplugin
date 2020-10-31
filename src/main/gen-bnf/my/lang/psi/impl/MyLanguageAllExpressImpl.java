@@ -45,38 +45,14 @@ public class MyLanguageAllExpressImpl extends ASTWrapperPsiElement implements My
 
   @Override
   @NotNull
-  public List<MyLanguageAllExpress> getAllExpressList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, MyLanguageAllExpress.class);
-  }
-
-  @Override
-  @Nullable
-  public MyLanguageExpress getExpress() {
-    return findChildByClass(MyLanguageExpress.class);
-  }
-
-  @Override
-  @Nullable
-  public MyLanguageFnInvokeExpress getFnInvokeExpress() {
-    return findChildByClass(MyLanguageFnInvokeExpress.class);
-  }
-
-  @Override
-  @Nullable
-  public MyLanguageLambdaExpress getLambdaExpress() {
-    return findChildByClass(MyLanguageLambdaExpress.class);
-  }
-
-  @Override
-  @NotNull
   public List<MyLanguageOp> getOpList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, MyLanguageOp.class);
   }
 
   @Override
-  @Nullable
-  public MyLanguageThreeExpress getThreeExpress() {
-    return findChildByClass(MyLanguageThreeExpress.class);
+  @NotNull
+  public List<MyLanguageSubAllExpress> getSubAllExpressList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, MyLanguageSubAllExpress.class);
   }
 
 }

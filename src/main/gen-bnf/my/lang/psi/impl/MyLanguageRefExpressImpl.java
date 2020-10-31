@@ -45,20 +45,20 @@ public class MyLanguageRefExpressImpl extends ASTWrapperPsiElement implements My
 
   @Override
   @NotNull
-  public List<MyLanguageRefExpress> getRefExpressList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, MyLanguageRefExpress.class);
-  }
-
-  @Override
-  @NotNull
-  public List<MyLanguageValue> getValueList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, MyLanguageValue.class);
+  public List<MyLanguageAllExpress> getAllExpressList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, MyLanguageAllExpress.class);
   }
 
   @Override
   @Nullable
-  public PsiElement getNumber() {
-    return findChildByType(MY_NUMBER);
+  public MyLanguageTypeRef getTypeRef() {
+    return findChildByClass(MyLanguageTypeRef.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getParamRef() {
+    return findChildByType(MY_PARAMREF);
   }
 
 }

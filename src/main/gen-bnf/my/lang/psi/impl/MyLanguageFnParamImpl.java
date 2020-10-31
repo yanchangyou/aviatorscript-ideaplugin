@@ -28,14 +28,14 @@ import static lang.psi.MyLanguageTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import my.lang.psi.*;
 
-public class MyLanguageFnInvokeExpressImpl extends ASTWrapperPsiElement implements MyLanguageFnInvokeExpress {
+public class MyLanguageFnParamImpl extends ASTWrapperPsiElement implements MyLanguageFnParam {
 
-  public MyLanguageFnInvokeExpressImpl(@NotNull ASTNode node) {
+  public MyLanguageFnParamImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public <R> R accept(@NotNull MyLanguageVisitor<R> visitor) {
-    return visitor.visitFnInvokeExpress(this);
+    return visitor.visitFnParam(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -45,14 +45,14 @@ public class MyLanguageFnInvokeExpressImpl extends ASTWrapperPsiElement implemen
 
   @Override
   @NotNull
-  public MyLanguageFnParam getFnParam() {
-    return findNotNullChildByClass(MyLanguageFnParam.class);
+  public List<MyLanguageAllExpress> getAllExpressList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, MyLanguageAllExpress.class);
   }
 
   @Override
   @NotNull
-  public MyLanguageRefExpress getRefExpress() {
-    return findNotNullChildByClass(MyLanguageRefExpress.class);
+  public List<MyLanguageOp> getOpList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, MyLanguageOp.class);
   }
 
 }

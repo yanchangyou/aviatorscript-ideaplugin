@@ -25,21 +25,9 @@ import com.intellij.psi.PsiElement;
 public interface MyLanguageAllExpress extends PsiElement {
 
   @NotNull
-  List<MyLanguageAllExpress> getAllExpressList();
-
-  @Nullable
-  MyLanguageExpress getExpress();
-
-  @Nullable
-  MyLanguageFnInvokeExpress getFnInvokeExpress();
-
-  @Nullable
-  MyLanguageLambdaExpress getLambdaExpress();
-
-  @NotNull
   List<MyLanguageOp> getOpList();
 
-  @Nullable
-  MyLanguageThreeExpress getThreeExpress();
+  @NotNull
+  List<MyLanguageSubAllExpress> getSubAllExpressList();
 
 }

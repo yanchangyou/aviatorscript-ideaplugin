@@ -49,4 +49,10 @@ public class MyLanguageTryStatementImpl extends ASTWrapperPsiElement implements 
     return PsiTreeUtil.getChildrenOfTypeAsList(this, MyLanguageCodes.class);
   }
 
+  @Override
+  @NotNull
+  public List<MyLanguageTypeRef> getTypeRefList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, MyLanguageTypeRef.class);
+  }
+
 }

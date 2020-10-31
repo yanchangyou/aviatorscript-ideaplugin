@@ -57,12 +57,6 @@ public class MyLanguageValueImpl extends ASTWrapperPsiElement implements MyLangu
 
   @Override
   @Nullable
-  public PsiElement getNumberInt() {
-    return findChildByType(MY_NUMBER_INT);
-  }
-
-  @Override
-  @Nullable
   public PsiElement getString() {
     return findChildByType(MY_STRING);
   }

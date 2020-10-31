@@ -1,29 +1,11 @@
-let a = 1 + 1+ 1;
-let b = a + (1 + 1);
-let a = seq.array(int, 1, 2, 3, 4);
-let r = seq.map("x", x, "y", y);
-##lambda()
-while math.abs(a - root * root) > err {
-    root = (a/root + root) / 2.0M;
+while (socket =accept(server)) != nil {
 }
 
-(flag  & OPEN) == OPEN ? println("open") : println("close");
 
-println("3 > 1 is " + (3 > 1));
-println("a/double(b) is " + a/double(b));
-
-let callable = lambda(a,b) ->
-   new java.util.Date()
-end;
-
-let d = new java.util.Date();
-
-let p = /^(.*)\.av$/;
-for i in range(0, 10) {}
-
-{
+fn mymap(seq, fn) {
+                  reduce(seq,
+                            lambda(c, e) ->
+                            seq.add(c, fn(e))
+                                end,
+seq.list())
 }
-
-return x * 2;
-let a = if (true) {}
-let c = a > b ? println("a > b") : println("a <= b");
