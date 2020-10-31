@@ -48,6 +48,8 @@ intellij {
 }
 patchPluginXml {
     changeNotes """
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>"""
+      first version for AviatorScript
+        v0.1
+        1, ADD: add a highlight function for AviatorScript
+    """
 }

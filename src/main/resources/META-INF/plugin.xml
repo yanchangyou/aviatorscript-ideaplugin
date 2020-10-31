@@ -7,13 +7,6 @@
         A idea plugin for AviatorScript, highlight and another function.
     ]]></description>
 
-    <change-notes><![CDATA[<br/>
-        first version for AviatorScript
-        v0.1
-        1, ADD: add a highlight function for AviatorScript
-    ]]>
-    </change-notes>
-
     <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
     <depends>com.intellij.modules.platform</depends>
