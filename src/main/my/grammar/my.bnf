@@ -1,41 +1,156 @@
 {
-  parserClass="my.lang.parser.MyLanguageParser"
-  parserUtilClass="my.lang.parser.MyLanguageParserUtil"
+  classHeader = "license.txt"
+  generate = [java="8" names="long" visitor-value="R"]
 
-  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+  parserClass = "my.lang.parser.MyLanguageParser"
+  parserUtilClass = "my.lang.parser.MyLanguageParserUtil"
 
-  psiClassPrefix="MyLanguage"
-  psiImplClassSuffix="Impl"
-  psiPackage="av.lang.psi"
-  psiImplPackage="av.lang.psi.impl"
+  extends = "com.intellij.extapi.psi.ASTWrapperPsiElement"
 
-  elementTypeHolderClass="lang.psi.MyLanguageTypes"
-  elementTypePrefix="MY_"
-  elementTypeClass="my.lang.psi.MyLanguageElementType"
-  tokenTypeClass="my.lang.psi.MyLanguageTokenType"
+  psiClassPrefix = "MyLanguage"
+  psiImplClassSuffix = "Impl"
+  psiPackage = "my.lang.psi"
+  psiImplPackage = "my.lang.psi.impl"
+  psiImplUtilClass = "my.lang.psi.MyLanguagePsiImplUtil"
 
-  psiImplUtilClass="my.lang.psi.MyLanguagePsiImplUtil"
+  elementTypeHolderClass = "lang.psi.MyLanguageTypes"
+  elementTypePrefix = "MY_"
+  elementTypeClass = "my.lang.psi.MyLanguageElementType"
+  tokenTypeClass = "my.lang.psi.MyLanguageTokenType"
 
   tokens = [
 
-    action="regexp:(listen|speak|read|write)"
+    //symbol
+    PAREN_LEFT = '('
+    PAREN_RIGHT = ')'
+    BRACK_LEFT = '['
+    BRACK_RIGHT = ']'
+    BRACE_LEFT = '{'
+    BRACE_RIGHT = '}'
+    ANGLE_LEFT = '<'
+    ANGLE_RIGHT = '>'
 
-    string="regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\\"|\\\'|\\)*\")"
-    number="regexp:(\d+(\.\d+)?([Ee]\d+)?)"
-    boolean="regexp:(true|false)"
+    EQ = '='
+    DASH = '-'
+    PLUS = '+'
+    MUL = '*'
+    FSLASH = '/'
+    PERCENT = '%'
+//    HAT = '^'
 
-    line_comment="regexp://.*"
-    block_comment="regexp:/\*(.|\r\n|\r|\n)*\*/"
+    AMP = '&'
+    BAR = '|'
+    BANG = '!'
+
+//    STAR = '*'
+    COMMA = ','
+    DOT = '.'
+    SEMICOLON = ';'
+    QUESTION = '?'
+    DOLLAR = '$'
+    COLON = ':'
+    TILDE = '~'
+    
+    // language common
+    id = 'regexp:\w+'
+    line_comment = 'regexp:##.*'
+//    block_comment = 'regexp:/*..*/'
+
+    //literal
+    string = "regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\\"|\\\'|\\)*\")"
+    number = "regexp:[+-]?(0[xX][0-9a-fA-F]+|[1-9]\d*N?M?|\d+(\.\d+)?([Ee][+-]?\d+)?M?)"
+    null = "nil"
+    true = "TRUE"
+    false = "FALSE"
+
+    // keywords
+    while = "while"
+    try = "try"
+    throw = "throw"
+    return = "return"
+    new = "new"
+    let = "let"
+    int = "int"
+    in = "in"
+    if = "if"
+    for = "for"
+    fn = "fn"
+    break = "break"
+    continue = "continue"
 
   ]
 }
 
-myFile ::= statement*
+// BUG statement format
+// BUG express
+// BUG function invoke   println("3 > 1 is " + (3 > 1));
+// BUG (flag  & OPEN)
+// BUG lambda()
+// BUG println("a/double(b) is " + a/double(b));
+// BUG for i in range(0, 10)
+// BUG   return x * 2;
+// BUG if type(x)
+// BUG throw "an exception";
+// BUG } else {
+// BUG let d = new java.util.Date();
+// BUG let p = /^(.*)\.av$/;
+// BUG {\n}
+// BUG let a = if (true) {
+// BUG c = a + b
+// BUG let c = a > b ? println("a > b") : println("a <= b");
+// break;
 
-statement ::= line_comment | block_comment | (action content) {
-   mixin="my.lang.psi.impl.MyLanguageCodeElementImpl"
-   implements="my.lang.psi.MyLanguageActionElement"
-   methods=[getName setName getNameIdentifier getPresentation]
+
+myFile ::= codes
+
+codes ::= statement*
+
+statement ::= line_comment | letStatement | forStatement |whileStatement |breakStatement|continueStatement | ifStatement|threeStatement | fnDefineStatement | fnInvokeStatement | newStatement |tryStatement|throwStatement |returnStatement {
+   mixin = "my.lang.psi.impl.MyLanguageCodeElementImpl"
+   implements = "my.lang.psi.MyLanguageActionElement"
+   methods = [getName setName getNameIdentifier getPresentation]
 }
 
-content ::= string|number|boolean
+letStatement ::= [let] id [BRACK_LEFT number BRACK_RIGHT] EQ (express | fnInvokeExpress) [SEMICOLON]
+
+forStatement ::= for id in id [PAREN_LEFT express {COMMA express}*] BRACE_LEFT codes BRACE_RIGHT
+
+whileStatement ::= while express  BRACE_LEFT codes BRACE_RIGHT
+
+breakStatement ::= break [SEMICOLON]
+
+continueStatement ::= continue [SEMICOLON]
+
+ifStatement ::= if express BRACE_LEFT codes BRACE_RIGHT {elseif express BRACE_LEFT codes BRACE_RIGHT }* {else express BRACE_LEFT codes BRACE_RIGHT}*
+
+fnDefineStatement ::= fn id PAREN_LEFT id {COMMA id}* PAREN_RIGHT BRACE_LEFT codes BRACE_RIGHT
+
+fnInvokeStatement ::= fnInvokeExpress [SEMICOLON]
+
+returnStatement ::= return express [SEMICOLON]
+
+tryStatement ::= try BRACE_LEFT codes BRACE_RIGHT catch express BRACE_LEFT codes BRACE_RIGHT
+
+throwStatement ::= throw new express [SEMICOLON]
+
+newStatement::= new refExpress PAREN_LEFT express PAREN_RIGHT [SEMICOLON]
+
+threeStatement ::= threeExpress [SEMICOLON]
+
+threeExpress ::= express QUESTION express COLON express
+
+fnInvokeExpress ::= refExpress [PAREN_LEFT relationExpress PAREN_RIGHT]
+
+express ::=  relationExpress | PAREN_LEFT express PAREN_RIGHT
+
+relationExpress ::= (refExpress|value)   {(DASH | PLUS | MUL | PERCENT | FSLASH |bar |ANGLE_LEFT |ANGLE_LEFT EQ|ANGLE_RIGHT |ANGLE_RIGHT EQ|EQ EQ|AMP AMP|AMP TILDE) (refExpress|value)}* |(refExpress|value)  PAREN_LEFT express PAREN_RIGHT
+
+//regExpress ::= FSLASH express FSLASH
+
+refExpress ::= id {DOT id}* | DOLLAR number
+
+//calOperate ::= DASH | PLUS | MUL | PERCENT | FSLASH |bar |ANGLE_LEFT |ANGLE_LEFT EQ|ANGLE_RIGHT |ANGLE_RIGHT EQ|EQ EQ|AMP AMP|AMP TILDE
+
+value ::= string|number|boolean|null
+
+boolean ::= true|false

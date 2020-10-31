@@ -22,11 +22,13 @@ public class MyLanguageColorSettingsPage implements ColorSettingsPage {
             new AttributesDescriptor("LineComment", MyLanguageSyntaxHighlighter.LINE_COMMENT),
             new AttributesDescriptor("BlockComment", MyLanguageSyntaxHighlighter.BLOCK_COMMENT),
 
-            new AttributesDescriptor("Action", MyLanguageSyntaxHighlighter.ACTION),
+            new AttributesDescriptor("Action", MyLanguageSyntaxHighlighter.KEYWORDS),
 
             new AttributesDescriptor("String", MyLanguageSyntaxHighlighter.STRING),
             new AttributesDescriptor("Number", MyLanguageSyntaxHighlighter.NUMBER),
             new AttributesDescriptor("Boolean", MyLanguageSyntaxHighlighter.BOOLEAN),
+
+            new AttributesDescriptor("Keywords", MyLanguageSyntaxHighlighter.KEYWORDS),
 
             new AttributesDescriptor("Bad Value", MyLanguageSyntaxHighlighter.BAD_CHARACTER)
 

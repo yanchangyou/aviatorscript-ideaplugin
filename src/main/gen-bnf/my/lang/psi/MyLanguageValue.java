@@ -1,14 +1,14 @@
-// This is a generated file. Not intended for manual editing.
+// license.txt
 package my.lang.psi;
 
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface MyLanguageContent extends PsiElement {
+public interface MyLanguageValue extends PsiElement {
 
   @Nullable
-  PsiElement getBoolean();
+  MyLanguageBoolean getBoolean();
 
   @Nullable
   PsiElement getNumber();

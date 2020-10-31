@@ -18,14 +18,8 @@ public class MyLanguageFormattingModelBuilder implements FormattingModelBuilder 
 
     private static SpacingBuilder createSpaceBuilder(CodeStyleSettings settings) {
         return new SpacingBuilder(settings, MyLanguage.INSTANCE)
-                .around(MyLanguageTypes.MY_STATEMENT)
-                .spacing(1, 1, 1, true, 1)
-                .around(MyLanguageTypes.MY_ACTION)
-                .lineBreakOrForceSpace(false, true)
-                .around(MyLanguageTypes.MY_CONTENT)
-                .lineBreakOrForceSpace(false, true)
-                .around(MyLanguageTypes.MY_BLOCK_COMMENT)
-                .spacing(1, 1, 1, true, 1)
+//                .around(MyLanguageTypes.MY_STATEMENT)
+//                .spacing(1, 1, 1, true, 1)
                 .around(MyLanguageTypes.MY_LINE_COMMENT)
                 .spacing(1, 1, 1, true, 1)
                 ;

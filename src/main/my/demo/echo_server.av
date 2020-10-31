@@ -1,7 +1,8 @@
 ## examples/echo_server.av
 ## A simple echo server in aviatorscript
 
-let io = require('io');
+let io = "2134";
+let a = a.a;
 
 fn process_conn(socket) {
   let client_addr = getRemoteSocketAddress(socket);

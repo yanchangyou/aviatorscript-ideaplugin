@@ -1,15 +1,12 @@
-// This is a generated file. Not intended for manual editing.
+// license.txt
 package my.lang.psi.impl;
 
-import my.lang.psi.MyLanguageContent;
-import my.lang.psi.MyLanguagePsiImplUtil;
-import my.lang.psi.MyLanguageStatement;
-import my.lang.psi.MyLanguageVisitor;
+import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-
+import com.intellij.psi.util.PsiTreeUtil;
 import static lang.psi.MyLanguageTypes.*;
 import my.lang.psi.*;
 import com.intellij.navigation.ItemPresentation;
@@ -20,8 +17,8 @@ public class MyLanguageStatementImpl extends MyLanguageCodeElementImpl implement
     super(node);
   }
 
-  public void accept(@NotNull MyLanguageVisitor visitor) {
-    visitor.visitStatement(this);
+  public <R> R accept(@NotNull MyLanguageVisitor<R> visitor) {
+    return visitor.visitStatement(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -31,20 +28,68 @@ public class MyLanguageStatementImpl extends MyLanguageCodeElementImpl implement
 
   @Override
   @Nullable
-  public MyLanguageContent getContent() {
-    return findChildByClass(MyLanguageContent.class);
+  public MyLanguageFnDefineStatement getFnDefineStatement() {
+    return findChildByClass(MyLanguageFnDefineStatement.class);
   }
 
   @Override
   @Nullable
-  public PsiElement getAction() {
-    return findChildByType(MY_ACTION);
+  public MyLanguageFnInvokeStatement getFnInvokeStatement() {
+    return findChildByClass(MyLanguageFnInvokeStatement.class);
   }
 
   @Override
   @Nullable
-  public PsiElement getBlockComment() {
-    return findChildByType(MY_BLOCK_COMMENT);
+  public MyLanguageForStatement getForStatement() {
+    return findChildByClass(MyLanguageForStatement.class);
+  }
+
+  @Override
+  @Nullable
+  public MyLanguageIfStatement getIfStatement() {
+    return findChildByClass(MyLanguageIfStatement.class);
+  }
+
+  @Override
+  @Nullable
+  public MyLanguageLetStatement getLetStatement() {
+    return findChildByClass(MyLanguageLetStatement.class);
+  }
+
+  @Override
+  @Nullable
+  public MyLanguageNewStatement getNewStatement() {
+    return findChildByClass(MyLanguageNewStatement.class);
+  }
+
+  @Override
+  @Nullable
+  public MyLanguageReturnStatement getReturnStatement() {
+    return findChildByClass(MyLanguageReturnStatement.class);
+  }
+
+  @Override
+  @Nullable
+  public MyLanguageThreeStatement getThreeStatement() {
+    return findChildByClass(MyLanguageThreeStatement.class);
+  }
+
+  @Override
+  @Nullable
+  public MyLanguageThrowStatement getThrowStatement() {
+    return findChildByClass(MyLanguageThrowStatement.class);
+  }
+
+  @Override
+  @Nullable
+  public MyLanguageTryStatement getTryStatement() {
+    return findChildByClass(MyLanguageTryStatement.class);
+  }
+
+  @Override
+  @Nullable
+  public MyLanguageWhileStatement getWhileStatement() {
+    return findChildByClass(MyLanguageWhileStatement.class);
   }
 
   @Override

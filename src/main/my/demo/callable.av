@@ -1,6 +1,6 @@
 ## examples/callable.av
 
-let callable = lambda() ->
+let callable = lambda(a,b) ->
   new java.util.Date()
 end;
 

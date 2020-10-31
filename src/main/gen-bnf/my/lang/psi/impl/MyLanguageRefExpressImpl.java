@@ -1,25 +1,24 @@
-// This is a generated file. Not intended for manual editing.
+// license.txt
 package my.lang.psi.impl;
 
-import my.lang.psi.MyLanguageContent;
-import my.lang.psi.MyLanguageVisitor;
+import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-
+import com.intellij.psi.util.PsiTreeUtil;
 import static lang.psi.MyLanguageTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import my.lang.psi.*;
 
-public class MyLanguageContentImpl extends ASTWrapperPsiElement implements MyLanguageContent {
+public class MyLanguageRefExpressImpl extends ASTWrapperPsiElement implements MyLanguageRefExpress {
 
-  public MyLanguageContentImpl(@NotNull ASTNode node) {
+  public MyLanguageRefExpressImpl(@NotNull ASTNode node) {
     super(node);
   }
 
-  public void accept(@NotNull MyLanguageVisitor visitor) {
-    visitor.visitContent(this);
+  public <R> R accept(@NotNull MyLanguageVisitor<R> visitor) {
+    return visitor.visitRefExpress(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -29,20 +28,8 @@ public class MyLanguageContentImpl extends ASTWrapperPsiElement implements MyLan
 
   @Override
   @Nullable
-  public PsiElement getBoolean() {
-    return findChildByType(MY_BOOLEAN);
-  }
-
-  @Override
-  @Nullable
   public PsiElement getNumber() {
     return findChildByType(MY_NUMBER);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getString() {
-    return findChildByType(MY_STRING);
   }
 
 }

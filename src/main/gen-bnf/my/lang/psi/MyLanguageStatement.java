@@ -1,6 +1,7 @@
-// This is a generated file. Not intended for manual editing.
+// license.txt
 package my.lang.psi;
 
+import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 import com.intellij.navigation.ItemPresentation;
@@ -8,13 +9,37 @@ import com.intellij.navigation.ItemPresentation;
 public interface MyLanguageStatement extends MyLanguageActionElement {
 
   @Nullable
-  MyLanguageContent getContent();
+  MyLanguageFnDefineStatement getFnDefineStatement();
 
   @Nullable
-  PsiElement getAction();
+  MyLanguageFnInvokeStatement getFnInvokeStatement();
 
   @Nullable
-  PsiElement getBlockComment();
+  MyLanguageForStatement getForStatement();
+
+  @Nullable
+  MyLanguageIfStatement getIfStatement();
+
+  @Nullable
+  MyLanguageLetStatement getLetStatement();
+
+  @Nullable
+  MyLanguageNewStatement getNewStatement();
+
+  @Nullable
+  MyLanguageReturnStatement getReturnStatement();
+
+  @Nullable
+  MyLanguageThreeStatement getThreeStatement();
+
+  @Nullable
+  MyLanguageThrowStatement getThrowStatement();
+
+  @Nullable
+  MyLanguageTryStatement getTryStatement();
+
+  @Nullable
+  MyLanguageWhileStatement getWhileStatement();
 
   @Nullable
   PsiElement getLineComment();

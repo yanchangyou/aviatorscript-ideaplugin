@@ -8,8 +8,8 @@ import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
 import lang.psi.MyLanguageTypes;
-import org.jetbrains.annotations.NotNull;
 import my.lang.lexer.MyLanguageLexerAdapter;
+import org.jetbrains.annotations.NotNull;
 
 import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
 
@@ -24,7 +24,7 @@ public class MyLanguageSyntaxHighlighter extends SyntaxHighlighterBase {
     public static final TextAttributesKey BLOCK_COMMENT =
             createTextAttributesKey("blockComment", DefaultLanguageHighlighterColors.BLOCK_COMMENT);
 
-    public static final TextAttributesKey ACTION =
+    public static final TextAttributesKey KEYWORDS =
             createTextAttributesKey("action", DefaultLanguageHighlighterColors.KEYWORD);
 
     public static final TextAttributesKey NUMBER =
@@ -41,7 +41,7 @@ public class MyLanguageSyntaxHighlighter extends SyntaxHighlighterBase {
 
     private static final TextAttributesKey[] BAD_CHAR_KEYS = new TextAttributesKey[] { BAD_CHARACTER };
     private static final TextAttributesKey[] COMMENTS_KEYS = new TextAttributesKey[] { LINE_COMMENT, BLOCK_COMMENT };
-    private static final TextAttributesKey[] ACTION_KEYS = new TextAttributesKey[] { ACTION };
+    private static final TextAttributesKey[] KEYWORDS_KEYS = new TextAttributesKey[] { KEYWORDS };
     private static final TextAttributesKey[] STRING_KEYS = new TextAttributesKey[] { STRING };
     private static final TextAttributesKey[] NUMBER_KEYS = new TextAttributesKey[] { NUMBER };
     private static final TextAttributesKey[] BOOLEAN_KEYS = new TextAttributesKey[] { BOOLEAN };
@@ -56,11 +56,22 @@ public class MyLanguageSyntaxHighlighter extends SyntaxHighlighterBase {
     @NotNull
     @Override
     public TextAttributesKey[] getTokenHighlights(IElementType tokenType) {
-        if (tokenType.equals(MyLanguageTypes.MY_BLOCK_COMMENT) || tokenType
-                .equals(MyLanguageTypes.MY_LINE_COMMENT)) {
+        if (tokenType.equals(MyLanguageTypes.MY_BREAK)
+                || tokenType.equals(MyLanguageTypes.MY_FN)
+                || tokenType.equals(MyLanguageTypes.MY_FOR)
+                || tokenType.equals(MyLanguageTypes.MY_IF)
+                || tokenType.equals(MyLanguageTypes.MY_IN)
+                || tokenType.equals(MyLanguageTypes.MY_INT)
+                || tokenType.equals(MyLanguageTypes.MY_LET)
+                || tokenType.equals(MyLanguageTypes.MY_NEW)
+                || tokenType.equals(MyLanguageTypes.MY_NULL)
+                || tokenType.equals(MyLanguageTypes.MY_RETURN)
+                || tokenType.equals(MyLanguageTypes.MY_THROW)
+                || tokenType.equals(MyLanguageTypes.MY_TRY)
+                || tokenType.equals(MyLanguageTypes.MY_WHILE)) {
+            return KEYWORDS_KEYS;
+        } else if (tokenType.equals(MyLanguageTypes.MY_LINE_COMMENT)) {
             return COMMENTS_KEYS;
-        } else if (tokenType.equals(MyLanguageTypes.MY_ACTION)) {
-            return ACTION_KEYS;
         } else if (tokenType.equals(MyLanguageTypes.MY_NUMBER)) {
             return NUMBER_KEYS;
         } else if (tokenType.equals(MyLanguageTypes.MY_BOOLEAN)) {
