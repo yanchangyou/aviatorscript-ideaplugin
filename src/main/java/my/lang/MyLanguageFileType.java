@@ -21,7 +21,7 @@ public class MyLanguageFileType extends LanguageFileType {
     @NotNull
     @Override
     public String getName() {
-        return "my";
+        return "av";
     }
 
     @NotNull
@@ -33,7 +33,7 @@ public class MyLanguageFileType extends LanguageFileType {
     @NotNull
     @Override
     public String getDefaultExtension() {
-        return "my";
+        return "av";
     }
 
     @Nullable

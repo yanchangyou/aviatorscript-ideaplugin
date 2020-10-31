@@ -1,12 +1,18 @@
 <idea-plugin>
-    <id>my-lang-for-AviatorScript</id>
-    <name>My Lang For X</name>
+    <id>AviatorScript</id>
+    <name>AviatorScript</name>
     <vendor email="yanchangyou@qq.com" url="http://www.321zou.com">321zou</vendor>
 
     <description><![CDATA[
-    A my language idea language plugin for x language or script
+        A idea plugin for AviatorScript, highlight and another function.
     ]]></description>
 
+    <change-notes><![CDATA[<br/>
+        first version for AviatorScript
+        v0.1
+        1, ADD: add a highlight function for AviatorScript
+    ]]>
+    </change-notes>
 
     <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
@@ -14,17 +20,17 @@
     <depends>com.intellij.modules.java</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <fileType name="my" implementationClass="my.lang.MyLanguageFileType" fieldName="INSTANCE" language="my"
+        <fileType name="av" implementationClass="my.lang.MyLanguageFileType" fieldName="INSTANCE" language="av"
                   extensions="av"/>
-        <lang.parserDefinition language="my" implementationClass="my.lang.parser.MyLanguageParserDefinition"/>
-        <lang.syntaxHighlighterFactory language="my"
+        <lang.parserDefinition language="av" implementationClass="my.lang.parser.MyLanguageParserDefinition"/>
+        <lang.syntaxHighlighterFactory language="av"
                                        implementationClass="my.lang.highlight.MyLanguageSyntaxHighlighterFactory"/>
         <colorSettingsPage id="My" implementation="my.lang.highlight.MyLanguageColorSettingsPage"/>
-        <lang.psiStructureViewFactory language="my"
+        <lang.psiStructureViewFactory language="av"
                                       implementationClass="my.lang.structure.MyLanguageStructureViewFactory"/>
-        <completion.contributor language="my"
+        <completion.contributor language="av"
                                 implementationClass="my.lang.completion.MyLanguageCompletionContributor"/>
-        <lang.formatter language="my" implementationClass="my.lang.format.MyLanguageFormattingModelBuilder"/>
+        <lang.formatter language="av" implementationClass="my.lang.format.MyLanguageFormattingModelBuilder"/>
         <codeStyleSettingsProvider implementation="my.lang.style.MyLanguageCodeStyleSettingsProvider"/>
         <langCodeStyleSettingsProvider implementation="my.lang.style.MyLanguageLanguageCodeStyleSettingsProvider"/>
     </extensions>
@@ -33,11 +39,4 @@
         <!-- Add your actions here -->
     </actions>
 
-    <change-notes>
-        v0.1
-        1, highlight
-        2, format
-        3, structure
-        4, code style
-    </change-notes>
 </idea-plugin>

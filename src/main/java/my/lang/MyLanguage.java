@@ -10,7 +10,7 @@ public class MyLanguage extends Language {
     public static final MyLanguage INSTANCE = new MyLanguage();
 
     private MyLanguage() {
-        super("my");
+        super("av");
     }
 
 }
