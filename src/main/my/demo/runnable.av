@@ -1,5 +1,7 @@
+## examples/runnable.av
+
 let r = lambda() ->
-p("run in thread");
+  p("run in thread");
 end;
 
 let t = new Thread(r);

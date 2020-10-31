@@ -1,10 +1,9 @@
 ## examples/echo_server.av
 ## A simple echo server in aviatorscript
 
-let io = "2134";
-let a = a.a;
+let io = require('io');
 
-fn process_conn (socket) {
+fn process_conn(socket) {
   let client_addr = getRemoteSocketAddress(socket);
   p("Accepted a connection from #{client_addr}");
   let reader = nil;
