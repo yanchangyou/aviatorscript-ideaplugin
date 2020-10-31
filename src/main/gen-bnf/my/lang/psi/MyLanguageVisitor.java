@@ -1,4 +1,21 @@
-// license description
+/*
+ * Copyright 2020-2020 yanchangyou
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// This is a generated file. Not intended for manual editing.
+
 package my.lang.psi;
 
 import org.jetbrains.annotations.*;
@@ -6,6 +23,10 @@ import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiElement;
 
 public class MyLanguageVisitor<R> extends PsiElementVisitor {
+
+  public R visitAllExpress(@NotNull MyLanguageAllExpress o) {
+    return visitPsiElement(o);
+  }
 
   public R visitBoolean(@NotNull MyLanguageBoolean o) {
     return visitPsiElement(o);
@@ -47,6 +68,10 @@ public class MyLanguageVisitor<R> extends PsiElementVisitor {
     return visitPsiElement(o);
   }
 
+  public R visitLambdaExpress(@NotNull MyLanguageLambdaExpress o) {
+    return visitPsiElement(o);
+  }
+
   public R visitLetStatement(@NotNull MyLanguageLetStatement o) {
     return visitPsiElement(o);
   }
@@ -55,11 +80,15 @@ public class MyLanguageVisitor<R> extends PsiElementVisitor {
     return visitPsiElement(o);
   }
 
-  public R visitRefExpress(@NotNull MyLanguageRefExpress o) {
+  public R visitOp(@NotNull MyLanguageOp o) {
     return visitPsiElement(o);
   }
 
-  public R visitRelationExpress(@NotNull MyLanguageRelationExpress o) {
+  public R visitOpExpress(@NotNull MyLanguageOpExpress o) {
+    return visitPsiElement(o);
+  }
+
+  public R visitRefExpress(@NotNull MyLanguageRefExpress o) {
     return visitPsiElement(o);
   }
 

@@ -28,14 +28,14 @@ import static lang.psi.MyLanguageTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import my.lang.psi.*;
 
-public class MyLanguageTryStatementImpl extends ASTWrapperPsiElement implements MyLanguageTryStatement {
+public class MyLanguageAllExpressImpl extends ASTWrapperPsiElement implements MyLanguageAllExpress {
 
-  public MyLanguageTryStatementImpl(@NotNull ASTNode node) {
+  public MyLanguageAllExpressImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public <R> R accept(@NotNull MyLanguageVisitor<R> visitor) {
-    return visitor.visitTryStatement(this);
+    return visitor.visitAllExpress(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -45,8 +45,38 @@ public class MyLanguageTryStatementImpl extends ASTWrapperPsiElement implements 
 
   @Override
   @NotNull
-  public List<MyLanguageCodes> getCodesList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, MyLanguageCodes.class);
+  public List<MyLanguageAllExpress> getAllExpressList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, MyLanguageAllExpress.class);
+  }
+
+  @Override
+  @Nullable
+  public MyLanguageExpress getExpress() {
+    return findChildByClass(MyLanguageExpress.class);
+  }
+
+  @Override
+  @Nullable
+  public MyLanguageFnInvokeExpress getFnInvokeExpress() {
+    return findChildByClass(MyLanguageFnInvokeExpress.class);
+  }
+
+  @Override
+  @Nullable
+  public MyLanguageLambdaExpress getLambdaExpress() {
+    return findChildByClass(MyLanguageLambdaExpress.class);
+  }
+
+  @Override
+  @NotNull
+  public List<MyLanguageOp> getOpList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, MyLanguageOp.class);
+  }
+
+  @Override
+  @Nullable
+  public MyLanguageThreeExpress getThreeExpress() {
+    return findChildByClass(MyLanguageThreeExpress.class);
   }
 
 }

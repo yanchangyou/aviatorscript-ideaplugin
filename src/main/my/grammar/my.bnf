@@ -9,7 +9,7 @@
 // BNF for EcmaScript.jj https://tomcopeland.blogs.com/EcmaScript.html
 
 {
-  classHeader = "license description"
+  classHeader = "copyrightHeader.java"
   generate = [java="8" names="long" visitor-value="R"]
 
   parserClass = "my.lang.parser.MyLanguageParser"
@@ -31,12 +31,12 @@
   tokens = [
 
     //symbol define from https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/grammars/go.bnf
-    LBRACE               =  '{'
-    RBRACE               =  '}'
-    LBRACK               =  '['
-    RBRACK               =  ']'
-    LPAREN               =  '('
-    RPAREN               =  ')'
+    BRACE_LEFT           =  '{'
+    BRACE_RIGHT          =  '}'
+    BRACK_LEFT           =  '['
+    BRACK_RIGHT          =  ']'
+    PAREN_LEFT           =  '('
+    PAREN_RIGHT          =  ')'
 
     COLON                =  ':'
     SEMICOLON            =  ';'
@@ -56,6 +56,7 @@
     BIT_OR_ASSIGN        =  '|='
     BIT_CLEAR_ASSIGN     =  '&^='
     BIT_CLEAR            =  '&^'
+    BIT_TILDE            =  '&~'
     COND_AND             =  '&&'
     BIT_AND_ASSIGN       =  '&='
     BIT_AND              =  '&'
@@ -80,9 +81,11 @@
     VAR_ASSIGN           =  ':='
     TRIPLE_DOT           =  '...'
     DOT                  =  '.'
+    QUESTION             =  '?'
+    LAMBDA_TARGET        =  '->'
 
     SEMICOLON_SYNTHETIC  = '<NL>'
-    TYPE_                = 'type'
+//    TYPE_                = 'type'
     raw_string           = 'raw_string'
 
     // language common
@@ -101,6 +104,7 @@
     while = "while"
     try = "try"
     throw = "throw"
+    finally = "finally"
     return = "return"
     new = "new"
     let = "let"
@@ -111,6 +115,8 @@
     fn = "fn"
     break = "break"
     continue = "continue"
+    lambda = "lambda"
+    end = "end"
 
   ]
 }
@@ -133,7 +139,8 @@ statement ::=
     | newStatement
     | tryStatement
     | throwStatement
-    | returnStatement {
+    | returnStatement
+    | BRACE_LEFT statement* BRACE_RIGHT {
    mixin = "my.lang.psi.impl.MyLanguageCodeElementImpl"
    implements = "my.lang.psi.MyLanguageStatementElement"
    methods = [getName setName getNameIdentifier getPresentation]
@@ -142,45 +149,69 @@ statement ::=
 
 //private statementRecover ::= !('!' | '&' | '(' | '*' | '+' | '-' | ';' | '<-' | '^' | 'type' | '{' | '|' | '|=' | '||' | '}' | break | case | char | const | continue | decimali | default | defer | else | fallthrough | float | floati | for | fn | go | goto | hex | identifier | if | int | interface | map | oct | return | select | string | raw_string | struct | switch | let)
 
-letStatement ::= [let] identifier [BRACK_LEFT number BRACK_RIGHT] ASSIGN (express | fnInvokeExpress) [SEMICOLON]
+letStatement ::= [let] refExpress [BRACK_LEFT number BRACK_RIGHT] ASSIGN allExpress [SEMICOLON]
 
-forStatement ::= for identifier in identifier [PAREN_LEFT express {COMMA express}*] BRACE_LEFT codes BRACE_RIGHT
+forStatement ::= for identifier in allExpress [PAREN_LEFT allExpress {COMMA allExpress}*] BRACE_LEFT codes BRACE_RIGHT
 
-whileStatement ::= while express  BRACE_LEFT codes BRACE_RIGHT
+whileStatement ::= while allExpress BRACE_LEFT codes BRACE_RIGHT
 
 breakStatement ::= break [SEMICOLON]
 
 continueStatement ::= continue [SEMICOLON]
 
-ifStatement ::= if express BRACE_LEFT codes BRACE_RIGHT {elseif express BRACE_LEFT codes BRACE_RIGHT }* {else express BRACE_LEFT codes BRACE_RIGHT}*
+ifStatement ::= if allExpress BRACE_LEFT codes BRACE_RIGHT {elseif allExpress BRACE_LEFT codes BRACE_RIGHT }* {else allExpress BRACE_LEFT codes BRACE_RIGHT}*
 
 fnDefineStatement ::= fn identifier PAREN_LEFT identifier {COMMA identifier}* PAREN_RIGHT BRACE_LEFT codes BRACE_RIGHT
 
 fnInvokeStatement ::= fnInvokeExpress [SEMICOLON]
 
-returnStatement ::= return express [SEMICOLON]
+returnStatement ::= return allExpress* [SEMICOLON]
 
-tryStatement ::= try BRACE_LEFT codes BRACE_RIGHT catch express BRACE_LEFT codes BRACE_RIGHT
+tryStatement ::= try BRACE_LEFT codes BRACE_RIGHT catch PAREN_LEFT identifier identifier? PAREN_RIGHT BRACE_LEFT codes BRACE_RIGHT finally BRACE_LEFT codes BRACE_RIGHT
 
-throwStatement ::= throw new express [SEMICOLON]
+throwStatement ::= throw (new fnInvokeExpress|allExpress) [SEMICOLON]
 
-newStatement::= new refExpress PAREN_LEFT express PAREN_RIGHT [SEMICOLON]
+newStatement::= new fnInvokeExpress [SEMICOLON]
 
 threeStatement ::= threeExpress [SEMICOLON]
 
-threeExpress ::= express QUESTION express COLON express
+allExpress ::= fnInvokeExpress {op allExpress}* | express | threeExpress | lambdaExpress
 
-fnInvokeExpress ::= refExpress [PAREN_LEFT relationExpress PAREN_RIGHT]
+lambdaExpress ::= lambda PAREN_LEFT {identifier {COMMA identifier}*}* PAREN_RIGHT LAMBDA_TARGET codes end
 
-express ::=  relationExpress | PAREN_LEFT express PAREN_RIGHT
+threeExpress ::= (fnInvokeExpress | express) QUESTION allExpress COLON allExpress
 
-relationExpress ::= (refExpress|value)   {(DASH | PLUS | MUL | PERCENT | FSLASH |bar |ANGLE_LEFT |ANGLE_LEFT ASSIGN|ANGLE_RIGHT |ANGLE_RIGHT ASSIGN|ASSIGN ASSIGN|AMP AMP|AMP TILDE) (refExpress|value)}* |(refExpress|value)  PAREN_LEFT express PAREN_RIGHT
+fnInvokeExpress ::= refExpress {PAREN_LEFT [int COMMA] [allExpress {COMMA allExpress}*] PAREN_RIGHT}+
+
+express ::=  opExpress | PAREN_LEFT opExpress PAREN_RIGHT
+
+opExpress ::= not? (fnInvokeExpress|refExpress|value) {op allExpress}*
+
+op ::=
+      PLUS                 // +
+    | MINUS                // -
+    | MUL                  // *
+    | QUOTIENT             // /
+    | REMAINDER            // %
+    | LESS                 // <
+    | LESS_OR_EQUAL        // <=
+    | GREATER              // >
+    | GREATER_OR_EQUAL     // >=
+    | EQ                   // ==
+    | NOT_EQ               // !=
+    | BIT_AND              // &
+    | BIT_OR               // |
+    | BIT_XOR              // ^
+    | NOT                  // !
+    | COND_OR              // ||
+    | COND_AND             // &&
+    | BIT_TILDE            // &~
 
 //regExpress ::= FSLASH express FSLASH
 
 refExpress ::= identifier {DOT identifier}* | DOLLAR number
 
-//calOperate ::= DASH | PLUS | MUL | PERCENT | FSLASH |bar |ANGLE_LEFT |ANGLE_LEFT EQ|ANGLE_RIGHT |ANGLE_RIGHT EQ|EQ EQ|AMP AMP|AMP TILDE
+//calOperate ::= DASH | PLUS | MUL | PERCENT | FSLASH |bar |LESS |LESS EQ|GREATER |GREATER EQ|EQ EQ|AMP AMP|AMP TILDE
 
 value ::= string|number|boolean|null
 

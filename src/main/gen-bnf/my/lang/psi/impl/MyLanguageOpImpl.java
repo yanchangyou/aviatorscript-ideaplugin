@@ -28,25 +28,19 @@ import static lang.psi.MyLanguageTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import my.lang.psi.*;
 
-public class MyLanguageTryStatementImpl extends ASTWrapperPsiElement implements MyLanguageTryStatement {
+public class MyLanguageOpImpl extends ASTWrapperPsiElement implements MyLanguageOp {
 
-  public MyLanguageTryStatementImpl(@NotNull ASTNode node) {
+  public MyLanguageOpImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public <R> R accept(@NotNull MyLanguageVisitor<R> visitor) {
-    return visitor.visitTryStatement(this);
+    return visitor.visitOp(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof MyLanguageVisitor) accept((MyLanguageVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public List<MyLanguageCodes> getCodesList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, MyLanguageCodes.class);
   }
 
 }

@@ -1,8 +1,8 @@
-let a = 1+1+1;
+let a = 1 + 1+ 1;
 let b = a + (1 + 1);
 let a = seq.array(int, 1, 2, 3, 4);
 let r = seq.map("x", x, "y", y);
-lambda()
+##lambda()
 while math.abs(a - root * root) > err {
     root = (a/root + root) / 2.0M;
 }

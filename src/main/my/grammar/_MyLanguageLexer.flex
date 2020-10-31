@@ -34,12 +34,12 @@ NUMBER=[+-]?(0[xX][0-9a-fA-F]+|[1-9][0-9]*N?M?|[0-9]+(\.[0-9]+)?([Ee][+-]?[0-9]+
 <YYINITIAL> {
   {WHITE_SPACE}       { return WHITE_SPACE; }
 
-  "{"                 { return MY_LBRACE; }
-  "}"                 { return MY_RBRACE; }
-  "["                 { return MY_LBRACK; }
-  "]"                 { return MY_RBRACK; }
-  "("                 { return MY_LPAREN; }
-  ")"                 { return MY_RPAREN; }
+  "{"                 { return MY_BRACE_LEFT; }
+  "}"                 { return MY_BRACE_RIGHT; }
+  "["                 { return MY_BRACK_LEFT; }
+  "]"                 { return MY_BRACK_RIGHT; }
+  "("                 { return MY_PAREN_LEFT; }
+  ")"                 { return MY_PAREN_RIGHT; }
   ":"                 { return MY_COLON; }
   ";"                 { return MY_SEMICOLON; }
   ","                 { return MY_COMMA; }
@@ -57,6 +57,7 @@ NUMBER=[+-]?(0[xX][0-9a-fA-F]+|[1-9][0-9]*N?M?|[0-9]+(\.[0-9]+)?([Ee][+-]?[0-9]+
   "|="                { return MY_BIT_OR_ASSIGN; }
   "&^="               { return MY_BIT_CLEAR_ASSIGN; }
   "&^"                { return MY_BIT_CLEAR; }
+  "&~"                { return MY_BIT_TILDE; }
   "&&"                { return MY_COND_AND; }
   "&="                { return MY_BIT_AND_ASSIGN; }
   "&"                 { return MY_BIT_AND; }
@@ -81,8 +82,9 @@ NUMBER=[+-]?(0[xX][0-9a-fA-F]+|[1-9][0-9]*N?M?|[0-9]+(\.[0-9]+)?([Ee][+-]?[0-9]+
   ":="                { return MY_VAR_ASSIGN; }
   "..."               { return MY_TRIPLE_DOT; }
   "."                 { return MY_DOT; }
+  "?"                 { return MY_QUESTION; }
+  "->"                { return MY_LAMBDA_TARGET; }
   "<NL>"              { return MY_SEMICOLON_SYNTHETIC; }
-  "type"              { return MY_TYPE_; }
   "raw_string"        { return MY_RAW_STRING; }
   "nil"               { return MY_NULL; }
   "TRUE"              { return MY_TRUE; }
@@ -90,6 +92,7 @@ NUMBER=[+-]?(0[xX][0-9a-fA-F]+|[1-9][0-9]*N?M?|[0-9]+(\.[0-9]+)?([Ee][+-]?[0-9]+
   "while"             { return MY_WHILE; }
   "try"               { return MY_TRY; }
   "throw"             { return MY_THROW; }
+  "finally"           { return MY_FINALLY; }
   "return"            { return MY_RETURN; }
   "new"               { return MY_NEW; }
   "let"               { return MY_LET; }
@@ -100,24 +103,11 @@ NUMBER=[+-]?(0[xX][0-9a-fA-F]+|[1-9][0-9]*N?M?|[0-9]+(\.[0-9]+)?([Ee][+-]?[0-9]+
   "fn"                { return MY_FN; }
   "break"             { return MY_BREAK; }
   "continue"          { return MY_CONTINUE; }
-  "BRACK_LEFT"        { return MY_BRACK_LEFT; }
-  "BRACK_RIGHT"       { return MY_BRACK_RIGHT; }
-  "PAREN_LEFT"        { return MY_PAREN_LEFT; }
-  "BRACE_LEFT"        { return MY_BRACE_LEFT; }
-  "BRACE_RIGHT"       { return MY_BRACE_RIGHT; }
+  "lambda"            { return MY_LAMBDA; }
+  "end"               { return MY_END; }
   "elseif"            { return MY_ELSEIF; }
   "else"              { return MY_ELSE; }
-  "PAREN_RIGHT"       { return MY_PAREN_RIGHT; }
   "catch"             { return MY_CATCH; }
-  "QUESTION"          { return MY_QUESTION; }
-  "DASH"              { return MY_DASH; }
-  "PERCENT"           { return MY_PERCENT; }
-  "FSLASH"            { return MY_FSLASH; }
-  "bar"               { return MY_BAR; }
-  "ANGLE_LEFT"        { return MY_ANGLE_LEFT; }
-  "ANGLE_RIGHT"       { return MY_ANGLE_RIGHT; }
-  "AMP"               { return MY_AMP; }
-  "TILDE"             { return MY_TILDE; }
   "DOLLAR"            { return MY_DOLLAR; }
 
   {IDENTIFIER}        { return MY_IDENTIFIER; }
