@@ -1,2 +1,2 @@
-## my-lang-idea-plugin
+## lang-idea-plugin
 for aviator script
