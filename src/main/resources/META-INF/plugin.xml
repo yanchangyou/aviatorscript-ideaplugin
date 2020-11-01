@@ -32,7 +32,7 @@
 
     <actions>
         <!-- Add your actions here -->
-        <action id="RunAS" class="my.lang.action.ScriptRunCodeAction" text="Run AS" description="Run AS"
+        <action id="RunAviatorScript" class="my.lang.action.ScriptRunCodeAction" text="Run AviatorScript" description="Run aviatorScript"
                 icon="/my/lang/icon/my.svg">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
             <keyboard-shortcut first-keystroke="control shift J" keymap="$default"/>
