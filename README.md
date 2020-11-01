@@ -19,3 +19,4 @@ AviatorScript在线文档：https://www.yuque.com/boyan-avfmj/aviatorscript/rcx4
 - define from https://github.com/JetBrains/Grammar-Kit/blob/master/grammars/Grammar.bnf
 - go BNF https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/grammars/go.bnf
 
+idea插件下载：搜索 aviatorscript
