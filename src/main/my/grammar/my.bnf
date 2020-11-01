@@ -96,7 +96,7 @@
 
     //literal
     string = "regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\\"|\\\'|\\)*\")"
-    number = "regexp:[-]??(0[xX][0-9a-fA-F]+|[0-9]|[1-9]\d*N?M?|\d+(\.\d+)?([Ee][+-]?\d+)?M?)"
+    number = "regexp:(0[xX][0-9a-fA-F]+|[0-9]|[1-9]\d*N?M?|\d+(\.\d+)?([Ee][+-]?\d+)?M?)"
     paramRef = "regexp:\$\d+"
     null = "nil"
     true = "TRUE"
@@ -158,7 +158,7 @@ statement ::=
 
 //private statementRecover ::= !('!' | '&' | '(' | '*' | '+' | '-' | ';' | '<-' | '^' | 'type' | '{' | '|' | '|=' | '||' | '}' | break | case | char | const | continue | decimali | default | defer | else | fallthrough | float | floati | for | fn | go | goto | hex | identifier | if | int | interface | map | oct | return | select | string | raw_string | struct | switch | let)
 
-letStatement ::= let refExpress ASSIGN ([new] allExpress [SEMICOLON]| statement)
+letStatement ::= let refExpress ASSIGN [PLUS|MINUS] ([new] allExpress [SEMICOLON]| statement)
 
 forStatement ::= for identifier in allExpress [PAREN_LEFT allExpress {COMMA allExpress}*] BRACE_LEFT codes BRACE_RIGHT
 
@@ -190,7 +190,7 @@ assignStatement ::= assignExpress
 
 allExpressStatement ::= allExpress
 
-assignExpress ::= refExpress ASSIGN allExpress
+assignExpress ::= refExpress ASSIGN [PLUS|MINUS] allExpress
 
 allExpress ::=
      (subAllExpress | PAREN_LEFT subAllExpress PAREN_RIGHT) {op (subAllExpress|PAREN_LEFT subAllExpress PAREN_RIGHT)}*

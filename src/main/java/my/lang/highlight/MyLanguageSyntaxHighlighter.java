@@ -60,15 +60,25 @@ public class MyLanguageSyntaxHighlighter extends SyntaxHighlighterBase {
                 || tokenType.equals(MyLanguageTypes.MY_FN)
                 || tokenType.equals(MyLanguageTypes.MY_FOR)
                 || tokenType.equals(MyLanguageTypes.MY_IF)
+                || tokenType.equals(MyLanguageTypes.MY_ELSIF)
+                || tokenType.equals(MyLanguageTypes.MY_ELSE)
                 || tokenType.equals(MyLanguageTypes.MY_IN)
                 || tokenType.equals(MyLanguageTypes.MY_INT)
                 || tokenType.equals(MyLanguageTypes.MY_LET)
                 || tokenType.equals(MyLanguageTypes.MY_NEW)
                 || tokenType.equals(MyLanguageTypes.MY_NULL)
                 || tokenType.equals(MyLanguageTypes.MY_RETURN)
-                || tokenType.equals(MyLanguageTypes.MY_THROW)
                 || tokenType.equals(MyLanguageTypes.MY_TRY)
-                || tokenType.equals(MyLanguageTypes.MY_WHILE)) {
+                || tokenType.equals(MyLanguageTypes.MY_CATCH)
+                || tokenType.equals(MyLanguageTypes.MY_THROW)
+                || tokenType.equals(MyLanguageTypes.MY_FINALLY)
+                || tokenType.equals(MyLanguageTypes.MY_LAMBDA)
+                || tokenType.equals(MyLanguageTypes.MY_END)
+                || tokenType.equals(MyLanguageTypes.MY_WHILE)
+                || tokenType.equals(MyLanguageTypes.MY_CONTINUE)
+                || tokenType.equals(MyLanguageTypes.MY_FALSE)
+                || tokenType.equals(MyLanguageTypes.MY_TRUE)
+        ) {
             return KEYWORDS_KEYS;
         } else if (tokenType.equals(MyLanguageTypes.MY_LINE_COMMENT)) {
             return COMMENTS_KEYS;

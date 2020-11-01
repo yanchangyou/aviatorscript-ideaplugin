@@ -153,8 +153,8 @@ public class MyLanguageStatementImpl extends MyLanguageCodeElementImpl implement
 
   @Override
   @Nullable
-  public PsiElement getRegStatemente() {
-    return findChildByType(MY_REGSTATEMENTE);
+  public PsiElement getRegStatement() {
+    return findChildByType(MY_REGSTATEMENT);
   }
 
   @Override

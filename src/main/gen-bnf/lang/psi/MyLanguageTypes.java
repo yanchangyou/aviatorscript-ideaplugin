@@ -26,7 +26,6 @@ import my.lang.psi.MyLanguageTokenType;
 import my.lang.psi.impl.*;
 
 public interface MyLanguageTypes {
-
   IElementType MY_ALL_EXPRESS = new MyLanguageElementType("MY_ALL_EXPRESS");
   IElementType MY_ALL_EXPRESS_STATEMENT = new MyLanguageElementType("MY_ALL_EXPRESS_STATEMENT");
   IElementType MY_ASSIGN_EXPRESS = new MyLanguageElementType("MY_ASSIGN_EXPRESS");
@@ -123,7 +122,7 @@ public interface MyLanguageTypes {
   IElementType MY_QUOTIENT = new MyLanguageTokenType("/");
   IElementType MY_QUOTIENT_ASSIGN = new MyLanguageTokenType("/=");
   IElementType MY_RAW_STRING = new MyLanguageTokenType("raw_string");
-  IElementType MY_REGSTATEMENTE = new MyLanguageTokenType("regStatemente");
+  IElementType MY_REGSTATEMENT = new MyLanguageTokenType("regStatement");
   IElementType MY_REMAINDER = new MyLanguageTokenType("%");
   IElementType MY_REMAINDER_ASSIGN = new MyLanguageTokenType("%=");
   IElementType MY_RETURN = new MyLanguageTokenType("return");

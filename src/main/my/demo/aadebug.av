@@ -1,11 +1,5 @@
-while (socket =accept(server)) != nil {
-}
-
-
-fn mymap(seq, fn) {
-                  reduce(seq,
-                            lambda(c, e) ->
-                            seq.add(c, fn(e))
-                                end,
-seq.list())
-}
+qsort0(xs, l, i - 1);
+let as=+32;
+if a==1 {}
+elsif a==1{}
+else {}

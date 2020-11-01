@@ -235,7 +235,7 @@ public class MyLanguageParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // refExpress ASSIGN allExpress
+  // refExpress ASSIGN [PLUS|MINUS] allExpress
   public static boolean assignExpress(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "assignExpress")) return false;
     if (!nextTokenIs(builder, "<assign express>", MY_IDENTIFIER, MY_PARAMREF)) return false;
@@ -243,8 +243,25 @@ public class MyLanguageParser implements PsiParser, LightPsiParser {
     Marker marker = enter_section_(builder, level, _NONE_, MY_ASSIGN_EXPRESS, "<assign express>");
     result = refExpress(builder, level + 1);
     result = result && consumeToken(builder, MY_ASSIGN);
+    result = result && assignExpress_2(builder, level + 1);
     result = result && allExpress(builder, level + 1);
     exit_section_(builder, level, marker, result, false, null);
+    return result;
+  }
+
+  // [PLUS|MINUS]
+  private static boolean assignExpress_2(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "assignExpress_2")) return false;
+    assignExpress_2_0(builder, level + 1);
+    return true;
+  }
+
+  // PLUS|MINUS
+  private static boolean assignExpress_2_0(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "assignExpress_2_0")) return false;
+    boolean result;
+    result = consumeToken(builder, MY_PLUS);
+    if (!result) result = consumeToken(builder, MY_MINUS);
     return result;
   }
 
@@ -825,7 +842,7 @@ public class MyLanguageParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // let refExpress ASSIGN ([new] allExpress [SEMICOLON]| statement)
+  // let refExpress ASSIGN [PLUS|MINUS] ([new] allExpress [SEMICOLON]| statement)
   public static boolean letStatement(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "letStatement")) return false;
     if (!nextTokenIs(builder, MY_LET)) return false;
@@ -835,43 +852,60 @@ public class MyLanguageParser implements PsiParser, LightPsiParser {
     result = result && refExpress(builder, level + 1);
     result = result && consumeToken(builder, MY_ASSIGN);
     result = result && letStatement_3(builder, level + 1);
+    result = result && letStatement_4(builder, level + 1);
     exit_section_(builder, marker, MY_LET_STATEMENT, result);
     return result;
   }
 
-  // [new] allExpress [SEMICOLON]| statement
+  // [PLUS|MINUS]
   private static boolean letStatement_3(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "letStatement_3")) return false;
+    letStatement_3_0(builder, level + 1);
+    return true;
+  }
+
+  // PLUS|MINUS
+  private static boolean letStatement_3_0(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "letStatement_3_0")) return false;
+    boolean result;
+    result = consumeToken(builder, MY_PLUS);
+    if (!result) result = consumeToken(builder, MY_MINUS);
+    return result;
+  }
+
+  // [new] allExpress [SEMICOLON]| statement
+  private static boolean letStatement_4(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "letStatement_4")) return false;
     boolean result;
     Marker marker = enter_section_(builder);
-    result = letStatement_3_0(builder, level + 1);
+    result = letStatement_4_0(builder, level + 1);
     if (!result) result = statement(builder, level + 1);
     exit_section_(builder, marker, null, result);
     return result;
   }
 
   // [new] allExpress [SEMICOLON]
-  private static boolean letStatement_3_0(PsiBuilder builder, int level) {
-    if (!recursion_guard_(builder, level, "letStatement_3_0")) return false;
+  private static boolean letStatement_4_0(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "letStatement_4_0")) return false;
     boolean result;
     Marker marker = enter_section_(builder);
-    result = letStatement_3_0_0(builder, level + 1);
+    result = letStatement_4_0_0(builder, level + 1);
     result = result && allExpress(builder, level + 1);
-    result = result && letStatement_3_0_2(builder, level + 1);
+    result = result && letStatement_4_0_2(builder, level + 1);
     exit_section_(builder, marker, null, result);
     return result;
   }
 
   // [new]
-  private static boolean letStatement_3_0_0(PsiBuilder builder, int level) {
-    if (!recursion_guard_(builder, level, "letStatement_3_0_0")) return false;
+  private static boolean letStatement_4_0_0(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "letStatement_4_0_0")) return false;
     consumeToken(builder, MY_NEW);
     return true;
   }
 
   // [SEMICOLON]
-  private static boolean letStatement_3_0_2(PsiBuilder builder, int level) {
-    if (!recursion_guard_(builder, level, "letStatement_3_0_2")) return false;
+  private static boolean letStatement_4_0_2(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "letStatement_4_0_2")) return false;
     consumeToken(builder, MY_SEMICOLON);
     return true;
   }
@@ -1124,7 +1158,7 @@ public class MyLanguageParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // ( line_comment
-  //     | regStatemente
+  //     | regStatement
   //     | letStatement
   //     | assignStatement
   //     | lambdaStatement
@@ -1154,7 +1188,7 @@ public class MyLanguageParser implements PsiParser, LightPsiParser {
   }
 
   // line_comment
-  //     | regStatemente
+  //     | regStatement
   //     | letStatement
   //     | assignStatement
   //     | lambdaStatement
@@ -1177,7 +1211,7 @@ public class MyLanguageParser implements PsiParser, LightPsiParser {
     boolean result;
     Marker marker = enter_section_(builder);
     result = consumeToken(builder, MY_LINE_COMMENT);
-    if (!result) result = consumeToken(builder, MY_REGSTATEMENTE);
+    if (!result) result = consumeToken(builder, MY_REGSTATEMENT);
     if (!result) result = letStatement(builder, level + 1);
     if (!result) result = assignStatement(builder, level + 1);
     if (!result) result = lambdaStatement(builder, level + 1);

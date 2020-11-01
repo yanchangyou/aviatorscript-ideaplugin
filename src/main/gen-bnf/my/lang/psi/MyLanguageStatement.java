@@ -80,7 +80,7 @@ public interface MyLanguageStatement extends MyLanguageStatementElement {
   PsiElement getLineComment();
 
   @Nullable
-  PsiElement getRegStatemente();
+  PsiElement getRegStatement();
 
   String getName();
 
