@@ -25,10 +25,19 @@
         <lang.formatter language="av" implementationClass="my.lang.format.MyLanguageFormattingModelBuilder"/>
         <codeStyleSettingsProvider implementation="my.lang.style.MyLanguageCodeStyleSettingsProvider"/>
         <langCodeStyleSettingsProvider implementation="my.lang.style.MyLanguageLanguageCodeStyleSettingsProvider"/>
+
+        <toolWindow id="AviatorScript Console" anchor="bottom" order="first"
+                    factoryClass="my.lang.action.ScriptConsoleWindowFactory"/>
     </extensions>
 
     <actions>
         <!-- Add your actions here -->
+        <action id="RunAS" class="my.lang.action.ScriptRunCodeAction" text="Run AS" description="Run AS"
+                icon="/my/lang/icon/my.svg">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+            <keyboard-shortcut first-keystroke="control shift J" keymap="$default"/>
+        </action>
+
     </actions>
 
 </idea-plugin>

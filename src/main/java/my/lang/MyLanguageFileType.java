@@ -1,11 +1,13 @@
 package my.lang;
 
 import com.intellij.openapi.fileTypes.LanguageFileType;
+import my.lang.icon.MyLanguageIcons;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import my.lang.icon.MyLanguageIcons;
 
 import javax.swing.*;
+
+import static my.lang.MyLanguage.LANG_FILE_SUFFIX;
 
 /**
  * @author yanchangyou
@@ -21,19 +23,19 @@ public class MyLanguageFileType extends LanguageFileType {
     @NotNull
     @Override
     public String getName() {
-        return "av";
+        return LANG_FILE_SUFFIX;
     }
 
     @NotNull
     @Override
     public String getDescription() {
-        return "My language file";
+        return LANG_FILE_SUFFIX + " language file";
     }
 
     @NotNull
     @Override
     public String getDefaultExtension() {
-        return "av";
+        return LANG_FILE_SUFFIX;
     }
 
     @Nullable

@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'lang.plugin.idea'
-version '0.2.2-SNAPSHOT'
+version '0.3.0-SNAPSHOT'
 
 repositories {
     mavenLocal()
@@ -17,6 +17,7 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile group: 'com.googlecode.aviator', name: 'aviator', version: '5.1.5'
 }
 
 sourceSets {
@@ -66,6 +67,9 @@ patchPluginXml {
         <br/>
         v0.2.2<br/>
         1, IMPROVE: remove the java module for more platform<br/>
+        <br/> 
+        v0.3.0<br/>
+        1, ADD: support AviatorScript execute<br/>
         <br/>
     """
 }
