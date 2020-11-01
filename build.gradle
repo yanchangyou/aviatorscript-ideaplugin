@@ -1,3 +1,5 @@
+//
+
 plugins {
     id 'java'
     id 'org.jetbrains.intellij' version '0.5.0'
@@ -48,13 +50,17 @@ intellij {
 }
 patchPluginXml {
     changeNotes """
-      update list of AviatorScript idea plugin
-      
-        v0.1
-        1, ADD: add a highlight function for AviatorScript
-        
-        v0.2
-        1, FIX: let, try, if, for lambda statement
+      update list of AviatorScript idea plugin<br/>
+     <br/> 
+        v0.1<br/>
+        1, ADD: add a highlight function for AviatorScript<br/>
+        <br/>
+        v0.2<br/>
+        1, FIX: let, try, if, for lambda statement<br/>
+        2, ADD: =~<br/>
+        3, FIX: param referer<br/>
+        4, FIX: regStatement<br/>
+        <br/>
         
     """
 }
