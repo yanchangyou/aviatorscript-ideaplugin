@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'lang.plugin.idea'
-version '0.3.0-SNAPSHOT'
+version '5.1.5-2020.11.03'
 
 repositories {
     mavenLocal()
@@ -29,7 +29,7 @@ sourceSets {
             srcDir 'src/main/gen-flex'
         }
         resources {
-            srcDir 'src/main/resource'
+            srcDir 'src/main/resources'
         }
     }
 
@@ -38,7 +38,7 @@ sourceSets {
             srcDir 'src/test/java'
         }
         resources {
-            srcDir 'src/test/resource'
+            srcDir 'src/test/resources'
         }
     }
 }
@@ -51,25 +51,25 @@ intellij {
 
 patchPluginXml {
     changeNotes """
-      update list of AviatorScript idea plugin<br/>
-     <br/> 
-        v0.1<br/>
-        1, ADD: add a highlight function for AviatorScript<br/>
         <br/>
-        v0.2<br/>
-        1, FIX: let, try, if, for lambda statement<br/>
-        2, ADD: =~<br/>
-        3, FIX: param referer<br/>
-        4, FIX: regStatement<br/>
+        
+        AviatorScript update list:<br/>
         <br/>
-        v0.2.1<br/>
-        1, FIX: plugin verification <br/> 
-        <br/>
-        v0.2.2<br/>
-        1, IMPROVE: remove the java module for more platform<br/>
-        <br/> 
-        v0.3.0<br/>
-        1, ADD: support AviatorScript execute<br/>
-        <br/>
+        
+        <ul>
+            <li>5.1.4, fixed compiling string interpolation lexeme without caching(may cause FGC) etc.</li>
+            <li>5.1.3, supports exponent operator ** and EnvProcessor hooks etc.</li>
+            <li>5.1.2, don't override __exp__ to user passed-in env.</li>
+            <li>5.1.1, fixed == and != operator working with variable syntax sugar such as a.b.c may return wrong result, it's recommended to upgrade.</li>
+        </ul>
+       <br/> 
+       
+       AviatorScript IDEA plugin update list:<br/>
+       <br/> 
+       
+        <ul>
+            <li>2020.11.03, support AviatorScript highlight, grammar check and execute</li>
+        </ul> 
+       
     """
 }

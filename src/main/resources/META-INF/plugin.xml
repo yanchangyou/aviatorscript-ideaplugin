@@ -4,7 +4,32 @@
     <vendor email="yanchangyou@qq.com" url="http://www.321zou.com">321zou</vendor>
 
     <description><![CDATA[
-        A idea plugin for AviatorScript, highlight and another function.
+
+       <br/>
+       Aviator is a lightweight, high performance scripting language hosted on the JVM. It compiles script to java byte code and evaluate it on the fly.<br/>
+       <br/>
+
+       Feature Intro:<br/>
+       <ol>
+       <li>Support number,string, boolean and regular expression etc. basic types, support all java operators and their priorities.</li>
+       <li>Function is first-class, supports closure and functional programming.</li>
+       <li>Supports bigint/decimal for big integer and big decimal operations, using normal arithmetic operators +-*/ by operator overloading.</li>
+       <li>Full-featured scripting language syntax, such as multi statements, conditional statement, for/while loop, lexical scope and exception handling.</li>
+       <li>Processing collections/array conveniently by sequence abstract and functional programming.</li>
+       <li>Lightweight module system.</li>
+       <li>Call Java methods conveniently, supports Java Scripting API.</li>
+       <li>A wide range of customization options to be used as a secure runtime scripting sandbox or full-featured scripting language.</li>
+       <li>Lightweight and high performance.</li>
+       </ol>
+       <br/>
+
+       Links:<br/>
+       <ol>
+        <li><a href="https://github.com/killme2008/aviatorscript/blob/master/README-EN.md">GitHub: AviatorScript</a></li>
+        <li><a href="https://github.com/yanchangyou/aviatorscript-ideaplugin">GitHub: AviatorScript IDEA plugin</a></li>
+       </ol>
+       <br/>
+
     ]]></description>
 
     <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
@@ -32,7 +57,8 @@
 
     <actions>
         <!-- Add your actions here -->
-        <action id="RunAviatorScript" class="my.lang.action.ScriptRunCodeAction" text="Run AviatorScript" description="Run aviatorScript"
+        <action id="RunAviatorScript" class="my.lang.action.ScriptRunCodeAction" text="Run AviatorScript"
+                description="Run aviatorScript"
                 icon="/my/lang/icon/my.svg">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
             <keyboard-shortcut first-keystroke="control shift J" keymap="$default"/>
