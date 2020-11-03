@@ -10,7 +10,7 @@ AviatorScript表达式引擎的idea插件
 - 代码补全   （计划中）
 - 快捷注释    （计划中）
 
-AviatorScript在线文档：https://www.yuque.com/boyan-avfmj/aviatorscript/rcx4q0
+AviatorScript在线文档：https://www.yuque.com/boyan-avfmj/aviatorscript/guhmrc
 
 开发参考如下
 - BFN grammar https://blog.csdn.net/wzbclock/article/details/3943498
