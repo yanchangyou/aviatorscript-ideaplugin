@@ -53,6 +53,7 @@
 
         <toolWindow id="AviatorScript Console" anchor="bottom" order="first"
                     factoryClass="my.lang.action.ScriptConsoleWindowFactory"/>
+        <lang.commenter language="av" implementationClass="my.lang.comment.MyLanguageCommenter"/>
     </extensions>
 
     <actions>
