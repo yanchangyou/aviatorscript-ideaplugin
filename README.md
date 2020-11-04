@@ -1,6 +1,6 @@
-## aviator script idea plugin
+## aviator script IDEA plugin
 
-AviatorScript表达式引擎的idea插件
+AviatorScript表达式引擎的IDEA插件
 
 主要功能
 - 高亮显示   （已实现）
@@ -19,4 +19,4 @@ AviatorScript在线文档：https://www.yuque.com/boyan-avfmj/aviatorscript/guhm
 - define from https://github.com/JetBrains/Grammar-Kit/blob/master/grammars/Grammar.bnf
 - go BNF https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/grammars/go.bnf
 
-idea插件下载：搜索 aviatorscript
+IDEA插件下载：搜索 aviatorscript
