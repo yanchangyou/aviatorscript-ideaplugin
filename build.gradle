@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'lang.plugin.idea'
-version '5.1.5-2020.11.03'
+version '5.1.5-2020.11.07'
 
 repositories {
     mavenLocal()
