@@ -42,7 +42,7 @@
         <lang.parserDefinition language="av" implementationClass="my.lang.parser.MyLanguageParserDefinition"/>
         <lang.syntaxHighlighterFactory language="av"
                                        implementationClass="my.lang.highlight.MyLanguageSyntaxHighlighterFactory"/>
-        <colorSettingsPage id="My" implementation="my.lang.highlight.MyLanguageColorSettingsPage"/>
+        <colorSettingsPage id="av" implementation="my.lang.highlight.MyLanguageColorSettingsPage"/>
         <lang.psiStructureViewFactory language="av"
                                       implementationClass="my.lang.structure.MyLanguageStructureViewFactory"/>
         <completion.contributor language="av"
@@ -60,7 +60,7 @@
         <!-- Add your actions here -->
         <action id="RunAviatorScript" class="my.lang.action.ScriptRunCodeAction" text="Run AviatorScript"
                 description="Run aviatorScript"
-                icon="/my/lang/icon/my.svg">
+                icon="/my/lang/icon/av.svg">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
             <keyboard-shortcut first-keystroke="control shift J" keymap="$default"/>
         </action>
