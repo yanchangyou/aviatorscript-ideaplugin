@@ -64,6 +64,7 @@ public class MyLanguageSyntaxHighlighter extends SyntaxHighlighterBase {
                 || tokenType.equals(MyLanguageTypes.MY_ELSE)
                 || tokenType.equals(MyLanguageTypes.MY_IN)
                 || tokenType.equals(MyLanguageTypes.MY_INT)
+                || tokenType.equals(MyLanguageTypes.MY_USE)
                 || tokenType.equals(MyLanguageTypes.MY_LET)
                 || tokenType.equals(MyLanguageTypes.MY_NEW)
                 || tokenType.equals(MyLanguageTypes.MY_NULL)

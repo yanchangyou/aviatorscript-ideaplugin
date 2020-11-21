@@ -25,10 +25,10 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static lang.psi.MyLanguageTypes.*;
+import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import my.lang.psi.*;
-import com.intellij.navigation.ItemPresentation;
 
-public class MyLanguageStatementImpl extends MyLanguageCodeElementImpl implements MyLanguageStatement {
+public class MyLanguageStatementImpl extends ASTWrapperPsiElement implements MyLanguageStatement {
 
   public MyLanguageStatementImpl(@NotNull ASTNode node) {
     super(node);
@@ -141,6 +141,12 @@ public class MyLanguageStatementImpl extends MyLanguageCodeElementImpl implement
 
   @Override
   @Nullable
+  public MyLanguageUseStatement getUseStatement() {
+    return findChildByClass(MyLanguageUseStatement.class);
+  }
+
+  @Override
+  @Nullable
   public MyLanguageWhileStatement getWhileStatement() {
     return findChildByClass(MyLanguageWhileStatement.class);
   }
@@ -155,26 +161,6 @@ public class MyLanguageStatementImpl extends MyLanguageCodeElementImpl implement
   @Nullable
   public PsiElement getRegStatement() {
     return findChildByType(MY_REGSTATEMENT);
-  }
-
-  @Override
-  public String getName() {
-    return MyLanguagePsiImplUtil.getName(this);
-  }
-
-  @Override
-  public PsiElement setName(String newName) {
-    return MyLanguagePsiImplUtil.setName(this, newName);
-  }
-
-  @Override
-  public PsiElement getNameIdentifier() {
-    return MyLanguagePsiImplUtil.getNameIdentifier(this);
-  }
-
-  @Override
-  public ItemPresentation getPresentation() {
-    return MyLanguagePsiImplUtil.getPresentation(this);
   }
 
 }

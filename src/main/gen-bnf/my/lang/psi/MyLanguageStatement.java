@@ -21,9 +21,8 @@ package my.lang.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
-import com.intellij.navigation.ItemPresentation;
 
-public interface MyLanguageStatement extends MyLanguageStatementElement {
+public interface MyLanguageStatement extends PsiElement {
 
   @Nullable
   MyLanguageAllExpressStatement getAllExpressStatement();
@@ -74,6 +73,9 @@ public interface MyLanguageStatement extends MyLanguageStatementElement {
   MyLanguageTryStatement getTryStatement();
 
   @Nullable
+  MyLanguageUseStatement getUseStatement();
+
+  @Nullable
   MyLanguageWhileStatement getWhileStatement();
 
   @Nullable
@@ -81,13 +83,5 @@ public interface MyLanguageStatement extends MyLanguageStatementElement {
 
   @Nullable
   PsiElement getRegStatement();
-
-  String getName();
-
-  PsiElement setName(String newName);
-
-  PsiElement getNameIdentifier();
-
-  ItemPresentation getPresentation();
 
 }

@@ -83,7 +83,7 @@ public abstract class RunCodeAction extends AnAction {
                 () -> {
                     String result;
 
-                    PrintStream oldOut = System.out;
+//                    PrintStream oldOut = System.out;
                     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                     System.setOut(new PrintStream(byteArrayOutputStream));
                     try {
@@ -94,13 +94,13 @@ public abstract class RunCodeAction extends AnAction {
                             result = resultObject.toString();
                         }
 
-                    } catch (Exception exception) {
+                    } catch (Throwable exception) {
                         exception.printStackTrace();
                         result = "exception:" + exception.getMessage();
                         print(result + "\n", project, getProjectConsoleViewMap());
                         throw exception;
                     } finally {
-                        System.setOut(oldOut);
+//                        System.setOut(oldOut);
                     }
 
                     System.out.println("execute " + getLanguageName() + " code result:");
@@ -112,7 +112,7 @@ public abstract class RunCodeAction extends AnAction {
     }
 
     public static synchronized void initConsoleViewIfNeed(Project project, String languageName, String logoString,
-            Map<Project, ConsoleView> projectConsoleViewMap) {
+                                                          Map<Project, ConsoleView> projectConsoleViewMap) {
         if (isInitiated(project, languageName, projectConsoleViewMap)) {
             return;
         }
@@ -162,4 +162,5 @@ public abstract class RunCodeAction extends AnAction {
         String filePath = virtualFile.getPath();
         return filePath.endsWith(LANG_FILE_SUFFIX);
     }
+
 }

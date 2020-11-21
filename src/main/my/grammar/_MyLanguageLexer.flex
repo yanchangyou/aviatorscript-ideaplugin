@@ -28,7 +28,7 @@ WHITE_SPACE=\s+
 IDENTIFIER=[a-zA-Z_0-9]+
 LINE_COMMENT=##.*
 STRING=('([^'\\]|\\.)*'|\"([^\"\\]|\\\"|\\'|\\)*\")
-NUMBER=(0[xX][0-9a-fA-F]+|[0-9]|[1-9][0-9]*N?M?|[0-9]+(\.[0-9]+)?([Ee][+-]?[0-9]+)?M?)
+NUMBER=-?(0[xX][0-9a-fA-F]+|[0-9]|[1-9][0-9]*N?M?|[0-9]+(\.[0-9]+)?([Ee][+-]?[0-9]+)?M?)
 PARAMREF=\$[0-9]+
 REGSTATEMENT=[ \t]*let[ \t]*[a-zA-Z_0-9]+[ \t]*=[ \t]*"/"[^/]+"/"[ \t]*;[ \t]*
 
@@ -98,6 +98,7 @@ REGSTATEMENT=[ \t]*let[ \t]*[a-zA-Z_0-9]+[ \t]*=[ \t]*"/"[^/]+"/"[ \t]*;[ \t]*
   "finally"           { return MY_FINALLY; }
   "return"            { return MY_RETURN; }
   "new"               { return MY_NEW; }
+  "use"               { return MY_USE; }
   "let"               { return MY_LET; }
   "int"               { return MY_INT; }
   "in"                { return MY_IN; }

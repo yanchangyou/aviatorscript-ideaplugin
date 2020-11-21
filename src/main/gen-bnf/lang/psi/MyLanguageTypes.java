@@ -26,6 +26,7 @@ import my.lang.psi.MyLanguageTokenType;
 import my.lang.psi.impl.*;
 
 public interface MyLanguageTypes {
+
   IElementType MY_ALL_EXPRESS = new MyLanguageElementType("MY_ALL_EXPRESS");
   IElementType MY_ALL_EXPRESS_STATEMENT = new MyLanguageElementType("MY_ALL_EXPRESS_STATEMENT");
   IElementType MY_ASSIGN_EXPRESS = new MyLanguageElementType("MY_ASSIGN_EXPRESS");
@@ -56,6 +57,8 @@ public interface MyLanguageTypes {
   IElementType MY_THROW_STATEMENT = new MyLanguageElementType("MY_THROW_STATEMENT");
   IElementType MY_TRY_STATEMENT = new MyLanguageElementType("MY_TRY_STATEMENT");
   IElementType MY_TYPE_REF = new MyLanguageElementType("MY_TYPE_REF");
+  IElementType MY_USE_EXPRESS = new MyLanguageElementType("MY_USE_EXPRESS");
+  IElementType MY_USE_STATEMENT = new MyLanguageElementType("MY_USE_STATEMENT");
   IElementType MY_VALUE = new MyLanguageElementType("MY_VALUE");
   IElementType MY_WHILE_STATEMENT = new MyLanguageElementType("MY_WHILE_STATEMENT");
 
@@ -138,6 +141,7 @@ public interface MyLanguageTypes {
   IElementType MY_TRIPLE_DOT = new MyLanguageTokenType("...");
   IElementType MY_TRUE = new MyLanguageTokenType("TRUE");
   IElementType MY_TRY = new MyLanguageTokenType("try");
+  IElementType MY_USE = new MyLanguageTokenType("use");
   IElementType MY_VAR_ASSIGN = new MyLanguageTokenType(":=");
   IElementType MY_WHILE = new MyLanguageTokenType("while");
 
@@ -233,6 +237,12 @@ public interface MyLanguageTypes {
       }
       else if (type == MY_TYPE_REF) {
         return new MyLanguageTypeRefImpl(node);
+      }
+      else if (type == MY_USE_EXPRESS) {
+        return new MyLanguageUseExpressImpl(node);
+      }
+      else if (type == MY_USE_STATEMENT) {
+        return new MyLanguageUseStatementImpl(node);
       }
       else if (type == MY_VALUE) {
         return new MyLanguageValueImpl(node);

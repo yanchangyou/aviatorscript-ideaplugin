@@ -31,4 +31,13 @@ public class ScriptRunCodeAction extends RunCodeAction {
     public Map<Project, ConsoleView> getProjectConsoleViewMap() {
         return projectConsoleViewMap;
     }
+
+
+    public static void main(String[] args) {
+        String code = "1+1";
+        System.out.println(code);
+//        Object result = AviatorEvaluator.execute(code);
+//        System.out.println(result);
+
+    }
 }

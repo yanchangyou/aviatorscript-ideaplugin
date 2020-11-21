@@ -96,7 +96,7 @@
 
     //literal
     string = "regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\\"|\\\'|\\)*\")"
-    number = "regexp:(0[xX][0-9a-fA-F]+|[0-9]|[1-9]\d*N?M?|\d+(\.\d+)?([Ee][+-]?\d+)?M?)"
+    number = "regexp:-?(0[xX][0-9a-fA-F]+|[0-9]|[1-9]\d*N?M?|\d+(\.\d+)?([Ee][+-]?\d+)?M?)"
     paramRef = "regexp:\$\d+"
     null = "nil"
     true = "TRUE"
@@ -111,6 +111,7 @@
     finally = "finally"
     return = "return"
     new = "new"
+    use = "use"
     let = "let"
     int = "int"
     in = "in"
@@ -132,6 +133,7 @@ codes ::= statement*
 statement ::=
     ( line_comment
     | regStatement
+    | useStatement
     | letStatement
     | assignStatement
     | lambdaStatement
@@ -150,13 +152,15 @@ statement ::=
     | returnStatement
     | BRACE_LEFT statement* BRACE_RIGHT
     ) [SEMICOLON] {
-   mixin = "my.lang.psi.impl.MyLanguageCodeElementImpl"
-   implements = "my.lang.psi.MyLanguageStatementElement"
-   methods = [getName setName getNameIdentifier getPresentation]
+//   mixin = "my.lang.psi.impl.MyLanguageCodeElementImpl"
+//   implements = "my.lang.psi.MyLanguageStatementElement"
+//   methods = [getName setName getNameIdentifier getPresentation]
 //   recoverWhile = statementRecover
 }
 
 //private statementRecover ::= !('!' | '&' | '(' | '*' | '+' | '-' | ';' | '<-' | '^' | 'type' | '{' | '|' | '|=' | '||' | '}' | break | case | char | const | continue | decimali | default | defer | else | fallthrough | float | floati | for | fn | go | goto | hex | identifier | if | int | interface | map | oct | return | select | string | raw_string | struct | switch | let)
+
+useStatement ::= use useExpress [SEMICOLON]
 
 letStatement ::= let refExpress ASSIGN [PLUS|MINUS] ([new] allExpress [SEMICOLON]| statement)
 
@@ -170,7 +174,7 @@ continueStatement ::= continue
 
 ifStatement ::= if allExpress BRACE_LEFT codes BRACE_RIGHT {elsif allExpress BRACE_LEFT codes BRACE_RIGHT }* {else BRACE_LEFT codes BRACE_RIGHT}?
 
-fnDefineStatement ::= fn identifier PAREN_LEFT [identifier {COMMA identifier}*] [COMMA fn] PAREN_RIGHT BRACE_LEFT codes BRACE_RIGHT
+fnDefineStatement ::= fn identifier PAREN_LEFT [identifier {COMMA (identifier|(BIT_AND identifier))}*] [COMMA fn] PAREN_RIGHT BRACE_LEFT codes BRACE_RIGHT
 
 fnInvokeStatement ::= fnInvokeExpress
 
@@ -191,6 +195,8 @@ assignStatement ::= assignExpress
 allExpressStatement ::= allExpress
 
 assignExpress ::= refExpress ASSIGN [PLUS|MINUS] allExpress
+
+useExpress ::= identifier {DOT identifier} * [DOT (MUL| (BRACE_LEFT identifier {COMMA identifier}* BRACE_RIGHT))]
 
 allExpress ::=
      (subAllExpress | PAREN_LEFT subAllExpress PAREN_RIGHT) {op (subAllExpress|PAREN_LEFT subAllExpress PAREN_RIGHT)}*

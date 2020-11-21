@@ -19,14 +19,14 @@ public class MyLanguagePsiImplUtil {
         return element.getText();
     }
 
-    public static String getName(MyLanguageStatement element) {
-        return getAction(element);
-    }
+//    public static String getName(MyLanguageStatement element) {
+//        return getAction(element);
+//    }
 
-    public static PsiElement setName(MyLanguageStatement element, String newName) {
-        element.setName(newName);
-        return element;
-    }
+//    public static PsiElement setName(MyLanguageStatement element, String newName) {
+//        element.setName(newName);
+//        return element;
+//    }
 
     public static PsiElement getNameIdentifier(MyLanguageStatement element) {
         ASTNode keyNode = element.getNode().findChildByType(MyLanguageTypes.MY_STATEMENT);
