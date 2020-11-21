@@ -68,6 +68,7 @@ patchPluginXml {
        <br/> 
        
         <ul>
+            <li>2020.11.07, support AviatorScript comment</li>
             <li>2020.11.03, support AviatorScript highlight, grammar check and execute</li>
         </ul> 
        
