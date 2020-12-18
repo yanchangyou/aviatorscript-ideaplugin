@@ -9,8 +9,8 @@ import javax.swing.*;
  */
 public class MyLanguageIcons {
 
-    public static final Icon FILE = IconLoader.findIcon("av.svg");
+    public static final Icon FILE = IconLoader.findIcon("my/lang/icon/av.svg");
 
-    public static final Icon STATEMENT = IconLoader.findIcon("action.svg");
+    public static final Icon STATEMENT = IconLoader.findIcon("my/lang/icon/action.svg");
 
 }
