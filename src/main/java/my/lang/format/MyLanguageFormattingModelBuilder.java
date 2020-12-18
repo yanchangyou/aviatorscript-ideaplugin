@@ -25,18 +25,6 @@ public class MyLanguageFormattingModelBuilder implements FormattingModelBuilder 
                 ;
     }
 
-    @NotNull
-    @Override
-    public FormattingModel createModel(PsiElement element, CodeStyleSettings settings) {
-        return FormattingModelProvider
-                .createFormattingModelForPsiFile(element.getContainingFile(),
-                        new MyLanguageBlock(element.getNode(),
-                                Wrap.createWrap(WrapType.NONE, false),
-                                Alignment.createAlignment(),
-                                createSpaceBuilder(settings)),
-                        settings);
-    }
-
     @Nullable
     @Override
     public TextRange getRangeAffectingIndent(PsiFile file, int offset, ASTNode elementAtOffset) {
