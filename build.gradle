@@ -134,7 +134,7 @@ patchPluginXml {
        <br/> 
        
         <ul>
-            <li>5.2.0-2020.12.19, support IDEA-202.3 and update AviatorScript to 5.2.1</li>
+            <li>203-5.2.1-2020.12.19, support IDEA-202.3 and update AviatorScript to 5.2.1</li>
             <li>5.2.0-2020.11.20, update AviatorScript to 5.2.0</li>
             <li>2020.11.07, support AviatorScript comment</li>
             <li>2020.11.03, support AviatorScript highlight, grammar check and execute</li>
