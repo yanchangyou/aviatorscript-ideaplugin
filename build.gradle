@@ -9,8 +9,9 @@ group 'lang.plugin.idea'
 version "$pluginVersion"
 
 apply plugin: 'java'
-sourceCompatibility = javaVersion
-targetCompatibility = javaVersion
+
+//def sinceBuildVersion = "${sinceBuildVersion}"
+//def untilBuildVersion = "${untilBuildVersion}"
 
 repositories {
     mavenLocal()
@@ -23,7 +24,6 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile group: 'com.googlecode.aviator', name: 'aviator', version: aviatorVersion
-//    compile group: 'script', name: 'j2s', version: j2sVersion
 }
 
 sourceSets {
@@ -53,6 +53,7 @@ apply plugin: 'idea'
 intellij {
     version ideaVersion
     plugins = ['java']
+    updateSinceUntilBuild = true
 }
 
 apply plugin: 'org.jetbrains.grammarkit'
@@ -105,6 +106,10 @@ task generateLangAndRunIde() {
     dependsOn generateBnf, generateJflex, runIde
 }
 
+task myBuildPlugin {
+    dependsOn build, buildSearchableOptions, buildPlugin
+}
+
 //apply plugin: 'java'
 
 task myRun(type: JavaExec, dependsOn: 'classes') {
@@ -114,6 +119,9 @@ task myRun(type: JavaExec, dependsOn: 'classes') {
 }
 
 patchPluginXml {
+    sinceBuild "${sinceBuildVersion}"
+    untilBuild "${untilBuildVersion}"
+
     changeNotes """
         <br/>
         
@@ -121,6 +129,7 @@ patchPluginXml {
         <br/>
         
         <ul>
+            <li>5.2.2, Fixed Expression#getVariableNames() returns wrong result, added Feature.StaticMethods, Feature.StaticFields etc.</li>
             <li>5.2.1, Fixed memory leak in reflector, supports calling static method directly etc.</li>
             <li>5.2.0, supports overload function, variadic function,use statement and more sequence/math functions.</li>
             <li>5.1.4, fixed compiling string interpolation lexeme without caching(may cause FGC) etc.</li>
@@ -134,6 +143,7 @@ patchPluginXml {
        <br/> 
        
         <ul>
+            <li>5.2.2-2021.01.14, update AviatorScript to 5.2.2</li>
             <li>203-5.2.1-2020.12.19, support IDEA-202.3 and update AviatorScript to 5.2.1</li>
             <li>5.2.0-2020.11.20, update AviatorScript to 5.2.0</li>
             <li>2020.11.07, support AviatorScript comment</li>
