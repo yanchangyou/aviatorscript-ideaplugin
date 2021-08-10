@@ -66,4 +66,31 @@
 
     </actions>
 
+    <change-notes>
+        <![CDATA[
+        AviatorScript update list:<br/>
+        <br/>
+
+        <ul>
+            <li>5.2.2, Fixed Expression#getVariableNames() returns wrong result, added Feature.StaticMethods, Feature.StaticFields etc.</li>
+            <li>5.2.1, Fixed memory leak in reflector, supports calling static method directly etc.</li>
+            <li>5.2.0, supports overload function, variadic function,use statement and more sequence/math functions.</li>
+            <li>5.1.4, fixed compiling string interpolation lexeme without caching(may cause FGC) etc.</li>
+            <li>5.1.3, supports exponent operator ** and EnvProcessor hooks etc.</li>
+            <li>5.1.2, don't override __exp__ to user passed-in env.</li>
+            <li>5.1.1, fixed == and != operator working with variable syntax sugar such as a.b.c may return wrong result, it's recommended to upgrade.</li>
+        </ul>
+        <br/>
+
+        AviatorScript IDEA plugin update list:<br/>
+        <br/>
+
+        <ul>
+            <li>5.2.2-2021.01.14, update AviatorScript to 5.2.2</li>
+            <li>203-5.2.1-2020.12.19, support IDEA-202.3 and update AviatorScript to 5.2.1</li>
+            <li>5.2.0-2020.11.20, update AviatorScript to 5.2.0</li>
+            <li>2020.11.07, support AviatorScript comment</li>
+            <li>2020.11.03, support AviatorScript highlight, grammar check and execute</li>
+        </ul>]]>
+    </change-notes>
 </idea-plugin>

@@ -3,9 +3,9 @@ package my.lang.action;
 import com.intellij.execution.ui.ConsoleView;
 import com.intellij.openapi.project.Project;
 import my.lang.MyLanguage;
-import org.apache.xmlbeans.impl.common.ConcurrentReaderHashMap;
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static my.lang.MyLanguage.LANG_NAME;
 import static my.lang.MyLanguage.LANG_STRING_LOGO;
@@ -15,7 +15,7 @@ import static my.lang.MyLanguage.LANG_STRING_LOGO;
  */
 public class ScriptRunCodeAction extends RunCodeAction {
 
-    static final Map<Project, ConsoleView> projectConsoleViewMap = new ConcurrentReaderHashMap();
+    static final Map<Project, ConsoleView> projectConsoleViewMap = new ConcurrentHashMap<>();
 
     @Override
     public String getLanguageName() {

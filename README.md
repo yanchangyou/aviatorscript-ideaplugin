@@ -19,4 +19,5 @@ AviatorScript在线文档：https://www.yuque.com/boyan-avfmj/aviatorscript/guhm
 - BNF from https://github.com/JetBrains/Grammar-Kit/blob/master/grammars/Grammar.bnf
 - Go BNF https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/grammars/go.bnf
 
-IDEA插件下载：搜索 AviatorScript （已审批通过） 直接下载：https://plugins.jetbrains.com/plugin/15303-aviatorscript
+
+用法： gradle task  myBuildPlugin
