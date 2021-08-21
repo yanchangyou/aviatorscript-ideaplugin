@@ -52,9 +52,10 @@ sourceSets {
 apply plugin: 'idea'
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version ideaVersion
+    version = ideaVersion
     plugins = ['java']
-    updateSinceUntilBuild = true
+    //不更新，强制指定，避免误更新版本号
+    updateSinceUntilBuild = false
 }
 
 apply plugin: 'org.jetbrains.grammarkit'
