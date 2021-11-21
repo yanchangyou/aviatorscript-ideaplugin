@@ -72,7 +72,7 @@
         <br/>
 
         <ul>
-            <li>5.2.2, Fixed Expression#getVariableNames() returns wrong result, added Feature.StaticMethods, Feature.StaticFields etc.</li>
+            <li>5.3.0, Interpreter mode to run on Android or other not-standard JVM. ● Fixed assign and define operator can't work when enable TRACE_EVAL</li>
             <li>5.2.1, Fixed memory leak in reflector, supports calling static method directly etc.</li>
             <li>5.2.0, supports overload function, variadic function,use statement and more sequence/math functions.</li>
             <li>5.1.4, fixed compiling string interpolation lexeme without caching(may cause FGC) etc.</li>
