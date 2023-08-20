@@ -2,7 +2,7 @@
     <id>AviatorScript</id>
     <name>AviatorScript</name>
     <vendor email="yanchangyou@qq.com" url="http://www.321zou.com">321zou</vendor>
-    <idea-version since-build="213" until-build="213.*" />
+    <idea-version since-build="231" until-build="232.*" />
     <description><![CDATA[
 
        <br/>
@@ -72,6 +72,7 @@
         <br/>
 
         <ul>
+            <li>5.3.3, Fixed memory leak in lambda function caching. ● Fixed wrong value captured by function</li>
             <li>5.3.0, Interpreter mode to run on Android or other not-standard JVM. ● Fixed assign and define operator can't work when enable TRACE_EVAL</li>
             <li>5.2.1, Fixed memory leak in reflector, supports calling static method directly etc.</li>
             <li>5.2.0, supports overload function, variadic function,use statement and more sequence/math functions.</li>
@@ -86,6 +87,7 @@
         <br/>
 
         <ul>
+            <li>5.3.3-2023.03.20, update AviatorScript to 5.3.3</li>
             <li>5.2.2-2021.01.14, update AviatorScript to 5.2.2</li>
             <li>203-5.2.1-2020.12.19, support IDEA-202.3 and update AviatorScript to 5.2.1</li>
             <li>5.2.0-2020.11.20, update AviatorScript to 5.2.0</li>

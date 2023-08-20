@@ -1,10 +1,15 @@
 //
-
+//lintOptions {
+//    abortOnError false
+//}
 plugins {
     id "org.jetbrains.intellij" version "$ijpVersion"
     id "org.jetbrains.grammarkit" version "$grammarKitVersion"
 }
-
+//compileOptions {
+//    sourceCompatibility JavaVersion.VERSION_11
+//    targetCompatibility JavaVersion.VERSION_11
+//}
 group 'lang.plugin.idea'
 version "$pluginVersion"
 
@@ -13,18 +18,27 @@ apply plugin: 'java'
 //def sinceBuildVersion = "${sinceBuildVersion}"
 //def untilBuildVersion = "${untilBuildVersion}"
 
-repositories {
-    mavenLocal()
-    maven {
-        url "http://maven.aliyun.com/nexus/content/groups/public"
-    }
-    mavenCentral()
-}
+//repositories {
+//    mavenLocal()
+//    maven {
+//        url "http://maven.aliyun.com/nexus/content/groups/public"
+//    }
+//    mavenCentral()
+//}
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile group: 'com.googlecode.aviator', name: 'aviator', version: aviatorVersion
+    implementation 'org.jetbrains:annotations:24.0.0'
+    implementation 'com.googlecode.aviator:aviator:5.3.3'
+
+//    testCompile group: 'junit', name: 'junit', version: '4.12'
+//    compile group: 'com.googlecode.aviator', name: 'aviator', version: aviatorVersion
+//    compile group: 'org.jetbrains', name: 'annotations', version: '24.0.0'
 }
+
+//task initConfig(type: Copy) {
+//    duplicatesStrategy DuplicatesStrategy.INCLUDE
+//}
+processResources.include('*')
 
 sourceSets {
 
@@ -58,68 +72,85 @@ intellij {
     updateSinceUntilBuild = false
 }
 
-apply plugin: 'org.jetbrains.grammarkit'
-
+//plugins {
+//    id "org.jetbrains.grammarkit" version "2022.3.1"
+//}
 // import is optional to make task creation easier
 import org.jetbrains.grammarkit.tasks.*
 
+//https://github.com/JetBrains/gradle-grammar-kit-plugin
 grammarKit {
     // version of IntelliJ patched JFlex (see bintray link below), Default is 1.7.0-1
-    jflexRelease = '1.7.0-1'
+    // https://github.com/JetBrains/intellij-deps-jflex/releases
+    jflexRelease = '1.9.0'
 
     // tag or short commit hash of Grammar-Kit to use (see link below). Default is 2020.1
-    grammarKitRelease = '2020.1'
-}
-task generateJflex(type: GenerateLexer) {
-    // source flex file
-    source = "src/main/my/grammar/_MyLanguageLexer.flex"
-
-    // target directory for lexer
-    targetDir = "src/main/gen-flex/my/lang/parser"
-
-    // target classname, target file will be targetDir/targetClass.java
-    targetClass = "_MyLanguageLexer"
-
-    // optional, path to the task-specific skeleton file. Default: none
-    skeleton = 'src/main/my/flex/idea-flex.skeleton'
-
-    // if set, plugin will remove a lexer output file before generating new one. Default: false
-    purgeOldFiles = true
+    grammarKitRelease = '2022.3.1'
+    intellijRelease = "2023.1"
 }
 
-task generateBnf(type: GenerateParser) {
-    // source bnf file
-    source = "src/main/my/grammar/my.bnf"
+//dependencies {
+//    implementation 'org.jetbrains:annotations:24.0.0'
+////    testCompile group: 'junit', name: 'junit', version: '4.12'
+//    compile group: 'com.googlecode.aviator', name: 'aviator', version: aviatorVersion
+//}
+// 文档：https://plugins.jetbrains.com/docs/intellij/tools-gradle-grammar-kit-plugin.html#tasks
 
-    // optional, task-specific root for the generated files. Default: none
-    targetRoot = 'src/main/gen-bnf'
+task generateBnf() {
+    generateLexer() {
+        // source flex file
+        sourceFile.set(new File("src/main/my/grammar/_MyLanguageLexer.flex"))
 
-    // path to a parser file, relative to the targetRoot
-    pathToParser = 'my/lang/parser/MyLanguageParser.java'
+        // target directory for lexer
+        targetDir = "src/main/gen-flex/my/lang/parser"
 
-    // path to a directory with generated psi files, relative to the targetRoot
-    pathToPsiRoot = 'my/lang/psi'
+        // target classname, target file will be targetDir/targetClass.java
+        targetClass = "_MyLanguageLexer"
 
-    // if set, plugin will remove a parser output file and psi output directory before generating new ones. Default: false
-    purgeOldFiles = true
+        // optional, path to the task-specific skeleton file. Default: none
+        skeleton.set(new File('src/main/my/flex/idea-flex.skeleton'))
+
+        // if set, plugin will remove a lexer output file before generating new one. Default: false
+        purgeOldFiles = true
+
+    }
+}
+
+task generateJflex() {
+    generateParser() {
+        // source bnf file
+        sourceFile.set(new File("src/main/my/grammar/my.bnf"))
+
+        // optional, task-specific root for the generated files. Default: none
+        targetRoot = 'src/main/gen-bnf'
+
+        // path to a parser file, relative to the targetRoot
+        pathToParser = 'my/lang/parser/MyLanguageParser.java'
+
+        // path to a directory with generated psi files, relative to the targetRoot
+        pathToPsiRoot = 'my/lang/psi'
+
+        // if set, plugin will remove a parser output file and psi output directory before generating new ones. Default: false
+        purgeOldFiles = true
+    }
 }
 
 task generateLangAndRunIde() {
     dependsOn generateBnf, generateJflex, runIde
 }
 
-task myBuildPlugin {
-    dependsOn build,  buildPlugin
-}
+//task myBuildPlugin {
+//    dependsOn buildPlugin
+//}
 
 //apply plugin: 'java'
 
 task myRun(type: JavaExec, dependsOn: 'classes') {
     classpath sourceSets.main.runtimeClasspath
-    main = "my.lang.action.RunCodeAction"
+    mainClass = "my.lang.action.RunCodeAction"
     args "arg1"
 }
-//
+
 //patchPluginXml {
 //    sinceBuild "${sinceBuildVersion}"
 //    untilBuild "${untilBuildVersion}"
@@ -131,6 +162,7 @@ task myRun(type: JavaExec, dependsOn: 'classes') {
 //        <br/>
 //
 //        <ul>
+//            <li>5.3.3-2023.03.20, update AviatorScript to 5.3.3</li>
 //            <li>5.2.2, Fixed Expression#getVariableNames() returns wrong result, added Feature.StaticMethods, Feature.StaticFields etc.</li>
 //            <li>5.2.1, Fixed memory leak in reflector, supports calling static method directly etc.</li>
 //            <li>5.2.0, supports overload function, variadic function,use statement and more sequence/math functions.</li>
@@ -145,6 +177,7 @@ task myRun(type: JavaExec, dependsOn: 'classes') {
 //       <br/>
 //
 //        <ul>
+//            <li>5.3.3-2023.03.20, update AviatorScript to 5.3.3</li>
 //            <li>5.2.2-2021.01.14, update AviatorScript to 5.2.2</li>
 //            <li>203-5.2.1-2020.12.19, support IDEA-202.3 and update AviatorScript to 5.2.1</li>
 //            <li>5.2.0-2020.11.20, update AviatorScript to 5.2.0</li>
