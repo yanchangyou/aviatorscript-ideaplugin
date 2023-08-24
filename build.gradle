@@ -35,10 +35,10 @@ dependencies {
 //    compile group: 'org.jetbrains', name: 'annotations', version: '24.0.0'
 }
 
-//task initConfig(type: Copy) {
-//    duplicatesStrategy DuplicatesStrategy.INCLUDE
-//}
-processResources.include('*')
+processResources {
+    include('**')
+    setDuplicatesStrategy(DuplicatesStrategy.INCLUDE)
+}
 
 sourceSets {
 
@@ -49,9 +49,7 @@ sourceSets {
 //            srcDir 'src/main/gen-bnf'
             srcDir 'src/main/gen-flex'
         }
-        resources {
-            srcDir 'src/main/resources'
-        }
+        resources.srcDirs('src/main/resources')
     }
 
     test {
