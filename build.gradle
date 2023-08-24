@@ -49,7 +49,9 @@ sourceSets {
 //            srcDir 'src/main/gen-bnf'
             srcDir 'src/main/gen-flex'
         }
-        resources.srcDirs('src/main/resources')
+        resources {
+            srcDir 'src/main/resources'
+        }
     }
 
     test {
